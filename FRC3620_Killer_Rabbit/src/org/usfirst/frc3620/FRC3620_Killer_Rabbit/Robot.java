@@ -19,14 +19,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.io.File;
-import java.util.TimeZone;
-
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.usfirst.frc3620.FRC3620_Killer_Rabbit.EventLogging.Level;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.*;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.*;
+import org.usfirst.frc3620.logger.DataLogger;
+import org.usfirst.frc3620.logger.EventLogging;
+import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -38,9 +36,12 @@ import com.kauailabs.navx.frc.AHRS;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	static RobotMode currentRobotMode = RobotMode.INIT, previousRobotMode;
+
 	Command autonomousCommand;
 	SendableChooser autoChooser;
 	PowerDistributionPanel powerDistributionPanel;
+
 	DataLogger dataLogger;
 
 	static Logger logger;
@@ -60,8 +61,10 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		logger = EventLogging.getLogger(Robot.class, Level.DEBUG);
-		setupLogging();
+		logger = EventLogging.getLogger(Robot.class, Level.INFO);
+		
+		dataLogger = new DataLogger();
+		
 		logger.info("Starting robotInit");
 		RobotMap.init();
 		logger.debug("debug");
@@ -96,35 +99,41 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 	}
 		
-		public void autonomousInit(){
-			autonomousCommand = (Command) autoChooser.getSelected();
-			((Command) autonomousCommand).start();
- 		}
-		public void autonomousPeriodic (){
-			Scheduler.getInstance().run();
-		}
-	
-
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
 	 */
 	
 	public void disabledInit() {
-
+		allInit(RobotMode.DISABLED);
 	}
 
 	public void disabledPeriodic() {
+		beginAllPeriodic();
 		Scheduler.getInstance().run();
+		endAllPeriodic();
 	}
 
+	public void autonomousInit() {
+		allInit(RobotMode.AUTONOMOUS);
+		
+		autonomousCommand = (Command) autoChooser.getSelected();
+		if (autonomousCommand != null)
+			autonomousCommand.start();
+	}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
-
+	public void autonomousPeriodic() {
+		beginAllPeriodic();
+		Scheduler.getInstance().run();
+		endAllPeriodic();
+	}
 
 	public void teleopInit() {
+		allInit(RobotMode.TELEOP);
+		
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -132,8 +141,8 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			((Command) autonomousCommand).cancel();
 		
-		logger.warn("NaxX firmware = {}", ahrs.getFirmwareVersion());
-		logger.warn("NaxX connected = {}", ahrs.isConnected());
+		logger.info("NaxX firmware = {}", ahrs.getFirmwareVersion());
+		logger.info("NaxX connected = {}", ahrs.isConnected());
 		
 	}
 
@@ -141,55 +150,84 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		beginAllPeriodic();
 		Scheduler.getInstance().run();
+		endAllPeriodic();
+	}
+	
+	public void testInit() {
+		allInit(RobotMode.TEST);
 	}
 
 	/**
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
+		beginAllPeriodic();
 		LiveWindow.run();
+		endAllPeriodic();
 	}
-
-	void setupLogging() {
-		// Set dataLogger and Time information
-		TimeZone.setDefault(TimeZone.getTimeZone("America/Detroit"));
-
-		File logDirectory = null;
-		if (logDirectory == null)
-			logDirectory = findLogDirectory(new File("/u"));
-		if (logDirectory == null)
-			logDirectory = findLogDirectory(new File("/v"));
-		if (logDirectory == null)
-			logDirectory = findLogDirectory(new File("/x"));
-		if (logDirectory == null)
-			logDirectory = findLogDirectory(new File("/y"));
-		if (logDirectory == null) {
-			logDirectory = new File("/home/lvuser/logs");
-			if (!logDirectory.exists()) {
-				logDirectory.mkdir();
-			}
+	
+	/*
+	 * this routine gets called whenever we change modes
+	 */
+	void allInit (RobotMode newMode)
+	{
+		logger.info("Switching from {} to {}", currentRobotMode, newMode);
+		previousRobotMode = currentRobotMode;
+		currentRobotMode = newMode;
+		
+		// if any subsystems need to know about mode changes, let
+		// them know here.
+		// Robot.driveSubsystem.allInit(newMode);
+	}
+	
+	
+	/*
+	 * these routines get called at the beginning and end of all periodics.
+	 */
+	void beginAllPeriodic() {
+		// don't need to do anything
+		
+	}
+	
+	void endAllPeriodic() {
+		// if some subsystems to get called in all modes at the beginning
+		// of periodic, do it here
+		
+		// and log data!
+		updateDashboard();
+		logData();
+	}
+	
+	/*
+	 * these methods take care of logging to the dashboard or the datalog file. 
+	 */
+	
+	void updateDashboard() {
+/*		SmartDashboard.putNumber("Battery voltage", powerDistributionPanel.getVoltage());
+		logger.info("v = {}", powerDistributionPanel.getVoltage());
+		logger.info("e = {}", powerDistributionPanel.getTotalEnergy());
+		logger.info("p = {}", powerDistributionPanel.getTotalPower());
+*/	
 		}
-		if (logDirectory != null && logDirectory.isDirectory()) {
-			String logMessage = String.format("Log directory is %s\n",
-					logDirectory);
-			System.out.print(logMessage);
-			EventLogging.writeToDS(logMessage);
-			EventLogging.setup(logDirectory);
-			dataLogger = new DataLogger(logDirectory);
-			dataLogger.setMinimumInterval(100);
-		}
+	
+	void logData() {
+		if (dataLogger.shouldLogData()) {
+/*			dataLogger.addDataItem("battery.voltage", powerDistributionPanel.getVoltage());
+			dataLogger.saveDataItems();
+*/		}
 	}
-
-	public File findLogDirectory(File root) {
-		// does the root directory exist?
-		if (!root.isDirectory())
-			return null;
-
-		File logDirectory = new File(root, "logs");
-		if (!logDirectory.isDirectory())
-			return null;
-
-		return logDirectory;
+	
+	/*
+	 * subsystems can use these to find out what mode we are in
+	 */
+	public static RobotMode getCurrentRobotMode() {
+		return currentRobotMode;
 	}
+	
+	public static RobotMode getPreviousRobotMode() {
+		return previousRobotMode;
+	}
+	
 }

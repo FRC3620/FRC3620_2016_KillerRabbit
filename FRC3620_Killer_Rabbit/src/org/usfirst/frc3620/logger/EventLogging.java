@@ -1,4 +1,4 @@
-package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
+package org.usfirst.frc3620.logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,6 +58,7 @@ public class EventLogging {
 	 * @return
 	 */
 	static public org.slf4j.Logger getLogger(String sClazz, Level l) {
+		setup();
 		// set up the underlying logger to log at the level we want
 		java.util.logging.Logger julLogger = java.util.logging.Logger
 				.getLogger(sClazz);
@@ -67,7 +68,7 @@ public class EventLogging {
 		org.slf4j.Logger rv = org.slf4j.LoggerFactory.getLogger(sClazz);
 		return rv;
 	}
-
+	
 	/**
 	 * Write a message to the DriverStation. It also logs into the driver
 	 * station log.
@@ -120,6 +121,10 @@ public class EventLogging {
 	}
 
 	private static boolean setupDone = false;
+	
+	public static void setup() {
+		setup (LoggingMaster.getLoggingDirectory());
+	}
 
 	/**
 	 * Set up a j.u.l logger that will start logging to a file (with a
@@ -146,7 +151,7 @@ public class EventLogging {
 					// add the handlers we want
 					Handler h = new ConsoleHandler();
 					h.setFormatter(new FormatterForFileHandler());
-					h.setLevel(java.util.logging.Level.WARNING);
+					h.setLevel(java.util.logging.Level.INFO);
 					rootLogger.addHandler(h);
 
 					h = new MyFileHandler(logDirectory);
@@ -181,7 +186,7 @@ public class EventLogging {
 					if (fileOutputStream == null) // deliberate check
 					{
 						// we'll get a null here if the clock is not yet set
-						String timestampString = LogTimestamp
+						String timestampString = LoggingMaster
 								.getTimestampString();
 
 						if (timestampString != null) {
