@@ -1,4 +1,4 @@
-package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
+package org.usfirst.frc3620.logger;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -9,30 +9,27 @@ import java.io.PrintStream;
 
 public class DataLogger {
 
-	/*
-	 * public static void main(String [] args) { DataLogger test1 = new
-	 * DataLogger(new File("./test")); test1.setMinimumInterval(150); {
-	 * test1.addDataItem("stuffD", 1.0); test1.addDataItem("stuffI", 3);
-	 * test1.addDataItem("stuffB", false); test1.addDataItem("stuffS", "value");
-	 * test1.saveDataItems(); } try { Thread.sleep(300); } catch
-	 * (InterruptedException e) { // cannot happen
-	 * 
-	 * } { test1.addDataItem("stuffD", 1.2); test1.addDataItem("stuffI", 34);
-	 * test1.addDataItem("stuffB", true); test1.addDataItem("stuffS",
-	 * "should not show up"); test1.saveDataItems(); } try { Thread.sleep(2000);
-	 * } catch (InterruptedException e) { // cannot happen
-	 * 
-	 * } { test1.addDataItem("stuffD", 1.2); test1.addDataItem("stuffI", 34);
-	 * test1.addDataItem("stuffB", true); test1.addDataItem("stuffS",
-	 * "*should* show up"); test1.saveDataItems(); }
-	 * //System.out.println(test1.getDate()); }
-	 */
-
 	File parentDirectory;
-	long minimumInterval = 500;
+	static final long DEFAULT_MINIMUM_INTERVAL = 100;
+	long minimumInterval = DEFAULT_MINIMUM_INTERVAL;
+	
+	/* use any one of these. If you leave the directory of the minimum interval off, reasonable defaults are provided */
+	
+	public DataLogger () {
+		this(LoggingMaster.getLoggingDirectory(), DEFAULT_MINIMUM_INTERVAL);
+	}
 
-	public DataLogger(File directory) {
+	public DataLogger (long minimumInterval) {
+		this(LoggingMaster.getLoggingDirectory(), minimumInterval);
+	}
+
+	public DataLogger (File directory) {
+		this(directory, DEFAULT_MINIMUM_INTERVAL);
+	}
+
+	public DataLogger(File directory, long minimumInterval) {
 		parentDirectory = directory;
+		setMinimumInterval(minimumInterval);
 	}
 
 	List<String> dataNames = new ArrayList<>();
@@ -82,7 +79,7 @@ public class DataLogger {
 				if (ps == null) {
 					synchronized (this) {
 						if (ps == null) {
-							String timestampString = LogTimestamp
+							String timestampString = LoggingMaster
 									.getTimestampString();
 							if (timestampString != null) {
 								File logFile = new File(parentDirectory,
