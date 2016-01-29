@@ -120,7 +120,7 @@ Children:
         validators: null
         value: []
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: DriveCommand}
+        name: Default Command, type: Command, validators: null, value: None}
       Constants: !!robotbuilder.data.properties.ConstantsProperty
         default: []
         name: Constants
@@ -297,24 +297,6 @@ Children:
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
     Name: ShootOutReverseCommand
-  - Children: []
-    Properties:
-      Parameters: !!robotbuilder.data.properties.ParametersProperty
-        default: []
-        name: Parameters
-        validators: null
-        value: []
-      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Requires, type: Subsystem, validators: null, value: DriveSubsystem}
-      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id009 []
-        name: Parameter presets
-        validators: null
-        value: *id009
-      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
-        name: Button on SmartDashboard, validators: null, value: true}
-    Base: Command
-    Name: DriveCommand
   Properties: {}
   Base: Commands
   Name: Commands
