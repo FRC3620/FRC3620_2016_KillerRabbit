@@ -74,6 +74,8 @@ public class RobotMap {
         driveSubsystemRobotDrive41.setMaxOutput(1.0);
         driveSubsystemRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         driveSubsystemRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        driveSubsystemRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        driveSubsystemRobotDrive41.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         driveSubsystemLeftDriveEncoder = new Encoder(1, 2, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveSubsystem", "LeftDriveEncoder", driveSubsystemLeftDriveEncoder);
         driveSubsystemLeftDriveEncoder.setDistancePerPulse(1.0);
