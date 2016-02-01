@@ -42,7 +42,7 @@ public class ShootOutReverseCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooterSubsystem.ShootOutReverse();
+    	//Robot.shooterSubsystem.ShootOutReverse();
     }
 
     // Make this return true when this Command no longer needs to run execute()
