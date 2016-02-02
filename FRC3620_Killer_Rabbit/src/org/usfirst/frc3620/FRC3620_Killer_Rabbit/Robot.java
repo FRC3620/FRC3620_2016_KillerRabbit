@@ -201,6 +201,7 @@ public class Robot extends IterativeRobot {
 	void endAllPeriodic() {
 		// if some subsystems to get called in all modes at the beginning
 		// of periodic, do it here
+		Robot.driveSubsystem.sendFrame();
 		
 		// and log data!
 		updateDashboard();
