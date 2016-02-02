@@ -11,6 +11,7 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems;
 
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.*;
 
@@ -58,7 +59,27 @@ public class ArmSubsystem extends Subsystem {
     
     public void armHoldPosition()
     {
-    		
+    	armCANTalon.setSetpoint(armCANTalon.getEncPosition());
+    }
+    
+    public void manualOverride()
+    {
+    	if((Robot.oi.driverJoystick.getRawAxis(6) > 0.2) && (Robot.oi.driverJoystick.getRawAxis(5) > 0.2))
+    	{
+    		armCANTalon.set(0);
+    	}	
+    	else if(Robot.oi.driverJoystick.getRawAxis(6) > 0.2)
+    	{
+    		armCANTalon.set(Robot.oi.driverJoystick.getRawAxis(6));
+    	}
+    	else if(Robot.oi.driverJoystick.getRawAxis(5) > 0.2)
+    	{
+    		armCANTalon.set(-Robot.oi.driverJoystick.getRawAxis(5));
+    	}
+    	else
+    	{
+    		armCANTalon.set(0);
+    	}
     }
 
     public void initDefaultCommand() {
