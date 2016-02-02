@@ -53,5 +53,36 @@ public class IntakeSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+    boolean weAreIntaking = false;
+    public boolean getWeAreIntaking (){
+    	return weAreIntaking;
+    }
+    public boolean ballIsInIntake(){
+    	double voltage = ballSensorAnalogInput.getVoltage();
+    	if (voltage < 2.5) return true;
+    	else return false;
+    	
+    }
+	public void takeIn () {
+		intakeRollerTalonFront.set(0.5);
+		intakeRollerTalonBack.set(0.5);
+		weAreIntaking = true;
+	}
+	
+	public void dumpOut () {
+		intakeRollerTalonFront.set(-0.5);
+		intakeRollerTalonBack.set(-0.5);
+	}
+	public void dropBallInShooter () {
+		intakeRollerTalonFront.set(0.5);
+		intakeRollerTalonBack.set(-0.5);
+	}
+	
+	public void intakeStop () {
+		intakeRollerTalonBack.set(0);
+		intakeRollerTalonFront.set(0);
+		weAreIntaking = false;
+	}
+
 }
 
