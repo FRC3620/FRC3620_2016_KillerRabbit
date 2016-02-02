@@ -84,7 +84,8 @@ public class OI {
         shootBall = new JoystickButton(operatorJoystick, 2);
         shootBall.whenPressed(new ShootBallCommand());
         intakeButton = new JoystickButton(operatorJoystick, 1);
-        intakeButton.whenPressed(new IntakeCommand());
+        //intakeButton.whenPressed(new IntakeCommand());
+        intakeButton.toggleWhenPressed(new IntakeCommand());
 
 
         // SmartDashboard Buttons
