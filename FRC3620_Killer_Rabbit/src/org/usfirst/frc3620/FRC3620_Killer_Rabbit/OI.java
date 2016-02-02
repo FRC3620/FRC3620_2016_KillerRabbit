@@ -71,7 +71,7 @@ public class OI {
         driverJoystick = new Joystick(0);
         
         toggleShooterButton = new JoystickButton(driverJoystick, 4);
-        toggleShooterButton.whileHeld(new ToggleShooterCommand());
+        toggleShooterButton.whenPressed(new ToggleShooterCommand());
         switchCamera = new JoystickButton(driverJoystick, 9);
         switchCamera.whenPressed(new SwitchCameraCommand());
         setDriveToBack = new JoystickButton(driverJoystick, 5);
