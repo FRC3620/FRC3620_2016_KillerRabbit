@@ -60,6 +60,7 @@ public class ShootOutCommand extends Command {
     protected void end() {
     	logger.info("Shoot out command end");
     	Robot.shooterSubsystem.ShootOutStop();
+    	Robot.shooterSubsystem.ShootOutStop();
     }
 
     // Called when another command which requires one or more of the same
