@@ -37,9 +37,8 @@ public class ForceIntakeCommand extends Command {
     }
 
     // Called just before this Command runs the first time
-    boolean joystickButtonIsHeld = true;
     protected void initialize() {
-    	joystickButtonIsHeld = true;
+    
     	Robot.intakeSubsystem.takeIn();
     }
 
@@ -55,7 +54,6 @@ public class ForceIntakeCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	joystickButtonIsHeld = false;
     	Robot.intakeSubsystem.intakeStop();
     }
 

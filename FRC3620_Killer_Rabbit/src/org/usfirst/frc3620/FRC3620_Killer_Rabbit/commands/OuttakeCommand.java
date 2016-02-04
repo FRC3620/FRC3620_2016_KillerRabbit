@@ -37,10 +37,8 @@ public class OuttakeCommand extends Command {
 
     // Called just before this Command runs the first time
    
-    boolean joystickButtonWasPressed = true;
+   
     protected void initialize() {
-    	joystickButtonWasPressed = true;
-    
     	Robot.intakeSubsystem.dumpOut();
     }
 
