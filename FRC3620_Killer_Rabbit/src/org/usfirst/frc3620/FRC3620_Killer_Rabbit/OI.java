@@ -82,7 +82,7 @@ public class OI {
         forceIntakeButton = new JoystickButton(operatorJoystick, 3);
         forceIntakeButton.whileHeld(new ForceIntakeCommand());
         outtake = new JoystickButton(operatorJoystick, 5);
-        outtake.whileHeld(new OuttakeCommand());
+        outtake.whenPressed(new OuttakeCommand());
         shootBall = new JoystickButton(operatorJoystick, 2);
         shootBall.whenPressed(new ShootBallCommand());
 
