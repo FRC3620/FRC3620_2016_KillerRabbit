@@ -48,8 +48,8 @@ public class ArmManualCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	double leftTrigger = Robot.oi.driverJoystick.getRawAxis(5);
-    	double rightTrigger = Robot.oi.driverJoystick.getRawAxis(6);
+    	double leftTrigger = Robot.oi.driverJoystick.getRawAxis(2);
+    	double rightTrigger = Robot.oi.driverJoystick.getRawAxis(3);
     	
     	//double trigger = leftTrigger - rightTrigger;
     	if (leftTrigger > 0.2 || rightTrigger > 0.2) {

@@ -151,7 +151,7 @@ public class EventLogging {
 					// add the handlers we want
 					Handler h = new ConsoleHandler();
 					h.setFormatter(new FormatterForFileHandler());
-					h.setLevel(java.util.logging.Level.INFO);
+					h.setLevel(java.util.logging.Level.FINEST);
 					rootLogger.addHandler(h);
 
 					h = new MyFileHandler(logDirectory);
