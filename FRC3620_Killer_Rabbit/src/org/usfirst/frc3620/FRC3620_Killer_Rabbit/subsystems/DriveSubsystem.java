@@ -65,8 +65,11 @@ public class DriveSubsystem extends Subsystem {
 	Image frame;
 	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 
+
+	
 	public void arcadeDrive() {
 		robotDrive41.arcadeDrive(Robot.oi.driverJoystick);
+	
 	}
 
 	public void setDriveForward(double move, double rotate) {
