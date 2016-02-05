@@ -11,6 +11,7 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
 
@@ -37,10 +38,15 @@ public class OuttakeCommand extends Command {
 
     // Called just before this Command runs the first time
    
-   
+   Timer timer = new Timer ();
     protected void initialize() {
     	Robot.intakeSubsystem.dumpOut();
+    		timer.reset();
+    		timer.start();
+    		
+    	
     }
+    
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
@@ -49,12 +55,15 @@ public class OuttakeCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	// if button is down, we defnitely are not finished
+    	if (Robot.oi.outtake.get()) return false;
+    	return timer.hasPeriodPassed(5);
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.intakeSubsystem.intakeStop();
+    	
     }
 
     // Called when another command which requires one or more of the same
