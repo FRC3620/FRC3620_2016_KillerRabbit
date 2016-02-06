@@ -28,7 +28,7 @@ public class DPadUpButton extends Button {
 				pressed = true;
 			}
 		}
-		//logger.info("POV = {}, pressed (up) = {}", angle, pressed);
+		// logger.info("POV = {}, pressed (up) = {}", angle, pressed);
 		return pressed;
 	}
 

@@ -43,7 +43,7 @@ public class ArmUpCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	logger.info("Arm Raise init");
-    	Robot.armSubsystem.raiseArm();
+    	Robot.armSubsystem.moveArmToTop();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -57,7 +57,7 @@ public class ArmUpCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {	
-    	logger.info("Arm Raise ended");
+		logger.info("Arm Raise ended");
     }
 
     // Called when another command which requires one or more of the same
