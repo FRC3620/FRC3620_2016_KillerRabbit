@@ -195,6 +195,14 @@ public class Robot extends IterativeRobot {
 	 */
 	void beginAllPeriodic() {
 		// don't need to do anything
+		SmartDashboard.putNumber("Encoder position is ", RobotMap.armSubsystemArmCANTalon.getEncPosition());
+		SmartDashboard.putNumber("Sensor position is ", RobotMap.armSubsystemArmCANTalon.get());
+		SmartDashboard.putNumber("Analog in position is ", RobotMap.armSubsystemArmCANTalon.getAnalogInPosition());
+		SmartDashboard.putNumber("Closed loop error ", RobotMap.armSubsystemArmCANTalon.getClosedLoopError());
+		SmartDashboard.putNumber("Setpoint is ", RobotMap.armSubsystemArmCANTalon.getSetpoint());
+		SmartDashboard.putString("Control mode is ", RobotMap.armSubsystemArmCANTalon.getControlMode().toString());
+		SmartDashboard.putNumber("Position is ", RobotMap.armSubsystemArmCANTalon.getPosition());
+		
 		
 	}
 	

@@ -55,9 +55,9 @@ public class ArmManualCommand extends Command {
     	if (leftTrigger > 0.2 || rightTrigger > 0.2) {
     		// the driver is leaning on the triggers. let's go into manual mode 
     		if (leftTrigger > 0.2) {
-    			Robot.armSubsystem.setManualPower(leftTrigger);
+    			Robot.armSubsystem.setManualPower(-leftTrigger/2);
     		} else if (rightTrigger > 0.2) {
-    			Robot.armSubsystem.setManualPower(-rightTrigger);
+    			Robot.armSubsystem.setManualPower(rightTrigger/2);
     		}
     		
     	} else {
