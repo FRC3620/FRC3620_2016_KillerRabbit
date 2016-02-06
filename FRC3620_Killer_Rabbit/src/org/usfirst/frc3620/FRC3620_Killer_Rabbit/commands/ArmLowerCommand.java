@@ -10,11 +10,16 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.slf4j.Logger;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 import org.usfirst.frc3620.logger.EventLogging;
+import org.usfirst.frc3620.logger.FastLoggerCollections;
+import org.usfirst.frc3620.logger.IFastLogger;
+import org.usfirst.frc3620.logger.IFastLoggerDataProvider;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 /**
@@ -41,8 +46,27 @@ public class ArmLowerCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		//startCurrentLogging();
 		System.out.println("Arm Lower init");
 		Robot.armSubsystem.moveArmToBottom();
+	}
+	
+	void startCurrentLogging() {
+		IFastLogger iFastLogger = new FastLoggerCollections();
+		iFastLogger.setInterval(1);
+		iFastLogger.setMaxLength(2);
+		iFastLogger.setFilename("armdown");
+
+		iFastLogger.setColumnNames(new String[] { "closedLoopError", "current", "position", });
+
+		iFastLogger.setDataProvider(new IFastLoggerDataProvider() {
+			public double[] fetchData() {
+				CANTalon talon = RobotMap.armSubsystemArmCANTalon;
+				return new double[] { talon.getClosedLoopError(), talon.getOutputCurrent(), talon.getPosition() };
+			}
+		});
+
+		iFastLogger.start();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

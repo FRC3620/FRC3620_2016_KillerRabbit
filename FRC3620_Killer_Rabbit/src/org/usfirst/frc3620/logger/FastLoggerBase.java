@@ -25,8 +25,8 @@ abstract public class FastLoggerBase implements IFastLogger {
     }
 
     @Override
-    public void setInterval(int i) {
-        interval = i;
+    public void setInterval(int milliseconds) {
+        interval = milliseconds;
     }
 
     @Override

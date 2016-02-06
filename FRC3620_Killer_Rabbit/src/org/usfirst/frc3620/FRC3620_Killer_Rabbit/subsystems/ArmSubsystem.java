@@ -59,9 +59,19 @@ public class ArmSubsystem extends Subsystem {
 		// logger.info("now the encoder position is " +
 		// armCANTalon.getEncPosition());
 		moveManually(0);
+
+		if (RobotMap.dummySubsystemDigitalInput0.get() == false) {
+			encoderIsValid = true;
+		}
+		logger.info("encoder is valid = {} ", encoderIsValid);
+	}
+
+	public boolean getEncoderIsValid() {
+		return encoderIsValid;
 	}
 
 	boolean weAreInManualMode = false;
+	boolean encoderIsValid = false;
 
 	// Put methods for controlling this subsystem here. Call these from
 	// Commands.
@@ -98,20 +108,24 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	public void goIntoAutomaticMode() {
-		if (weAreInManualMode) {
-			logger.info("flipping into automatic");
-			armCANTalon.changeControlMode(TalonControlMode.Position);
-			weAreInManualMode = false;
+		if (encoderIsValid) {
+			if (weAreInManualMode) {
+				logger.info("flipping into automatic");
+				armCANTalon.changeControlMode(TalonControlMode.Position);
+				weAreInManualMode = false;
 
-			// Makes sure the new setpoint stays between the low and high
-			// setpoints.
-			double encoderPosition = armCANTalon.getPosition();
-			double desiredSetpoint = encoderPosition;
-			desiredSetpoint = Math.min(bottomSetPoint, desiredSetpoint);
-			desiredSetpoint = Math.max(topSetPoint, desiredSetpoint);
-			armCANTalon.setSetpoint(desiredSetpoint);
-			logger.info("encoder position is " + encoderPosition);
-			logger.info("setting setpoint to " + armCANTalon.getSetpoint());
+				// Makes sure the new setpoint stays between the low and high
+				// setpoints.
+				double encoderPosition = armCANTalon.getPosition();
+				double desiredSetpoint = encoderPosition;
+				desiredSetpoint = Math.min(bottomSetPoint, desiredSetpoint);
+				desiredSetpoint = Math.max(topSetPoint, desiredSetpoint);
+				armCANTalon.setSetpoint(desiredSetpoint);
+				logger.info("encoder position is " + encoderPosition);
+				logger.info("setting setpoint to " + armCANTalon.getSetpoint());
+			}
+		} else {
+			logger.warn("Cannot enable position mode: encoder invalid");
 		}
 	}
 
@@ -126,22 +140,31 @@ public class ArmSubsystem extends Subsystem {
 		}
 		double adjustedPower = 0;
 		double position = armCANTalon.getPosition();
-		if (directionAndSpeed > 0) {
-			// moves up toward a smaller top setpoint.
-			if (position < topSetPoint) {
-				adjustedPower = 0;
-			} else if (position < topSetPoint + cushion) {
-				adjustedPower = Math.min(creepPower, directionAndSpeed);
+		if (encoderIsValid) {
+			if (directionAndSpeed > 0) {
+				// moves up toward a smaller top setpoint.
+				if (position < topSetPoint) {
+					adjustedPower = 0;
+				} else if (position < topSetPoint + cushion) {
+					adjustedPower = Math.min(creepPower, directionAndSpeed);
+				} else {
+					adjustedPower = directionAndSpeed;
+				}
 			} else {
-				adjustedPower = directionAndSpeed;
+				if (position > bottomSetPoint) {
+					adjustedPower = 0;
+				} else if (position > bottomSetPoint - cushion) {
+					adjustedPower = Math.max(-creepPower, directionAndSpeed);
+				} else {
+					adjustedPower = directionAndSpeed;
+				}
 			}
 		} else {
-			if (position > bottomSetPoint) {
-				adjustedPower = 0;
-			} else if (position > bottomSetPoint - cushion) {
-				adjustedPower = Math.max(-creepPower, directionAndSpeed);
+			if (directionAndSpeed > 0) {
+				// moves up toward a smaller top setpoint.
+				adjustedPower = Math.min(creepPower, directionAndSpeed);
 			} else {
-				adjustedPower = directionAndSpeed;
+				adjustedPower = Math.max(-creepPower, directionAndSpeed);
 			}
 		}
 		// if direction and speed are positive, it should move up. Therefore,

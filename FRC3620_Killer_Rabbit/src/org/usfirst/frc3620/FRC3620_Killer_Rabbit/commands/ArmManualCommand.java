@@ -58,9 +58,14 @@ public class ArmManualCommand extends Command {
 			}
 
 		} else {
-			// the driver is not fiddling with the triggers. leave the CANTalon
-			// in automatic mode
-			Robot.armSubsystem.goIntoAutomaticMode();
+			if (Robot.armSubsystem.getEncoderIsValid()) {
+				// the driver is not fiddling with the triggers. leave the
+				// CANTalon
+				// in automatic mode
+				Robot.armSubsystem.goIntoAutomaticMode();
+			} else {
+				Robot.armSubsystem.moveManually(0);
+			}
 		}
 	}
 
