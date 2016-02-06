@@ -45,14 +45,16 @@ public class ArmSubsystem extends Subsystem {
 		super();
 
 		// TODO Auto-generated constructor stub
-		armCANTalon.changeControlMode(TalonControlMode.Position);
-		weAreInManualMode = false;
+		//armCANTalon.changeControlMode(TalonControlMode.Position);
+		weAreInManualMode = true;
 		armCANTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+		armCANTalon.reverseSensor(true);
 		armCANTalon.setPID(0.7, .00001, 0.01);
-		armCANTalon.setSetpoint(loSetPoint);
+		//armCANTalon.setSetpoint(loSetPoint);
 		logger.info("encoder position is " + armCANTalon.getEncPosition());
 		// armCANTalon.setEncPosition(0);
 		logger.info("now the encoder position is " + armCANTalon.getEncPosition());
+		setManualPower(0);
 	}
 
 	boolean weAreInManualMode = false;
