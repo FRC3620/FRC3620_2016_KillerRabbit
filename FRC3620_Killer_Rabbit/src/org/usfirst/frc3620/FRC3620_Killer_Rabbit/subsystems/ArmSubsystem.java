@@ -69,6 +69,14 @@ public class ArmSubsystem extends Subsystem {
 	public boolean getEncoderIsValid() {
 		return encoderIsValid;
 	}
+	
+	public boolean isArmUp() {
+		double armPosition = armCANTalon.getPosition();
+		if (armPosition > .1) 
+			return false;
+		else
+		return true;
+	}
 
 	boolean weAreInManualMode = false;
 	boolean encoderIsValid = false;
