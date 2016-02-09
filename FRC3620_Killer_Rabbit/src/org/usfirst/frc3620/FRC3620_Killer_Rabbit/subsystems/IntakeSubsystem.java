@@ -65,7 +65,7 @@ public class IntakeSubsystem extends Subsystem {
     }
 	public void takeIn () {
 		intakeRollerTalonFront.set(0.5);
-		intakeRollerTalonBack.set(0.5);
+		intakeRollerTalonBack.set(-0.5);
 		weAreIntaking = true;
 	}
 	
@@ -75,7 +75,7 @@ public class IntakeSubsystem extends Subsystem {
 	}
 	public void dropBallInShooter () {
 		intakeRollerTalonFront.set(0.5);
-		intakeRollerTalonBack.set(-0.5);
+		intakeRollerTalonBack.set(0.5);
 	}
 	
 	public void intakeStop () {

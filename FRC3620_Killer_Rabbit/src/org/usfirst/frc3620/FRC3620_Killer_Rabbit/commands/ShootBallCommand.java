@@ -12,6 +12,10 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
+
+
+
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
 
 /**
@@ -36,8 +40,13 @@ public class ShootBallCommand extends Command {
     }
 
     // Called just before this Command runs the first time
+    Timer timer = new Timer();
     protected void initialize() {
-    	Robot.intakeSubsystem.dropBallInShooter();
+    	timer.start();
+    	if(Robot.armSubsystem.isArmUp()) 
+    		Robot.intakeSubsystem.dropBallInShooter();
+    	if (Robot.armSubsystem.getEncoderIsValid()) 
+    		Robot.intakeSubsystem.dropBallInShooter();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -47,7 +56,8 @@ public class ShootBallCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+      return timer.hasPeriodPassed(1);
+   
     }
 
     // Called once after isFinished returns true

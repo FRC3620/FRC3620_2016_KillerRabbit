@@ -37,13 +37,14 @@ public class OuttakeCommand extends Command {
     }
 
     // Called just before this Command runs the first time
-   
-   Timer timer = new Timer ();
+  
+    Timer timer = new Timer ();
     protected void initialize() {
     	Robot.intakeSubsystem.dumpOut();
     		timer.reset();
     		timer.start();
-    		
+    	if (Robot.armSubsystem.isArmUp())
+    		Robot.intakeSubsystem.intakeStop();
     	
     }
     
