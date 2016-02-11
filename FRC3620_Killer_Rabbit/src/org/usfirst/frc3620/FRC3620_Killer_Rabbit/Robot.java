@@ -106,6 +106,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addDefault ("Default Program" , new Autonomous1());
         autoChooser.addObject("Experimental Autonomous" , new Autonomous2());
         SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+      
 	}
 		
 	/**

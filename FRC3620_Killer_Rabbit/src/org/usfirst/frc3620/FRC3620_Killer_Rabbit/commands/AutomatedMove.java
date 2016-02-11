@@ -42,11 +42,13 @@ public class AutomatedMove extends Command implements PIDOutput{
     	
     }
     
+    
 
     // Called just before this Command runs the first time
     protected void initialize() {
+
     	logger.info("AutomatedMove start");
-    	ahrs.reset();
+    	
     	pidDriveStraight.enable();
     	
     }
@@ -55,7 +57,7 @@ public class AutomatedMove extends Command implements PIDOutput{
     protected void execute() {
     	System.out.println("PID Error: " + pidDriveStraight.getError());
     	System.out.println("sideStick value: " + sideStick);
-    	Robot.driveSubsystem.setDriveForward(.50, sideStick);
+    	Robot.driveSubsystem.setDriveForward(-.50, sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
