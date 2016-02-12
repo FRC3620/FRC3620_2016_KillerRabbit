@@ -58,7 +58,7 @@ public class OuttakeCommand extends Command {
     protected boolean isFinished() {
     	// if button is down, we defnitely are not finished
     	if (Robot.oi.outtake.get()) return false;
-    	return timer.hasPeriodPassed(5);
+    	return timer.hasPeriodPassed(1);
     }
 
     // Called once after isFinished returns true

@@ -70,9 +70,10 @@ public class IntakeSubsystem extends Subsystem {
 	}
 	
 	public void dumpOut () {
-		intakeRollerTalonFront.set(0.5);
-		intakeRollerTalonBack.set(-0.5);
-	}
+		intakeRollerTalonFront.set(1);
+		intakeRollerTalonBack.set(-1);
+		}
+		
 	public void dropBallInShooter () {
 		intakeRollerTalonFront.set(-0.5);
 		intakeRollerTalonBack.set(-0.5);
