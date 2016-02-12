@@ -30,7 +30,7 @@ public class ArmSubsystem extends Subsystem {
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 
 	//static final double bottomSetPoint = 0.7;
-	static final double bottomSetPoint = 1.4;
+	static final double bottomSetPoint = 1.15;
 	static final double topSetPoint = 0;
 	static final double cushion = 0.1;
 	static final double creepPower = 0.25;
