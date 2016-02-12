@@ -2,12 +2,15 @@ package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
 import org.slf4j.Logger;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -38,7 +41,7 @@ public class AutomatedTurn90Command extends Command implements PIDOutput{
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
-    	pidTurn90.setInputRange(-180.0f,  180.0f);
+    	pidTurn90.setInputRange(0.0f,  360.0f);
     	pidTurn90.setOutputRange(-.50, .50);
     	
     	pidTurn90.setContinuous(true);
@@ -48,18 +51,26 @@ public class AutomatedTurn90Command extends Command implements PIDOutput{
     
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-    	// TODO We need to look at this
-    	pidTurn90.setSetpoint(90.0f + ahrs.getAngle());
+    protected void initialize() 
+    {
     	logger.info("AutomatedTurn90 start");
+    	double angle = ahrs.getAngle();
+    	double newAngle = DriveSubsystem.normalizeAngle(angle+ 90);
+    	logger.info("angle was {}, new setpoint is {}", angle, newAngle);
+    	// TODO We need to look at this
+    	pidTurn90.setSetpoint(newAngle);
+    	logger.info("we rechecked the setpoint = {}", pidTurn90.getSetpoint());
+    	pidTurn90.reset();
     	pidTurn90.enable();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("PID Error: " + pidTurn90.getError());
-    	System.out.println("sideStick value: " + sideStick);
+    	SmartDashboard.putNumber("PID Angle Setpoint", pidTurn90.getSetpoint());
+    	SmartDashboard.putNumber("PID Angle Error", pidTurn90.getError());
+    	//System.out.println("PID Error: " + pidTurn90.getError());
+    	//System.out.println("sideStick value: " + sideStick);
     	Robot.driveSubsystem.setDriveForward(0, sideStick);
     }
 
@@ -78,6 +89,7 @@ public class AutomatedTurn90Command extends Command implements PIDOutput{
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
     
     public void pidGet(double source) {

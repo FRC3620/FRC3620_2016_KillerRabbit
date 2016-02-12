@@ -127,6 +127,10 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		allInit(RobotMode.AUTONOMOUS);
 		
+		
+		
+		driveSubsystem.resetNavX();
+		
 		autonomousCommand = (Command) autoChooser.getSelected();
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -216,6 +220,7 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	void updateDashboard() {
+		SmartDashboard.putNumber("NavX Angle",ahrs.getAngle());
 /*		SmartDashboard.putNumber("Battery voltage", powerDistributionPanel.getVoltage());
 		logger.info("v = {}", powerDistributionPanel.getVoltage());
 		logger.info("e = {}", powerDistributionPanel.getTotalEnergy());
