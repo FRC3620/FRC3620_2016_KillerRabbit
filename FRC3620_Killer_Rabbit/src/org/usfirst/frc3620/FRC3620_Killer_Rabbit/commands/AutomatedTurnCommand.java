@@ -44,7 +44,6 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	
-    	pidTurn.setAbsoluteTolerance(15.0);
     	pidTurn.setInputRange(0.0f,  360.0f);
     	pidTurn.setOutputRange(-1, 1);
     	pidTurn.setContinuous(true);
@@ -63,6 +62,7 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	pidTurn.setSetpoint(newAngle);
     	logger.info("we rechecked the setpoint = {}", pidTurn.getSetpoint());
     	pidTurn.reset();
+    	pidTurn.setAbsoluteTolerance(15.0);
     	pidTurn.enable();
     	
     }
@@ -78,12 +78,18 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return pidTurn.onTarget();
+    	// TODO figure out why this is broken
+        //return pidTurn.onTarget();
+    	double want = Robot.driveSubsystem.getAutomaticHeading();
+    	double got = ahrs.getAngle();
+    	double error = Math.abs(want - got);
+    	logger.info("want {}, got {}, error {}, ontarget {}", want, got, error, pidTurn.onTarget());
+    	return error < 15;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	logger.info("AutomatedTurn90 end");
+    	logger.info("AutomatedTurn end");
     	pidTurn.disable();
     	Robot.driveSubsystem.stopMotors();
     }
