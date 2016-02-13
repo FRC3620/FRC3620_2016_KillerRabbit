@@ -10,6 +10,7 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
@@ -47,6 +48,8 @@ public class Robot extends IterativeRobot {
 	static Logger logger;
 	
 	static public AHRS ahrs;
+	
+	
 
 	public static OI oi;
 	
@@ -193,7 +196,7 @@ public class Robot extends IterativeRobot {
 		
 		// if any subsystems need to know about mode changes, let
 		// them know here.
-		// Robot.driveSubsystem.allInit(newMode);
+		Robot.driveSubsystem.allInit(newMode);
 	}
 	
 	
@@ -221,6 +224,8 @@ public class Robot extends IterativeRobot {
 	
 	void updateDashboard() {
 		SmartDashboard.putNumber("NavX Angle",ahrs.getAngle());
+		SmartDashboard.putNumber("DriveLeftEncoder", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
+		SmartDashboard.putNumber("DriveRightEncoder", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
 /*		SmartDashboard.putNumber("Battery voltage", powerDistributionPanel.getVoltage());
 		logger.info("v = {}", powerDistributionPanel.getVoltage());
 		logger.info("e = {}", powerDistributionPanel.getTotalEnergy());

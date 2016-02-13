@@ -11,6 +11,7 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems;
 
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMode;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.*;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
@@ -118,6 +119,14 @@ public class DriveSubsystem extends Subsystem {
 		// TODO Auto-generated method stub
 
 	}
+	
+	static public double angleDifference (double angle1, double angle2 ) {
+		double diff = Math.abs(angle1 - angle2);
+		if (diff > 180) {
+			diff = 360 - diff;
+		}
+		return diff;
+	}
 
 	/**
 	 * Bring an angle into the range of 0..360.
@@ -126,16 +135,13 @@ public class DriveSubsystem extends Subsystem {
 	 * @param angle
 	 * @return angle brought into range 0..360
 	 */
-	double normalizeAngle(double angle) { 
+	static public double normalizeAngle(double angle) { 
 		// bring into range of -360..360
 		double newAngle = angle % 360;
 		
 		// if it's between -360..0, put it between 0..360
 		if (newAngle < 0)
 			newAngle += 360;
-		
-		// let everyone know it worked
-		logger.info("normalizing {} to {}", angle, newAngle);
 		
 		return newAngle;
 	}
@@ -150,8 +156,26 @@ public class DriveSubsystem extends Subsystem {
 		return automaticHeading;
 
 	}
+	
+	public void allInit(RobotMode robotMode)
+	{
+		if(robotMode==RobotMode.TELEOP || robotMode==RobotMode.AUTONOMOUS)
+		{
+		resetNavX();
+		resetEncoders();
+		}
+		
+	}
+	
+	public void resetEncoders()
+	{
+		leftDriveEncoder.reset();
+		rightDriveEncoder.reset();
+		
+	}
 
-	public void resetNavX() {
+	public void resetNavX() 
+	{
 		ahrs.reset();
 		logger.info("Resetting NavX Angle, Angle = {}", ahrs.getAngle());
 	}

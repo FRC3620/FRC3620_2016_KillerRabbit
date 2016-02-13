@@ -82,8 +82,11 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
         //return pidTurn.onTarget();
     	double want = Robot.driveSubsystem.getAutomaticHeading();
     	double got = ahrs.getAngle();
-    	double error = Math.abs(want - got);
-    	logger.info("want {}, got {}, error {}, ontarget {}", want, got, error, pidTurn.onTarget());
+    	double error = DriveSubsystem.angleDifference(want, got);
+    	logger.info("want {}, got {}, error {}, ontarget {}, getAvgError {}, getError {}", want, got, error, pidTurn.onTarget(),
+    			pidTurn.getAvgError(),
+    			pidTurn.getError());
+    	
     	return error < 15;
     }
 
