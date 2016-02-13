@@ -19,14 +19,11 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 /**
  *
  */
-public class AutomatedTurn90Command extends Command implements PIDOutput{
+public class AutomatedTurnCommand extends Command implements PIDOutput{
 	
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-	
-	
 	AHRS ahrs = Robot.ahrs;
-	
 	
 	static final double kP = .03;
 	static final double kI = .00;	
@@ -34,41 +31,46 @@ public class AutomatedTurn90Command extends Command implements PIDOutput{
 	static final double kF = .00;
 	double sideStick;
 	
-	PIDController pidTurn90 = new PIDController(kP, kI, kD, kF, ahrs, this);
+	double howFarWeWantToTurn = 0;
 	
+	PIDController pidTurn = new PIDController(kP, kI, kD, kF, ahrs, this);
+	
+	public AutomatedTurnCommand() {
+		this(90.0);
+	}
 
-    public AutomatedTurn90Command() {
+    public AutomatedTurnCommand(double howFar) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
-    	pidTurn90.setInputRange(0.0f,  360.0f);
-    	pidTurn90.setOutputRange(-1, 1);
     	
-    	pidTurn90.setContinuous(true);
+    	pidTurn.setAbsoluteTolerance(15.0);
+    	pidTurn.setInputRange(0.0f,  360.0f);
+    	pidTurn.setOutputRange(-1, 1);
+    	pidTurn.setContinuous(true);
     	
+    	howFarWeWantToTurn = howFar;
     }
-    
-    
 
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	logger.info("AutomatedTurn90 start");
+    	logger.info("AutomatedTurn start");
     	double angle = Robot.driveSubsystem.getAutomaticHeading();
-    	double newAngle = Robot.driveSubsystem.changeAutomaticHeading(90);
+    	double newAngle = Robot.driveSubsystem.changeAutomaticHeading(howFarWeWantToTurn);
     	logger.info("angle was {}, new setpoint is {}", angle, newAngle);
     	// TODO We need to look at this
-    	pidTurn90.setSetpoint(newAngle);
-    	logger.info("we rechecked the setpoint = {}", pidTurn90.getSetpoint());
-    	pidTurn90.reset();
-    	pidTurn90.enable();
+    	pidTurn.setSetpoint(newAngle);
+    	logger.info("we rechecked the setpoint = {}", pidTurn.getSetpoint());
+    	pidTurn.reset();
+    	pidTurn.enable();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("PID Angle Setpoint", pidTurn90.getSetpoint());
-    	SmartDashboard.putNumber("PID Angle Error", pidTurn90.getError());
+    	SmartDashboard.putNumber("PID Angle Setpoint", pidTurn.getSetpoint());
+    	SmartDashboard.putNumber("PID Angle Error", pidTurn.getError());
     	//System.out.println("PID Error: " + pidTurn90.getError());
     	//System.out.println("sideStick value: " + sideStick);
     	Robot.driveSubsystem.setDriveForward(0, sideStick);
@@ -76,13 +78,13 @@ public class AutomatedTurn90Command extends Command implements PIDOutput{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return pidTurn.onTarget();
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	logger.info("AutomatedTurn90 end");
-    	pidTurn90.disable();
+    	pidTurn.disable();
     	Robot.driveSubsystem.stopMotors();
     }
 
