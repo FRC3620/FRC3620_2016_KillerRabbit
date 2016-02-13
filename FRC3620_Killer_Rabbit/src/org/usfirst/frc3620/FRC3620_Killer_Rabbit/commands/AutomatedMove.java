@@ -2,12 +2,14 @@ package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
 import org.slf4j.Logger;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -31,14 +33,18 @@ public class AutomatedMove extends Command implements PIDOutput{
 	static final double kF = .00;
 	double sideStick;
 	
+	double howFarWeWantToMove = 0;
+	
 	PIDController pidDriveStraight = new PIDController(kP, kI, kD, kF, ahrs, this);
 	
 
-    public AutomatedMove() {
+    public AutomatedMove(double howFar) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
-    	pidDriveStraight.setOutputRange(-.50, .50);
+    	pidDriveStraight.setOutputRange(-1, 1);
+    	
+    	howFarWeWantToMove = howFar;
     	
     }
     
@@ -48,7 +54,8 @@ public class AutomatedMove extends Command implements PIDOutput{
     protected void initialize() {
 
     	logger.info("AutomatedMove start");
-    	
+    	RobotMap.driveSubsystemLeftDriveEncoder.reset();
+    	RobotMap.driveSubsystemRightDriveEncoder.reset();
     	pidDriveStraight.enable();
     	
     }
@@ -57,12 +64,28 @@ public class AutomatedMove extends Command implements PIDOutput{
     protected void execute() {
     	System.out.println("PID Error: " + pidDriveStraight.getError());
     	System.out.println("sideStick value: " + sideStick);
-    	Robot.driveSubsystem.setDriveForward(-.50, sideStick);
+    	SmartDashboard.putNumber("PID DriveStraight Error", pidDriveStraight.getError());
+    	SmartDashboard.putNumber("PID DriveStraight Sidestick", sideStick);
+    	Robot.driveSubsystem.setDriveForward(-.75, sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
+    	{
+    		return true;
+  
+    	}
+    	else if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
+    	{
+    		return true;
+    	}
+    	
+    	else
+    	{
+    		return false;
+    	}
+
     }
 
     // Called once after isFinished returns true
