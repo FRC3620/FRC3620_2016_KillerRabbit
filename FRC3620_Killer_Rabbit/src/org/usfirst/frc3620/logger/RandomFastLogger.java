@@ -1,39 +1,38 @@
 package org.usfirst.frc3620.logger;
 
-import org.usfirst.frc3620.logger.FastLoggerCollections;
-
-import edu.wpi.first.wpilibj.DriverStation;
+import org.usfirst.frc3620.logger.FastDataLoggerCollections;
 
 public class RandomFastLogger {
-    IFastLogger iFastLogger;
+    public static void startRandomFastLogger(String name) {
+        IFastDataLogger iFastDataLogger;
 
-    public RandomFastLogger() {
-        iFastLogger = new FastLoggerCollections();
-        iFastLogger.setInterval(1);
-        iFastLogger.setMaxLength(5);
-        iFastLogger.setFilename("random");
-        iFastLogger.addMetadata("pi", Math.PI);
-        iFastLogger.addMetadata("e", Math.E);
-        
-        iFastLogger.setColumnNames(new String[] {
-               "voltage",
-               "r1",
-               "r2",
-               "r3",   
-        });
+        iFastDataLogger = new FastDataLoggerCollections();
+        iFastDataLogger.setInterval(0.001);
+        iFastDataLogger.setMaxLength(5.000);
+        iFastDataLogger.setFilename(name);
+        iFastDataLogger.addMetadata("pi", Math.PI);
+        iFastDataLogger.addMetadata("e", Math.E);
 
-        iFastLogger.setDataProvider(new IFastLoggerDataProvider() {
-            DriverStation driverStation = DriverStation.getInstance();
-            public double[] fetchData() {
-                return new double[] {
-                   driverStation.getBatteryVoltage(),
-                   Math.random(),
-                   Math.random()*2.0,
-                   Math.random()*3.0
+        iFastDataLogger.setDataProvider(new IDataLoggerDataProvider() {
+            @Override
+            public String[] fetchNames() {
+                return new String[] { //
+                        "r1", //
+                        "r2", //
+                        "r3", //
+                };
+            }
+
+            @Override
+            public Object[] fetchData() {
+                return new Object[] { //
+                        Math.random(), //
+                        Math.random() * 2.0, //
+                        Math.random() * 3.0, //
                 };
             }
         });
-        
-        iFastLogger.start();
+
+        iFastDataLogger.start();
     }
 }

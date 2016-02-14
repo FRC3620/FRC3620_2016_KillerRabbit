@@ -70,14 +70,15 @@ public class RobotMap {
         
         driveSubsystemLeftDriveEncoder = new Encoder(1, 2, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveSubsystem", "LeftDriveEncoder", driveSubsystemLeftDriveEncoder);
-        driveSubsystemLeftDriveEncoder.setDistancePerPulse(1.0);
         driveSubsystemLeftDriveEncoder.setPIDSourceType(PIDSourceType.kRate);
        
         driveSubsystemRightDriveEncoder = new Encoder(3, 4, true, EncodingType.k4X);
         LiveWindow.addSensor("DriveSubsystem", "RightDriveEncoder", driveSubsystemRightDriveEncoder);
-        driveSubsystemRightDriveEncoder.setDistancePerPulse(1.0);
         driveSubsystemRightDriveEncoder.setPIDSourceType(PIDSourceType.kRate);
         
+        driveSubsystemLeftDriveEncoder.setDistancePerPulse(((2*Math.PI*1.841)/(128))*(42.5/48));
+        driveSubsystemRightDriveEncoder.setDistancePerPulse(((2*Math.PI*1.841)/(256))*(42.5/48));
+
         shooterSubsystemShooterCANTalon1 = new CANTalon(2);
         LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon1", shooterSubsystemShooterCANTalon1);
         
@@ -105,12 +106,5 @@ public class RobotMap {
         
         dummySubsystemDigitalInput0 = new DigitalInput(0);
         LiveWindow.addSensor("DummySubsystem", "Digital Input 0", dummySubsystemDigitalInput0);
-        
-      
-        
-        driveSubsystemLeftDriveEncoder.setDistancePerPulse(((2*Math.PI*1.841)/(128))*(42.5/48));
-        driveSubsystemRightDriveEncoder.setDistancePerPulse(((2*Math.PI*1.841)/(256))*(42.5/48));
-        
-        
 	}
 }
