@@ -8,6 +8,7 @@ import org.usfirst.frc3620.logger.IDataLoggerDataProvider;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Timer;
 
 public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
     Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
@@ -18,8 +19,12 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
     CANTalon armTalon = RobotMap.armSubsystemArmCANTalon;
     DriverStation driverStation = DriverStation.getInstance();
 
+    Timer timer = new Timer();
     public RobotDataLoggerDataProvider() {
         super();
+        timer.reset();
+        timer.start();
+        
         pdbIsPresent = Robot.canDeviceFinder.isPDPPresent();
         armTalonIsPresent = Robot.canDeviceFinder.isSRXPresent(armTalon);
         logger.info("PDP present = {}, armTalon present = {}", pdbIsPresent,
@@ -46,6 +51,11 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 
     @Override
     public Object[] fetchData() {
+        boolean shouldSample = true;
+        if (Robot.getCurrentRobotMode() != RobotMode.TELEOP && Robot.getCurrentRobotMode() != RobotMode.AUTONOMOUS) {
+            shouldSample = timer.hasPeriodPassed(1.0);
+        }
+                
         return new Object[] { //
                 Robot.currentRobotMode.toString(), //
                 Robot.currentRobotMode.ordinal(), //

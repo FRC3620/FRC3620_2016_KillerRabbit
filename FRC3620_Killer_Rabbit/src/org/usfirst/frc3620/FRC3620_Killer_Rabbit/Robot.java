@@ -218,13 +218,14 @@ public class Robot extends IterativeRobot {
 	 */
 
 	void updateDashboard() {
-        SmartDashboard.putNumber("Arm Encoder position", RobotMap.armSubsystemArmCANTalon.getEncPosition());
-        SmartDashboard.putNumber("Arm Get", RobotMap.armSubsystemArmCANTalon.get());
-        SmartDashboard.putNumber("Arm Closed loop", RobotMap.armSubsystemArmCANTalon.getClosedLoopError());
-        SmartDashboard.putNumber("Arm Setpoint", RobotMap.armSubsystemArmCANTalon.getSetpoint());
-        SmartDashboard.putString("Arm Control mode", RobotMap.armSubsystemArmCANTalon.getControlMode().toString());
-        SmartDashboard.putNumber("Arm Position", RobotMap.armSubsystemArmCANTalon.getPosition());
-
+	    if (canDeviceFinder.isSRXPresent(RobotMap.armSubsystemArmCANTalon)) {
+	        SmartDashboard.putNumber("Arm Encoder position", RobotMap.armSubsystemArmCANTalon.getEncPosition());
+	        SmartDashboard.putNumber("Arm Get", RobotMap.armSubsystemArmCANTalon.get());
+	        SmartDashboard.putNumber("Arm Closed loop", RobotMap.armSubsystemArmCANTalon.getClosedLoopError());
+	        SmartDashboard.putNumber("Arm Setpoint", RobotMap.armSubsystemArmCANTalon.getSetpoint());
+	        SmartDashboard.putString("Arm Control mode", RobotMap.armSubsystemArmCANTalon.getControlMode().toString());
+	        SmartDashboard.putNumber("Arm Position", RobotMap.armSubsystemArmCANTalon.getPosition());
+	    }
 
 		SmartDashboard.putNumber("NavX Angle",ahrs.getAngle());
 		
