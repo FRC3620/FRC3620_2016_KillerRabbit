@@ -37,16 +37,18 @@ public class AutomatedMove extends Command implements PIDOutput{
 	double sideStick;
 	
 	double howFarWeWantToMove = 0;
+	double howFastToMove = 0;
 	
 	PIDController pidDriveStraight = new PIDController(kP, kI, kD, kF, ahrs, this);
 	
 
-    public AutomatedMove(double howFar) {
+    public AutomatedMove(double howFar, double howFast) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	pidDriveStraight.setOutputRange(-1, 1);
-    	
+   
+    	howFastToMove = howFast;
     	howFarWeWantToMove = howFar;
     	
     }
@@ -68,13 +70,13 @@ public class AutomatedMove extends Command implements PIDOutput{
     	System.out.println("PID Error: " + pidDriveStraight.getError());
     	System.out.println("sideStick value: " + sideStick);
     	
-    	SmartDashboard.putNumber("P", pidDriveStraight.getP());
-    	SmartDashboard.putNumber("I", pidDriveStraight.getI());
-    	SmartDashboard.putNumber("D", pidDriveStraight.getD());
+    	SmartDashboard.putNumber("DriveStraight P", pidDriveStraight.getP());
+    	SmartDashboard.putNumber("DriveStraight I", pidDriveStraight.getI());
+    	SmartDashboard.putNumber("DriveStraight D", pidDriveStraight.getD());
     	
     	SmartDashboard.putNumber("PID DriveStraight Error", pidDriveStraight.getError());
     	SmartDashboard.putNumber("PID DriveStraight Sidestick", sideStick);
-    	Robot.driveSubsystem.setDriveForward(-.75, sideStick);
+    	Robot.driveSubsystem.setDriveForward(-howFastToMove, sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -25,7 +25,7 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
 	
 	AHRS ahrs = Robot.ahrs;
 	
-	static final double kP = .03;
+	static final double kP = .025;
 	static final double kI = .00;	
 	static final double kD = .00;
 	static final double kF = .00;
@@ -62,13 +62,19 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	pidTurn.setSetpoint(newAngle);
     	logger.info("we rechecked the setpoint = {}", pidTurn.getSetpoint());
     	pidTurn.reset();
-    	pidTurn.setAbsoluteTolerance(15.0);
+    	pidTurn.setAbsoluteTolerance(10.0);
     	pidTurn.enable();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
+    	SmartDashboard.putNumber("Turn P", pidTurn.getP());
+    	SmartDashboard.putNumber("Turn I", pidTurn.getI());
+    	SmartDashboard.putNumber("Turn D", pidTurn.getD());
+    	
+    	
     	SmartDashboard.putNumber("PID Angle Setpoint", pidTurn.getSetpoint());
     	SmartDashboard.putNumber("PID Angle Error", pidTurn.getError());
     	//System.out.println("PID Error: " + pidTurn90.getError());
