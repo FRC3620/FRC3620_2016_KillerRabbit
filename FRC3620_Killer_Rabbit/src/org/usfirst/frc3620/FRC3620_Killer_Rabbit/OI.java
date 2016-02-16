@@ -122,7 +122,7 @@ public class OI {
         SmartDashboard.putData("AutomatedRight45", new AutomatedTurnCommand(45.0));
         SmartDashboard.putData("AutomatedLeft90", new AutomatedTurnCommand(-90.0));
         SmartDashboard.putData("AutomatedLeft45", new AutomatedTurnCommand(-45.0));
-        SmartDashboard.putData("Move5Feet", new AutomatedMove(60));
+        SmartDashboard.putData("Move20Feet", new AutomatedMove(240));
 
     }
 

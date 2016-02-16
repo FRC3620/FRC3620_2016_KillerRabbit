@@ -26,10 +26,13 @@ public class AutomatedMove extends Command implements PIDOutput{
 	
 	AHRS ahrs = Robot.ahrs;
 	
+	//Last working kP = .05
+	static final double kP = .05;
+	//Last working kI = .0015
+	static final double kI = .0015;	
+	//Last working kD = .02
+	static final double kD = .02;
 	
-	static final double kP = .03;
-	static final double kI = .00;	
-	static final double kD = .00;
 	static final double kF = .00;
 	double sideStick;
 	
@@ -64,6 +67,11 @@ public class AutomatedMove extends Command implements PIDOutput{
     protected void execute() {
     	System.out.println("PID Error: " + pidDriveStraight.getError());
     	System.out.println("sideStick value: " + sideStick);
+    	
+    	SmartDashboard.putNumber("P", pidDriveStraight.getP());
+    	SmartDashboard.putNumber("I", pidDriveStraight.getI());
+    	SmartDashboard.putNumber("D", pidDriveStraight.getD());
+    	
     	SmartDashboard.putNumber("PID DriveStraight Error", pidDriveStraight.getError());
     	SmartDashboard.putNumber("PID DriveStraight Sidestick", sideStick);
     	Robot.driveSubsystem.setDriveForward(-.75, sideStick);
