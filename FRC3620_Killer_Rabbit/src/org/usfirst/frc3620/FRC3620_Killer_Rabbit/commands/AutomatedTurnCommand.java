@@ -25,15 +25,18 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
 	
 	AHRS ahrs = Robot.ahrs;
 	
-	static final double kP = .025;
-	static final double kI = .00;	
-	static final double kD = .00;
-	static final double kF = .00;
+
+	
 	double sideStick;
 	
 	double howFarWeWantToTurn = 0;
 	
-	PIDController pidTurn = new PIDController(kP, kI, kD, kF, ahrs, this);
+	//PIDController pidTurn = new PIDController(.025, 00, 00, kF, ahrs, this); undershot
+	//PIDController pidTurn = new PIDController(.025, .001, 00, kF, ahrs, this); overshot
+	//PIDController pidTurn = new PIDController(.035, .001, 00, kF, ahrs, this); overshot
+	//PIDController pidTurn = new PIDController(.015, .001, 00, kF, ahrs, this); overshot
+	//PIDController pidTurn = new PIDController(.015, .0001, 00, kF, ahrs, this); works
+	PIDController pidTurn = new PIDController(.015, .0001, .00, .00, ahrs, this);
 	
 	public AutomatedTurnCommand() {
 		this(90.0);
@@ -74,7 +77,7 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	SmartDashboard.putNumber("Turn I", pidTurn.getI());
     	SmartDashboard.putNumber("Turn D", pidTurn.getD());
     	
-    	
+    	SmartDashboard.putNumber("PID Turn Sidestick", sideStick);
     	SmartDashboard.putNumber("PID Angle Setpoint", pidTurn.getSetpoint());
     	SmartDashboard.putNumber("PID Angle Error", pidTurn.getError());
     	//System.out.println("PID Error: " + pidTurn90.getError());

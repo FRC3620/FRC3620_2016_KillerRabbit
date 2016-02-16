@@ -163,6 +163,7 @@ public class DriveSubsystem extends Subsystem {
 		{
 		resetNavX();
 		resetEncoders();
+		automaticHeading = 0;
 		}
 		
 	}
@@ -176,6 +177,8 @@ public class DriveSubsystem extends Subsystem {
 
 	public void resetNavX() 
 	{
+		ahrs.resetDisplacement();
+		logger.info("Resetting X Displacement, X = {}", ahrs.getDisplacementX());
 		ahrs.reset();
 		logger.info("Resetting NavX Angle, Angle = {}", ahrs.getAngle());
 	}

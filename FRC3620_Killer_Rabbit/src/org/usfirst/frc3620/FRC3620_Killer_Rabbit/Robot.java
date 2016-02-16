@@ -228,6 +228,11 @@ public class Robot extends IterativeRobot {
 	    }
 
 		SmartDashboard.putNumber("NavX Angle",ahrs.getAngle());
+		SmartDashboard.putNumber("NavX Displacement X",ahrs.getDisplacementX());
+		SmartDashboard.putNumber("NavX Displacement Y",ahrs.getDisplacementY());
+		SmartDashboard.putNumber("NavX Displacement Z",ahrs.getDisplacementZ());
+		SmartDashboard.putNumber("NavX Roll",ahrs.getRoll());
+		SmartDashboard.putNumber("NavX Pitch",ahrs.getPitch());
 		
 		SmartDashboard.putNumber("DriveLeftEncoder", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
 		SmartDashboard.putNumber("DriveRightEncoder", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
