@@ -30,7 +30,8 @@ public class RobotMap {
     public static RobotDrive driveSubsystemRobotDrive41;
     public static Encoder driveSubsystemLeftDriveEncoder;
     public static Encoder driveSubsystemRightDriveEncoder;
-    public static CANTalon shooterSubsystemShooterCANTalon1;
+    public static CANTalon shooterSubsystemShooterCANTalon2;
+    public static CANTalon shooterSubsystemShooterCANTalon3;
     public static SpeedController shooterSubsystemShooterPositionTalon;
     public static CANTalon armSubsystemArmCANTalon;
     public static AnalogInput intakeSubsystemBallSensorAnalogInput;
@@ -79,8 +80,11 @@ public class RobotMap {
         driveSubsystemLeftDriveEncoder.setDistancePerPulse(((2*Math.PI*1.841)/(128))*(42.5/48));
         driveSubsystemRightDriveEncoder.setDistancePerPulse(((2*Math.PI*1.841)/(256))*(42.5/48));
 
-        shooterSubsystemShooterCANTalon1 = new CANTalon(2);
-        LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon1", shooterSubsystemShooterCANTalon1);
+        shooterSubsystemShooterCANTalon2 = new CANTalon(2);
+        LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon2", shooterSubsystemShooterCANTalon2);
+        
+        shooterSubsystemShooterCANTalon3 = new CANTalon(3);
+        LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon3", shooterSubsystemShooterCANTalon3);
         
         shooterSubsystemShooterPositionTalon = new Talon(5);
         LiveWindow.addActuator("ShooterSubsystem", "ShooterPositionTalon", (Talon) shooterSubsystemShooterPositionTalon);
