@@ -23,10 +23,6 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
 	
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-	AHRS ahrs = Robot.ahrs;
-	
-
-	
 	double sideStick;
 	
 	double howFarWeWantToTurn = 0;
@@ -36,7 +32,7 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
 	//PIDController pidTurn = new PIDController(.035, .001, 00, kF, ahrs, this); overshot
 	//PIDController pidTurn = new PIDController(.015, .001, 00, kF, ahrs, this); overshot
 	//PIDController pidTurn = new PIDController(.015, .0001, 00, kF, ahrs, this); works
-	PIDController pidTurn = new PIDController(.015, .0001, .00, .00, ahrs, this);
+	PIDController pidTurn = new PIDController(.015, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	
 	public AutomatedTurnCommand() {
 		this(90.0);
@@ -90,7 +86,7 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	// TODO figure out why this is broken
         //return pidTurn.onTarget();
     	double want = Robot.driveSubsystem.getAutomaticHeading();
-    	double got = ahrs.getAngle();
+    	double got = Robot.driveSubsystem.getAngle();
     	double error = DriveSubsystem.angleDifference(want, got);
     	logger.info("want {}, got {}, error {}, ontarget {}, getAvgError {}, getError {}", want, got, error, pidTurn.onTarget(),
     			pidTurn.getAvgError(),
@@ -111,12 +107,6 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     protected void interrupted() {
     	end();
     }
-    
-    public void pidGet(double source) {
-    	ahrs.getRawGyroX();
-    }
-      
-    
     
     public void pidWrite(double output) {
        sideStick = output;

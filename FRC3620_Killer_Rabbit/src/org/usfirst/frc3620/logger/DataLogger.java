@@ -47,22 +47,24 @@ public class DataLogger extends DataLoggerBase {
             if (w != null) {
                 Object[] data = iDataLoggerDataProvider.fetchData();
 
-                double t = getTimeInSeconds();
-                Date curDate = new Date();
+                if (data != null) {
+                    double t = getTimeInSeconds();
+                    Date curDate = new Date();
 
-                w.print(format.format(curDate));
-                w.print(',');
-                w.format("%.6f", t - t0);
-
-                for (int i = 0; i < data.length; i++) {
+                    w.print(format.format(curDate));
                     w.print(',');
-                    w.print(data[i]);
-                }
-                w.println();
+                    w.format("%.6f", t - t0);
 
-                // flush once every couple seconds
-                if (t - tFlushed > flushInterval)
-                    w.flush();
+                    for (int i = 0; i < data.length; i++) {
+                        w.print(',');
+                        w.print(data[i]);
+                    }
+                    w.println();
+
+                    // flush once every couple seconds
+                    if (t - tFlushed > flushInterval)
+                        w.flush();
+                }
             }
         }
     }
