@@ -22,10 +22,7 @@ public class AutomatedMove extends Command implements PIDOutput{
 	
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-	
-	
-	AHRS ahrs = Robot.ahrs;
-	
+
 	//Last working kP = .05
 	static final double kP = .05;
 	//Last working kI = .0015
@@ -39,7 +36,7 @@ public class AutomatedMove extends Command implements PIDOutput{
 	double howFarWeWantToMove = 0;
 	double howFastToMove = 0;
 	
-	PIDController pidDriveStraight = new PIDController(kP, kI, kD, kF, ahrs, this);
+	PIDController pidDriveStraight = new PIDController(kP, kI, kD, kF, Robot.driveSubsystem.getAhrs(), this);
 	
 
     public AutomatedMove(double howFar, double howFast) {
@@ -50,7 +47,6 @@ public class AutomatedMove extends Command implements PIDOutput{
    
     	howFastToMove = howFast;
     	howFarWeWantToMove = howFar;
-    	
     }
     
     
@@ -61,6 +57,7 @@ public class AutomatedMove extends Command implements PIDOutput{
     	logger.info("AutomatedMove start");
     	RobotMap.driveSubsystemLeftDriveEncoder.reset();
     	RobotMap.driveSubsystemRightDriveEncoder.reset();
+        pidDriveStraight.setSetpoint(Robot.driveSubsystem.getAutomaticHeading());
     	pidDriveStraight.enable();
     	
     }
@@ -108,14 +105,9 @@ public class AutomatedMove extends Command implements PIDOutput{
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    }
-    
-    public void pidGet(double source) {
-    	ahrs.getRawGyroX();
+        end();
     }
       
-    
-    
     public void pidWrite(double output) {
        sideStick = output;
     }

@@ -1,6 +1,9 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
 
+import java.text.DecimalFormat;
+
 import org.slf4j.Logger;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 import org.usfirst.frc3620.logger.IDataLoggerDataProvider;
@@ -14,6 +17,8 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
     Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
     boolean pdbIsPresent = false;
     boolean armTalonIsPresent = false;
+
+    DriveSubsystem driveSubsystem = Robot.driveSubsystem;
 
     PowerDistributionPanel powerDistributionPanel = Robot.powerDistributionPanel;
     CANTalon armTalon = RobotMap.armSubsystemArmCANTalon;
@@ -57,6 +62,9 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 "armTalon.current", //
                 "armTalon.voltage", //
                 "armTalon.mode", //
+
+                "drive.automaticHeading", //
+                "drive.angle", //
         };
     }
 
@@ -75,27 +83,37 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 Robot.currentRobotMode.toString(), //
                 Robot.currentRobotMode.ordinal(), //
 
-                driverStation.getBatteryVoltage(), //
-                pdbIsPresent ? powerDistributionPanel.getTotalCurrent() : 0, //
-                pdbIsPresent ? powerDistributionPanel.getTotalPower() : 0, //
-                pdbIsPresent ? powerDistributionPanel.getTotalEnergy() : 0, //
+                f2(driverStation.getBatteryVoltage()), //
+                pdbIsPresent ? f2(powerDistributionPanel.getTotalCurrent()) : 0, //
+                pdbIsPresent ? f2(powerDistributionPanel.getTotalPower()) : 0, //
+                pdbIsPresent ? f2(powerDistributionPanel.getTotalEnergy()) : 0, //
 
-                RobotMap.driveSubsystemLeftFront.get(), //
-                RobotMap.driveSubsystemLeftRear.get(), //
-                RobotMap.driveSubsystemRightFront.get(), //
-                RobotMap.driveSubsystemRightRear.get(), //
+                f2(RobotMap.driveSubsystemLeftFront.get()), //
+                f2(RobotMap.driveSubsystemLeftRear.get()), //
+                f2(RobotMap.driveSubsystemRightFront.get()), //
+                f2(RobotMap.driveSubsystemRightRear.get()), //
 
-                pdbIsPresent ? powerDistributionPanel.getCurrent(12) : 0, //
-                pdbIsPresent ? powerDistributionPanel.getCurrent(13) : 0, //
-                pdbIsPresent ? powerDistributionPanel.getCurrent(14) : 0, //
-                pdbIsPresent ? powerDistributionPanel.getCurrent(15) : 0, //
+                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(12)) : 0, //
+                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(13)) : 0, //
+                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(14)) : 0, //
+                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(15)) : 0, //
 
-                armTalonIsPresent ? armTalon.getClosedLoopError() : 0, //
-                armTalonIsPresent ? armTalon.getOutputCurrent() : 0, //
-                armTalonIsPresent ? armTalon.getOutputVoltage() : 0, //
+                armTalonIsPresent ? f2(armTalon.getClosedLoopError()) : 0, //
+                armTalonIsPresent ? f2(armTalon.getOutputCurrent()) : 0, //
+                armTalonIsPresent ? f2(armTalon.getOutputVoltage()) : 0, //
                 armTalonIsPresent ? armTalon.getControlMode().toString() : "", //
 
+                f2(driveSubsystem.getAutomaticHeading()), //
+                f2(driveSubsystem.getAngle()), //
+
         };
+    }
+
+    DecimalFormat f2Formatter = new DecimalFormat("#.##");
+
+    String f2(double f) {
+        String rv = f2Formatter.format(f);
+        return f2Formatter.format(f);
     }
 
 }
