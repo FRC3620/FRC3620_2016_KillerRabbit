@@ -20,11 +20,12 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
     DriverStation driverStation = DriverStation.getInstance();
 
     Timer timer = new Timer();
+
     public RobotDataLoggerDataProvider() {
         super();
         timer.reset();
         timer.start();
-        
+
         pdbIsPresent = Robot.canDeviceFinder.isPDPPresent();
         armTalonIsPresent = Robot.canDeviceFinder.isSRXPresent(armTalon);
         logger.info("PDP present = {}, armTalon present = {}", pdbIsPresent,
@@ -42,6 +43,16 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 "totalPower", //
                 "totalEnergy", //
 
+                "lf.power", //
+                "lr.power", //
+                "rf.power", //
+                "rr.power", //
+
+                "lf.current", //
+                "lr.current", //
+                "rf.current", //
+                "rr.current", //
+
                 "armTalon.error", //
                 "armTalon.current", //
                 "armTalon.voltage", //
@@ -52,10 +63,14 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
     @Override
     public Object[] fetchData() {
         boolean shouldSample = true;
-        if (Robot.getCurrentRobotMode() != RobotMode.TELEOP && Robot.getCurrentRobotMode() != RobotMode.AUTONOMOUS) {
+        if (Robot.getCurrentRobotMode() != RobotMode.TELEOP
+                && Robot.getCurrentRobotMode() != RobotMode.AUTONOMOUS) {
             shouldSample = timer.hasPeriodPassed(1.0);
         }
-                
+
+        if (!shouldSample)
+            return null;
+
         return new Object[] { //
                 Robot.currentRobotMode.toString(), //
                 Robot.currentRobotMode.ordinal(), //
@@ -64,6 +79,16 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 pdbIsPresent ? powerDistributionPanel.getTotalCurrent() : 0, //
                 pdbIsPresent ? powerDistributionPanel.getTotalPower() : 0, //
                 pdbIsPresent ? powerDistributionPanel.getTotalEnergy() : 0, //
+
+                RobotMap.driveSubsystemLeftFront.get(), //
+                RobotMap.driveSubsystemLeftRear.get(), //
+                RobotMap.driveSubsystemRightFront.get(), //
+                RobotMap.driveSubsystemRightRear.get(), //
+
+                pdbIsPresent ? powerDistributionPanel.getCurrent(12) : 0, //
+                pdbIsPresent ? powerDistributionPanel.getCurrent(13) : 0, //
+                pdbIsPresent ? powerDistributionPanel.getCurrent(14) : 0, //
+                pdbIsPresent ? powerDistributionPanel.getCurrent(15) : 0, //
 
                 armTalonIsPresent ? armTalon.getClosedLoopError() : 0, //
                 armTalonIsPresent ? armTalon.getOutputCurrent() : 0, //

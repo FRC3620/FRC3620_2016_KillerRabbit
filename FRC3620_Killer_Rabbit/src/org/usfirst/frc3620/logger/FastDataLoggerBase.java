@@ -43,7 +43,9 @@ abstract public class FastDataLoggerBase extends DataLoggerBase
             if (t > t0 + maxLengthInSeconds)
                 done();
 
-            logData(t - t0, iDataLoggerDataProvider.fetchData());
+            Object[] data = iDataLoggerDataProvider.fetchData();
+            if (data != null)
+                logData(t - t0, data);
         }
     }
 
