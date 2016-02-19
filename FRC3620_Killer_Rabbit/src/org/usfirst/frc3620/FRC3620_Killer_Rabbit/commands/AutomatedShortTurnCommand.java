@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 /**
  *
  */
-public class AutomatedTurnCommand extends Command implements PIDOutput{
+public class AutomatedShortTurnCommand extends Command implements PIDOutput{
 	
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
@@ -27,25 +27,24 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
 	
 	double howFarWeWantToTurn = 0;
 	
-	//PIDController pidTurn = new PIDController(.025, 00, 00, kF, ahrs, this); undershot
-	//PIDController pidTurn = new PIDController(.025, .001, 00, kF, ahrs, this); overshot
-	//PIDController pidTurn = new PIDController(.035, .001, 00, kF, ahrs, this); overshot
-	//PIDController pidTurn = new PIDController(.015, .001, 00, kF, ahrs, this); overshot
-	//PIDController pidTurn = new PIDController(.015, .0001, 00, kF, ahrs, this); works
-	PIDController pidTurn = new PIDController(.015, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	
-	public AutomatedTurnCommand() {
-		this(90.0);
+	PIDController pidShortTurn = new PIDController(.020, .0005, .00, .00, Robot.driveSubsystem.getAhrs(), this);
+	//PIDController pidShortTurn = new PIDController(.030, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
+	//PIDController pidShortTurn = new PIDController(.045, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
+	//PIDController pidShortTurn = new PIDController(.035, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
+	
+	public AutomatedShortTurnCommand() {
+		this(45);
 	}
 
-    public AutomatedTurnCommand(double howFar) {
+    public AutomatedShortTurnCommand(double howFar) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	
-    	pidTurn.setInputRange(0.0f,  360.0f);
-    	pidTurn.setOutputRange(-1, 1);
-    	pidTurn.setContinuous(true);
+    	pidShortTurn.setInputRange(0.0f,  360.0f);
+    	pidShortTurn.setOutputRange(-1, 1);
+    	pidShortTurn.setContinuous(true);
     	
     	howFarWeWantToTurn = howFar;
     }
@@ -58,24 +57,24 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	double newAngle = Robot.driveSubsystem.changeAutomaticHeading(howFarWeWantToTurn);
     	logger.info("angle was {}, new setpoint is {}", angle, newAngle);
     	// TODO We need to look at this
-    	pidTurn.setSetpoint(newAngle);
-    	logger.info("we rechecked the setpoint = {}", pidTurn.getSetpoint());
-    	pidTurn.reset();
-    	pidTurn.setAbsoluteTolerance(10.0);
-    	pidTurn.enable();
+    	pidShortTurn.setSetpoint(newAngle);
+    	logger.info("we rechecked the setpoint = {}", pidShortTurn.getSetpoint());
+    	pidShortTurn.reset();
+    	pidShortTurn.setAbsoluteTolerance(10.0);
+    	pidShortTurn.enable();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	SmartDashboard.putNumber("Turn P", pidTurn.getP());
-    	SmartDashboard.putNumber("Turn I", pidTurn.getI());
-    	SmartDashboard.putNumber("Turn D", pidTurn.getD());
+    	SmartDashboard.putNumber("Turn P", pidShortTurn.getP());
+    	SmartDashboard.putNumber("Turn I", pidShortTurn.getI());
+    	SmartDashboard.putNumber("Turn D", pidShortTurn.getD());
     	
     	SmartDashboard.putNumber("PID Turn Sidestick", sideStick);
-    	SmartDashboard.putNumber("PID Angle Setpoint", pidTurn.getSetpoint());
-    	SmartDashboard.putNumber("PID Angle Error", pidTurn.getError());
+    	SmartDashboard.putNumber("PID Angle Setpoint", pidShortTurn.getSetpoint());
+    	SmartDashboard.putNumber("PID Short Angle Error", pidShortTurn.getError());
     	//System.out.println("PID Error: " + pidTurn90.getError());
     	//System.out.println("sideStick value: " + sideStick);
     	Robot.driveSubsystem.setDriveForward(0, sideStick);
@@ -88,17 +87,17 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	double want = Robot.driveSubsystem.getAutomaticHeading();
     	double got = Robot.driveSubsystem.getAngle();
     	double error = DriveSubsystem.angleDifference(want, got);
-    	logger.info("want {}, got {}, error {}, ontarget {}, getAvgError {}, getError {}", want, got, error, pidTurn.onTarget(),
-    			pidTurn.getAvgError(),
-    			pidTurn.getError());
+    	logger.info("want {}, got {}, error {}, ontarget {}, getAvgError {}, getError {}", want, got, error, pidShortTurn.onTarget(),
+    			pidShortTurn.getAvgError(),
+    			pidShortTurn.getError());
     	
-    	return error < 10;
+    	return error < 4;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	logger.info("AutomatedTurn end");
-    	pidTurn.disable();
+    	pidShortTurn.disable();
     	Robot.driveSubsystem.stopMotors();
     }
 
