@@ -31,8 +31,8 @@ public class ShooterSubsystem extends Subsystem {
     public ShooterSubsystem() {
 		super();
 		
-		shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.Follower);
-		shooterCANTalon3.set(shooterCANTalon2.getDeviceID());
+		shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		//shooterCANTalon3.set(shooterCANTalon2.getDeviceID());
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -66,6 +66,13 @@ public class ShooterSubsystem extends Subsystem {
     public void setPower(double power)
     {
     	shooterCANTalon2.set(power);
+    	shooterCANTalon3.set(power);
+    }
+    
+    public void setUpTalons()
+    {
+    	shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.Follower);
+		shooterCANTalon3.set(shooterCANTalon2.getDeviceID());
     }
     
     public void initDefaultCommand() {

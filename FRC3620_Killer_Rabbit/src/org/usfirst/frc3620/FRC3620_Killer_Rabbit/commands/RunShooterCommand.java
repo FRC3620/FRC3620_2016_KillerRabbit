@@ -57,6 +57,7 @@ public class RunShooterCommand extends Command {
     	shooterPower = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Shooter Power", .5);
     	logger.info("Shooter power: {}", shooterPower);
     	SmartDashboard.putNumber("ShooterPower", shooterPower);
+    	//Robot.shooterSubsystem.setUpTalons();
     }
 
     // Called repeatedly when this Command is scheduled to run
