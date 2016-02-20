@@ -64,7 +64,7 @@ public class ArmSubsystem extends Subsystem {
 		// armCANTalon.getEncPosition());
 		moveManually(0);
 
-		if (RobotMap.dummySubsystemDigitalInput0.get() == false) {
+		if (RobotMap.armSubsystemHomeDigitalInput.get() == false) {
 			encoderIsValid = true;
 		}
 		logger.info("encoder is valid = {} ", encoderIsValid);
@@ -76,6 +76,7 @@ public class ArmSubsystem extends Subsystem {
 	
 	public boolean isArmUp() {
 		double armPosition = armCANTalon.getPosition();
+		logger.info("Arm CanTalon position {}", armPosition);
 		if (armPosition > .1) 
 			return false;
 		else
@@ -192,7 +193,7 @@ public class ArmSubsystem extends Subsystem {
 	}
 	
 	public void nudgeToTop() {
-		armCANTalon.set(creepPower);
+		armCANTalon.set(-creepPower);
 		
 	}
 	

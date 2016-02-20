@@ -62,13 +62,16 @@ public class ShootBallCommand extends Command {
 			logger.info("not shooting, shooter is not up to speed");
 			
 		}
+		else{
+			logger.info("check shooter was true");
+		}
 		timer.start();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (canIShoot) {
-			if (timer.get() < 0.5) {
+			if (timer.get() < 0.2) {
 				Robot.armSubsystem.nudgeToTop();
 			}
 			else {

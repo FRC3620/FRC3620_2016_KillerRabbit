@@ -1,6 +1,7 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -12,6 +13,7 @@ public class ShooterTiltCommand extends Command {
     public ShooterTiltCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.shooterSubsystem);
     }
 
     // Called just before this Command runs the first time

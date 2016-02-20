@@ -39,7 +39,7 @@ public class RobotMap {
     public static SpeedController intakeSubsystemIntakeRollerTalonFront;
     public static SpeedController intakeSubsystemIntakeRollerTalonBack;
     public static AnalogInput dummySubsystemAnalogInput1;
-    public static DigitalInput dummySubsystemDigitalInput0;
+    public static DigitalInput armSubsystemHomeDigitalInput;
 
  
 
@@ -108,7 +108,7 @@ public class RobotMap {
         dummySubsystemAnalogInput1 = new AnalogInput(1);
         LiveWindow.addSensor("DummySubsystem", "Analog Input 1", dummySubsystemAnalogInput1);
         
-        dummySubsystemDigitalInput0 = new DigitalInput(0);
-        LiveWindow.addSensor("DummySubsystem", "Digital Input 0", dummySubsystemDigitalInput0);
+        armSubsystemHomeDigitalInput = new DigitalInput(5);
+        LiveWindow.addSensor("ArmSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
 	}
 }
