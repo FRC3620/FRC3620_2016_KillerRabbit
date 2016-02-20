@@ -145,6 +145,8 @@ public class ArmSubsystem extends Subsystem {
 	public void moveManually(double directionAndSpeed) {
 		// Positive direction and speed moves us towards smaller setpoints.
 		// Smaller setpoints are up.
+		
+		
 		if (!weAreInManualMode) {
 			logger.info("flipping into manual");
 			armCANTalon.changeControlMode(TalonControlMode.PercentVbus);
