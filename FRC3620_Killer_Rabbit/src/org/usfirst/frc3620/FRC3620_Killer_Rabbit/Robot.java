@@ -230,6 +230,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("NavX Roll",Robot.driveSubsystem.getRoll());
 		SmartDashboard.putNumber("NavX Pitch",Robot.driveSubsystem.getPitch());
 		
+		//SmartDashboard.putNumber("Shooter position Encoder",);
+		
 		SmartDashboard.putNumber("DriveLeftEncoder", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
 		SmartDashboard.putNumber("DriveRightEncoder", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
 /*		SmartDashboard.putNumber("Battery voltage", powerDistributionPanel.getVoltage());
