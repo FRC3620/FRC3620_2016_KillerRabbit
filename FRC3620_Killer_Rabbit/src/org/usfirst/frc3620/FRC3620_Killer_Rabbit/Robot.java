@@ -222,6 +222,7 @@ public class Robot extends IterativeRobot {
 	        SmartDashboard.putString("Arm Control mode", RobotMap.armSubsystemArmCANTalon.getControlMode().toString());
 	        SmartDashboard.putNumber("Arm Position", RobotMap.armSubsystemArmCANTalon.getPosition());
 	    }
+	    SmartDashboard.putBoolean("Arm Encoder Valid", armSubsystem.getEncoderIsValid());
 
 		SmartDashboard.putNumber("NavX Angle",Robot.driveSubsystem.getAngle());
 		SmartDashboard.putNumber("NavX Displacement X",Robot.driveSubsystem.getDisplacementX());

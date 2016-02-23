@@ -19,6 +19,7 @@ import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.InterruptHandlerFunction;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -61,11 +62,37 @@ public class ArmSubsystem extends Subsystem {
 		// armCANTalon.getEncPosition());
 		moveManually(0);
 
+		//Check limit switch for homing.
 		if (RobotMap.dummySubsystemDigitalInput0.get() == false) {
+			//Arm is homed, encoder valid.
 			encoderIsValid = true;
+			armCANTalon.setPosition(topSetPoint);
+		}
+		else {
+			//Arm not home, set for homing.
+			RobotMap.dummySubsystemDigitalInput0.requestInterrupts(new MyHandler());
+			RobotMap.dummySubsystemDigitalInput0.setUpSourceEdge(false, true);
+			RobotMap.dummySubsystemDigitalInput0.enableInterrupts();
+			
+			
 		}
 		logger.info("encoder is valid = {} ", encoderIsValid);
 	}
+	
+	class MyHandler extends InterruptHandlerFunction<Void> {
+
+		@Override
+		public void interruptFired(int interruptAssertedMask, Void param) {
+			logger.info("Interrupt happened.");
+			if (encoderIsValid == false) {
+				armCANTalon.setPosition(topSetPoint);
+				encoderIsValid = true;
+				logger.info("Encoder is now valid.");
+				RobotMap.dummySubsystemDigitalInput0.disableInterrupts();
+			}
+		}
+    	
+    }
 
 	public boolean getEncoderIsValid() {
 		return encoderIsValid;
