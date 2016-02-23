@@ -48,26 +48,36 @@ public class ShootBallCommand extends Command {
 		// we will only do this if the
 		if (Robot.armSubsystem.getEncoderIsValid()) {
 			// we have a good encoder, check the arm
-			if (Robot.armSubsystem.isArmUp()) {
-				canIShoot = true;
-			} else {
-				canIShoot = false;
+			canIShoot = Robot.armSubsystem.isArmUp();
+			if (!canIShoot) {
+				logger.info("not shooting, arm is not up");
 			}
-		} else {
-			// we don't have a good enccoder, so just allow it....
+		} 
+		else {
+			// we don't have a good encoder, so just allow it....
 			canIShoot = true;
 		}
-		if (canIShoot) {
-			Robot.intakeSubsystem.dropBallInShooter();
+		if (!Robot.shooterSubsystem.checkShooter()) {
+			canIShoot = false;
+			logger.info("not shooting, shooter is not up to speed");
+			
+		}
+		else{
+			logger.info("check shooter was true");
 		}
 		timer.start();
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (canIShoot) {
-			Robot.intakeSubsystem.dropBallInShooter();
+			if (timer.get() < 0.2) {
+				Robot.armSubsystem.nudgeToTop();
+			}
+			else {
+				Robot.armSubsystem.stopNudging();
+				Robot.intakeSubsystem.dropBallInShooter();
+			}
 		} else {
 			logger.warn("Bring Arm Up");
 		}
@@ -85,6 +95,7 @@ public class ShootBallCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		Robot.armSubsystem.stopNudging();
 		Robot.intakeSubsystem.intakeStop();
 	}
 

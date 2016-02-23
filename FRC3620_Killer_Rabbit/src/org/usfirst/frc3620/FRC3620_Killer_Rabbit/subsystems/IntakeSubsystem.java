@@ -64,9 +64,8 @@ public class IntakeSubsystem extends Subsystem {
     	
     }
 	public void takeIn () {
-		//Change back to +- 0.5 after test!
-		intakeRollerTalonFront.set(-0.5);
-		intakeRollerTalonBack.set(0.5);
+		intakeRollerTalonFront.set(-0.75);
+		intakeRollerTalonBack.set(0.75);
 		weAreIntaking = true;
 	}
 	
