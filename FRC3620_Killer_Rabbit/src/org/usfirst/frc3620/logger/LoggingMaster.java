@@ -2,8 +2,7 @@ package org.usfirst.frc3620.logger;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 public class LoggingMaster {
     private final static long SOME_TIME_AFTER_1970 = 523980000000L;
@@ -76,5 +75,4 @@ public class LoggingMaster {
 
         return logDirectory;
     }
-
 }
