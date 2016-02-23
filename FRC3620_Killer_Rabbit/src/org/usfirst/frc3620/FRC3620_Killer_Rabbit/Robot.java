@@ -12,6 +12,7 @@ package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -50,6 +51,9 @@ public class Robot extends IterativeRobot {
 	public static PowerDistributionPanel powerDistributionPanel;
 	// public static AHRS ahrs;
 	public static CANDeviceFinder canDeviceFinder;
+	
+	public static Preferences preferences;
+	public static String rioName = null;
 
 	public static OI oi;
 
@@ -67,9 +71,12 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+        preferences = Preferences.getInstance();
+        rioName = preferences.getString("rioName", null);
+        
 		logger = EventLogging.getLogger(Robot.class, Level.INFO);
 		
-		logger.info("Starting robotInit: MAC address is {}", getMACAddresses());
+		logger.info("Starting robotInit: name {}, MAC address is {}", rioName, getMACAddresses());
 
 		RobotMap.init();
 
