@@ -54,7 +54,7 @@ public class ArmSubsystem extends Subsystem {
 		armCANTalon.enableBrakeMode(true);
 		// SIMs need reverseSensor(true), BAGs need false.
 		armCANTalon.reverseSensor(true);
-		armCANTalon.setPID(0.3, .00001, 0.01);
+		armCANTalon.setPID(0.4, .00001, 0.01);
 		armCANTalon.setPosition(topSetPoint);
 		// logger.info("encoder position is " + armCANTalon.getEncPosition());
 		// armCANTalon.setEncPosition(0);
@@ -132,6 +132,8 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	void moveArmToSetpoint(double position, double p, double i, double d) {
+		if (encoderIsValid) {
+			
 		if (weAreInManualMode) {
 			logger.info("flipping into automatic");
 			armCANTalon.changeControlMode(TalonControlMode.Position);
@@ -140,7 +142,10 @@ public class ArmSubsystem extends Subsystem {
 		// TODO set PID from p, i, d
 		armCANTalon.setSetpoint(position);
 		logger.info("setting setpoint = " + position);
-
+		}
+		else {
+			logger.info("Ignoring moveArmToSetpoint because encoder isn't valid");
+		}
 	}
 
 	public void goIntoAutomaticMode() {
