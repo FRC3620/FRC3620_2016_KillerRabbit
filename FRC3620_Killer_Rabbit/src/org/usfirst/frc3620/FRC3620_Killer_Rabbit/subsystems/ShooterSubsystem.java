@@ -19,7 +19,12 @@ import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.*;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogTrigger;
+import edu.wpi.first.wpilibj.AnalogTriggerOutput.AnalogTriggerType;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -38,6 +43,12 @@ public class ShooterSubsystem extends Subsystem {
     public ShooterSubsystem() {
 		super();
 		
+		analogTrigger = new AnalogTrigger(shooterTiltSensor);
+		analogTrigger.setLimitsVoltage(3.6, 12);
+		tiltCounter = new Counter();
+		tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
+		shooterWasGoingUp = true;
+		
 		shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		//shooterCANTalon3.set(shooterCANTalon2.getDeviceID());
 		
@@ -47,8 +58,13 @@ public class ShooterSubsystem extends Subsystem {
     private final CANTalon shooterCANTalon2 = RobotMap.shooterSubsystemShooterCANTalon2;
     private final CANTalon shooterCANTalon3 = RobotMap.shooterSubsystemShooterCANTalon3;
     private final SpeedController shooterPositionTalon = RobotMap.shooterSubsystemShooterPositionTalon;
+    private final AnalogInput shooterTiltSensor  = RobotMap.shooterSubsystemTiltSensor;
     
+    AnalogTrigger analogTrigger;
+    
+    Counter tiltCounter;
     boolean shooterWasRunning;
+    boolean shooterWasGoingUp;
     
     Timer timer = new Timer();
     
@@ -66,6 +82,7 @@ public class ShooterSubsystem extends Subsystem {
     {
     	shooterCANTalon2.set(0)
     }*/
+    
     public void setPower(double power)
     {
     	
@@ -109,18 +126,46 @@ public class ShooterSubsystem extends Subsystem {
     
     public void moveShooterPositionUp()
     {
-    	shooterPositionTalon.set(0.5);
+    	getMoveTilt(0.5);
     }
     
     public void moveShooterPositionDown()
     {
-    	shooterPositionTalon.set(-0.5);
+    	getMoveTilt(-0.5);
 
     }
     
     public void stopShooterPositionTalon()
     {
     	shooterPositionTalon.set(0);
+    }
+    
+    public int getCounterValue()
+    {
+    	return tiltCounter.get();
+    }
+    
+    public void getMoveTilt(double power)
+    {
+    	if(power>0)
+    	{ 
+    		if(!shooterWasGoingUp)
+    		{
+    			tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
+    			tiltCounter.clearDownSource();
+    		}
+    		shooterWasGoingUp = true;
+    	}
+    	else if(power<0)
+    	{
+    		if(shooterWasGoingUp)
+    		{
+    			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kRisingPulse);
+    			tiltCounter.clearUpSource();
+    		}
+    		shooterWasGoingUp = false;
+    	}
+    	shooterPositionTalon.set(power);
     }
     
     public void initDefaultCommand() {

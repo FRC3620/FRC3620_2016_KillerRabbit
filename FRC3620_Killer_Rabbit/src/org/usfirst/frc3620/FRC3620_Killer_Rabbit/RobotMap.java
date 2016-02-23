@@ -38,6 +38,7 @@ public class RobotMap {
     public static Encoder intakeSubsystemIntakeRollerEncoder;
     public static SpeedController intakeSubsystemIntakeRollerTalonFront;
     public static SpeedController intakeSubsystemIntakeRollerTalonBack;
+    public static AnalogInput shooterSubsystemTiltSensor;
     public static AnalogInput dummySubsystemAnalogInput1;
     public static DigitalInput armSubsystemHomeDigitalInput;
 
@@ -110,5 +111,10 @@ public class RobotMap {
         
         armSubsystemHomeDigitalInput = new DigitalInput(5);
         LiveWindow.addSensor("ArmSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
+        
+        shooterSubsystemTiltSensor = new AnalogInput(1);
+        LiveWindow.addSensor("ShooterSubsystem", "Analog Input 1", shooterSubsystemTiltSensor);
+        
+        
 	}
 }
