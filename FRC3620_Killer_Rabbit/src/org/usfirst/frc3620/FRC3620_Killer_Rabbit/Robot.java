@@ -234,6 +234,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Analog Tilt input", RobotMap.shooterSubsystemTiltSensor.getVoltage());
 		SmartDashboard.putNumber("Tilt Counter", Robot.shooterSubsystem.getCounterValue());
 		
+		SmartDashboard.putBoolean("Home Switch Position", RobotMap.shooterSubsystemHomeDigitalInput.get());
+		
+		
 		//SmartDashboard.putNumber("Shooter position Encoder",);
 		
 		SmartDashboard.putNumber("DriveLeftEncoder", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());

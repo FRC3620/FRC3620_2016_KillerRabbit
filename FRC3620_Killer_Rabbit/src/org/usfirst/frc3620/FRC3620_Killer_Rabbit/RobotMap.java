@@ -41,6 +41,7 @@ public class RobotMap {
     public static AnalogInput shooterSubsystemTiltSensor;
     public static AnalogInput dummySubsystemAnalogInput;
     public static DigitalInput armSubsystemHomeDigitalInput;
+    public static DigitalInput shooterSubsystemHomeDigitalInput;
 
  
 
@@ -110,7 +111,10 @@ public class RobotMap {
         LiveWindow.addSensor("DummySubsystem", "Analog Input 2", dummySubsystemAnalogInput);
         
         armSubsystemHomeDigitalInput = new DigitalInput(5);
-        LiveWindow.addSensor("ArmSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
+        LiveWindow.addSensor("ShooterSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
+        
+        shooterSubsystemHomeDigitalInput = new DigitalInput(0);
+        LiveWindow.addSensor("ArmSubsystem", "Digital Input 0", shooterSubsystemHomeDigitalInput);
         
         shooterSubsystemTiltSensor = new AnalogInput(0);
         LiveWindow.addSensor("ShooterSubsystem", "Analog Input 0", shooterSubsystemTiltSensor);
