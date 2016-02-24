@@ -44,9 +44,10 @@ public class ShooterSubsystem extends Subsystem {
 		super();
 		
 		analogTrigger = new AnalogTrigger(shooterTiltSensor);
-		analogTrigger.setLimitsVoltage(3.6, 12);
+		analogTrigger.setLimitsVoltage(3.6, 5);
 		tiltCounter = new Counter();
-		tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
+		tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kInWindow);
+		tiltCounter.clearDownSource();
 		shooterWasGoingUp = true;
 		
 		shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -151,17 +152,26 @@ public class ShooterSubsystem extends Subsystem {
     	{ 
     		if(!shooterWasGoingUp)
     		{
-    			tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
+    			logger.info("Changing shooter counter to up, counter = {}", tiltCounter.get());
+
+    			tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kInWindow);
     			tiltCounter.clearDownSource();
+    		
+    			
+    			logger.info("Changed shooter counter to up, counter = {}", tiltCounter.get());
     		}
     		shooterWasGoingUp = true;
     	}
     	else if(power<0)
     	{
     		if(shooterWasGoingUp)
+    			
     		{
-    			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kRisingPulse);
+    			logger.info("Changing shooter counter to down, counter = {}", tiltCounter.get());
+    			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kInWindow);
     			tiltCounter.clearUpSource();
+    			
+    			logger.info("Changed shooter counter to down, counter = {}", tiltCounter.get());
     		}
     		shooterWasGoingUp = false;
     	}

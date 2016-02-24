@@ -39,7 +39,7 @@ public class RobotMap {
     public static SpeedController intakeSubsystemIntakeRollerTalonFront;
     public static SpeedController intakeSubsystemIntakeRollerTalonBack;
     public static AnalogInput shooterSubsystemTiltSensor;
-    public static AnalogInput dummySubsystemAnalogInput1;
+    public static AnalogInput dummySubsystemAnalogInput;
     public static DigitalInput armSubsystemHomeDigitalInput;
 
  
@@ -93,7 +93,7 @@ public class RobotMap {
         armSubsystemArmCANTalon = new CANTalon(1);
         LiveWindow.addActuator("ArmSubsystem", "ArmCANTalon", armSubsystemArmCANTalon);
         
-        intakeSubsystemBallSensorAnalogInput = new AnalogInput(0);
+        intakeSubsystemBallSensorAnalogInput = new AnalogInput(1);
         LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Analog Input", intakeSubsystemBallSensorAnalogInput);
         
         intakeSubsystemIntakeRollerEncoder = new Encoder(6, 7, false, EncodingType.k4X);
@@ -106,14 +106,14 @@ public class RobotMap {
         intakeSubsystemIntakeRollerTalonBack = new Talon(7);
         LiveWindow.addActuator("IntakeSubsystem", "IntakeRollerTalonBack", (Talon) intakeSubsystemIntakeRollerTalonBack);
         
-        dummySubsystemAnalogInput1 = new AnalogInput(1);
-        LiveWindow.addSensor("DummySubsystem", "Analog Input 1", dummySubsystemAnalogInput1);
+        dummySubsystemAnalogInput = new AnalogInput(2);
+        LiveWindow.addSensor("DummySubsystem", "Analog Input 2", dummySubsystemAnalogInput);
         
         armSubsystemHomeDigitalInput = new DigitalInput(5);
         LiveWindow.addSensor("ArmSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
         
-        shooterSubsystemTiltSensor = new AnalogInput(1);
-        LiveWindow.addSensor("ShooterSubsystem", "Analog Input 1", shooterSubsystemTiltSensor);
+        shooterSubsystemTiltSensor = new AnalogInput(0);
+        LiveWindow.addSensor("ShooterSubsystem", "Analog Input 0", shooterSubsystemTiltSensor);
         
         
 	}
