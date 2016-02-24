@@ -246,6 +246,9 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putNumber("DriveLeftEncoder", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
 		SmartDashboard.putNumber("DriveRightEncoder", RobotMap.driveSubsystemRightDriveEncoder.getDistance());		
+		
+		SmartDashboard.putNumber("Shooter Motor 2 Amps", RobotMap.shooterSubsystemShooterCANTalon2.getOutputCurrent());
+		SmartDashboard.putNumber("Shooter Motor 3 Amps", RobotMap.shooterSubsystemShooterCANTalon3.getOutputCurrent());
 	}
 
 	/*
