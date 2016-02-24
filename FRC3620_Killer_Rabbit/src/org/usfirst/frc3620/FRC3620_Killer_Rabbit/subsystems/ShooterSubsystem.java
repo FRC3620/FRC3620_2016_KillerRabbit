@@ -67,6 +67,8 @@ public class ShooterSubsystem extends Subsystem {
     boolean shooterWasRunning;
     boolean shooterWasGoingUp;
     
+    int tiltCounterBase = 0;
+    
     Timer timer = new Timer();
     
     /*public void ShootOut()
@@ -146,19 +148,28 @@ public class ShooterSubsystem extends Subsystem {
     	return tiltCounter.get();
     }
     
+ public int getTiltCounter(){
+    	
+    	return tiltCounterBase + tiltCounter.get();
+    }
+    
     public void getMoveTilt(double power)
     {
     	if(power>0)
     	{ 
     		if(!shooterWasGoingUp)
     		{
-    			logger.info("Changing shooter counter to up, counter = {}", tiltCounter.get());
+    			System.out.println("Changing shooter counter to up, counter " + tiltCounter.get());
+    			System.out.println("Manual counter " + getTiltCounter());
 
+    			tiltCounterBase = getTiltCounter();
+    			
     			tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kInWindow);
     			tiltCounter.clearDownSource();
     		
     			
-    			logger.info("Changed shooter counter to up, counter = {}", tiltCounter.get());
+    			System.out.println("Changing shooter counter to up, counter " + tiltCounter.get());
+    			System.out.println("Manual counter " + getTiltCounter());
     		}
     		shooterWasGoingUp = true;
     	}
@@ -167,11 +178,16 @@ public class ShooterSubsystem extends Subsystem {
     		if(shooterWasGoingUp)
     			
     		{
-    			logger.info("Changing shooter counter to down, counter = {}", tiltCounter.get());
+    			System.out.println("Changing shooter counter to down, counter " + tiltCounter.get());
+    			System.out.println("Manual counter " + getTiltCounter());
+    			
+    			tiltCounterBase = getTiltCounter();
+    			
     			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kInWindow);
     			tiltCounter.clearUpSource();
     			
-    			logger.info("Changed shooter counter to down, counter = {}", tiltCounter.get());
+    			System.out.println("Changing shooter counter to down, counter " + tiltCounter.get());
+    			System.out.println("Manual counter " + getTiltCounter());
     		}
     		shooterWasGoingUp = false;
     	}
