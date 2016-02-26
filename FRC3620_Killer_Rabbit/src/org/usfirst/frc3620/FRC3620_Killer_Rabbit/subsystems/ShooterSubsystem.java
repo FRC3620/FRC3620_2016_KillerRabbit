@@ -68,7 +68,11 @@ public class ShooterSubsystem extends Subsystem {
 	    	gearCounts = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("gearCounts", 14);
 	}
 
-    private final CANTalon shooterCANTalon2 = RobotMap.shooterSubsystemShooterCANTalon2;
+    public boolean isCounterIsValid() {
+		return counterIsValid;
+	}
+
+	private final CANTalon shooterCANTalon2 = RobotMap.shooterSubsystemShooterCANTalon2;
     private final CANTalon shooterCANTalon3 = RobotMap.shooterSubsystemShooterCANTalon3;
     private final SpeedController shooterPositionTalon = RobotMap.shooterSubsystemShooterPositionTalon;
     private final AnalogInput shooterTiltSensor  = RobotMap.shooterSubsystemTiltSensor;
