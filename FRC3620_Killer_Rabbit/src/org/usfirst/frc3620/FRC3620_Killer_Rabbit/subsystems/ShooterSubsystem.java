@@ -194,6 +194,15 @@ public class ShooterSubsystem extends Subsystem {
     	shooterPositionTalon.set(power);
     }
     
+    public void resetShooterTiltSensor()
+    {
+    	if(!RobotMap.shooterSubsystemHomeDigitalInput.get())
+    	{
+    		tiltCounter.reset();
+    		tiltCounterBase = 0;
+    	}
+    }
+    
     public void initDefaultCommand() {
 
     	setDefaultCommand(new ShooterTiltCommand());

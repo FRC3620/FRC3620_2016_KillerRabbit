@@ -9,6 +9,8 @@ public class ShooterSetPositionCommand extends Command {
 
 	double whatPositionWeWant = 0;
 	
+	//public void moveShooterToPosition()
+	
     public ShooterSetPositionCommand(double position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
