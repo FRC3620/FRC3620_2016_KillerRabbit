@@ -135,6 +135,9 @@ public class OI {
         SmartDashboard.putData("Move5Feet(.75)", new AutomatedMove(60, .75));
         SmartDashboard.putData("Move5Feet(.50)", new AutomatedMove(60, .5));
         SmartDashboard.putData("Move5Feet(.25)", new AutomatedMove(60, .25));
+        
+        SmartDashboard.putData("MoveShooterToCloseGoal", new ShooterSetCloseGoal());
+        SmartDashboard.putData("MoveShooterToLowBar", new ShooterSetHome());
 
     }
 
