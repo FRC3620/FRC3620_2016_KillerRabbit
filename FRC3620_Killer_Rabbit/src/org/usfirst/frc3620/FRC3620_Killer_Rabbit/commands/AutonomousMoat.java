@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AutonomousCDF extends CommandGroup {
+public class AutonomousMoat extends CommandGroup {
     
-    public  AutonomousCDF() {
+    public  AutonomousMoat() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,12 +28,7 @@ public class AutonomousCDF extends CommandGroup {
     	
     	
     	//AutomatedMove overshoots about 6"
-    	addSequential(new AutomatedMove(37, .65));
-    	addSequential(new ArmLowerCommand());
-    	addSequential(new AutoWaitForArmDownCommand());
-    	addSequential(new AutomatedMove(36, .80));
-    	addSequential(new ArmUpCommand());
-    	//addSequential(new AutoWaitForArmUpCommand());
-    	addSequential(new AutomatedMove(48, .75));
+    	addSequential(new AutomatedMove(144, .90));
+    	
     }
 }
