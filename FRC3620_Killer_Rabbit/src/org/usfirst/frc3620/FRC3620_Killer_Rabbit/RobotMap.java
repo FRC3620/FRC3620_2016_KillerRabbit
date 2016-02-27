@@ -35,7 +35,7 @@ public class RobotMap {
     public static SpeedController shooterSubsystemShooterPositionTalon;
     public static CANTalon armSubsystemArmCANTalon;
     public static AnalogInput intakeSubsystemBallSensorAnalogInput;
-    public static Encoder intakeSubsystemIntakeRollerEncoder;
+   //public static Encoder intakeSubsystemIntakeRollerEncoder;
     public static SpeedController intakeSubsystemIntakeRollerTalonFront;
     public static SpeedController intakeSubsystemIntakeRollerTalonBack;
     public static AnalogInput shooterSubsystemTiltSensor;
@@ -97,10 +97,11 @@ public class RobotMap {
         intakeSubsystemBallSensorAnalogInput = new AnalogInput(1);
         LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Analog Input", intakeSubsystemBallSensorAnalogInput);
         
-        intakeSubsystemIntakeRollerEncoder = new Encoder(6, 7, false, EncodingType.k4X);
-        LiveWindow.addSensor("IntakeSubsystem", "Intake RollerEncoder", intakeSubsystemIntakeRollerEncoder);
-        intakeSubsystemIntakeRollerEncoder.setDistancePerPulse(1.0);
-        intakeSubsystemIntakeRollerEncoder.setPIDSourceType(PIDSourceType.kRate);
+//        intakeSubsystemIntakeRollerEncoder = new Encoder(6, 7, false, EncodingType.k4X);
+//        LiveWindow.addSensor("IntakeSubsystem", "Intake RollerEncoder", intakeSubsystemIntakeRollerEncoder);
+//        intakeSubsystemIntakeRollerEncoder.setDistancePerPulse(1.0);
+//        intakeSubsystemIntakeRollerEncoder.setPIDSourceType(PIDSourceType.kRate);
+        
         intakeSubsystemIntakeRollerTalonFront = new Talon(6);
         LiveWindow.addActuator("IntakeSubsystem", "IntakeRollerTalonFront", (Talon) intakeSubsystemIntakeRollerTalonFront);
         
@@ -112,10 +113,10 @@ public class RobotMap {
         LiveWindow.addSensor("DummySubsystem", "Analog Input 2", dummySubsystemAnalogInput);
         
         armSubsystemHomeDigitalInput = new DigitalInput(5);
-        LiveWindow.addSensor("ShooterSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
+        LiveWindow.addSensor("ArmSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
         
-        shooterSubsystemHomeDigitalInput = new DigitalInput(0);
-        LiveWindow.addSensor("ArmSubsystem", "Digital Input 0", shooterSubsystemHomeDigitalInput);
+        shooterSubsystemHomeDigitalInput = new DigitalInput(6);
+        LiveWindow.addSensor("ShooterSubsystem", "Digital Input 6", shooterSubsystemHomeDigitalInput);
         
         shooterSubsystemTiltSensor = new AnalogInput(0);
         LiveWindow.addSensor("ShooterSubsystem", "Analog Input 0", shooterSubsystemTiltSensor);
