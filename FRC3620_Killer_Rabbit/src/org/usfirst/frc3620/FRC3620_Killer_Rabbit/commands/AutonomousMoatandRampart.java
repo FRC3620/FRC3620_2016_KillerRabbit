@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AutonomousMoat extends CommandGroup {
+public class AutonomousMoatandRampart extends CommandGroup {
     
-    public  AutonomousMoat() {
+    public  AutonomousMoatandRampart() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,7 +28,7 @@ public class AutonomousMoat extends CommandGroup {
     	
     	
     	//AutomatedMove overshoots about 6"
-    	addSequential(new AutomatedMove(144, .90));
+    	addSequential(new AutomatedMove(192, .90));
     	
     }
 }
