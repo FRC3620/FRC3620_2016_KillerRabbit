@@ -1,19 +1,22 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Autonomous1 extends Command {
+public class ResetNavXCommand extends Command {
 
-    public Autonomous1() {
+    public ResetNavXCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.driveSubsystem.resetNavX();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -22,7 +25,7 @@ public class Autonomous1 extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

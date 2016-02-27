@@ -26,7 +26,7 @@ public class AutonomousMoatandRampart extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	
+    	addSequential(new ResetNavXCommand());
     	//AutomatedMove overshoots about 6"
     	addSequential(new AutomatedMove(192, .90));
     	
