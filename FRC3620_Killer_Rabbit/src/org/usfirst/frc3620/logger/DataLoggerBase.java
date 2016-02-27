@@ -57,7 +57,7 @@ abstract public class DataLoggerBase implements IDataLogger {
 
         startTimer();
 
-        if (outputFile != null) {
+        if (outputFile == null) {
             return "";
         } else {
             return outputFile.getAbsolutePath();

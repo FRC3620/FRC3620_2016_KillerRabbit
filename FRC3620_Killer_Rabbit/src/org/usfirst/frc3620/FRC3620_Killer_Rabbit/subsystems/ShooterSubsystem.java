@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.AnalogTriggerOutput.AnalogTriggerType;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.InterruptHandlerFunction;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -64,9 +65,33 @@ public class ShooterSubsystem extends Subsystem {
 	    		tiltCounter.reset();
 	    		tiltCounterBase = 0;
 	    	}
+	    	else {
+				//Arm not home, set for homing.
+				RobotMap.shooterSubsystemHomeDigitalInput.requestInterrupts(new MyHandler());
+				RobotMap.shooterSubsystemHomeDigitalInput.setUpSourceEdge(false, true);
+				RobotMap.shooterSubsystemHomeDigitalInput.enableInterrupts();	
+			}
+	    
 		
 	    	gearCounts = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("gearCounts", 14);
+	    	logger.info("Gear Counts: {}", gearCounts);
 	}
+    
+    class MyHandler extends InterruptHandlerFunction<Void> {
+
+		@Override
+		public void interruptFired(int interruptAssertedMask, Void param) {
+			logger.info("Interrupt happened.");
+			if (!isCounterIsValid()) {
+	    		counterIsValid = true;
+	    		tiltCounter.reset();
+	    		tiltCounterBase = 0;
+				logger.info("Counter is now valid.");
+				RobotMap.shooterSubsystemHomeDigitalInput.disableInterrupts();
+			}
+		}
+    	
+    }
 
     public boolean isCounterIsValid() {
 		return counterIsValid;
@@ -184,8 +209,8 @@ public class ShooterSubsystem extends Subsystem {
     	{ 
     		if(!shooterWasGoingUp)
     		{
-    			System.out.println("Changing shooter counter to up, counter " + tiltCounter.get());
-    			System.out.println("Manual counter " + getTiltCounter());
+    			logger.info("Changing shooter counter to up, counter " + tiltCounter.get());
+    			logger.info("Manual counter " + getTiltCounter());
 
     			tiltCounterBase = getTiltCounter();
     			
@@ -193,8 +218,8 @@ public class ShooterSubsystem extends Subsystem {
     			tiltCounter.clearDownSource();
     		
     			
-    			System.out.println("Changing shooter counter to up, counter " + tiltCounter.get());
-    			System.out.println("Manual counter " + getTiltCounter());
+    			logger.info("Changing shooter counter to up, counter " + tiltCounter.get());
+    			logger.info("Manual counter " + getTiltCounter());
     		}
     		shooterWasGoingUp = true;
     	}
@@ -203,16 +228,16 @@ public class ShooterSubsystem extends Subsystem {
     		if(shooterWasGoingUp)
     			
     		{
-    			System.out.println("Changing shooter counter to down, counter " + tiltCounter.get());
-    			System.out.println("Manual counter " + getTiltCounter());
+    			logger.info("Changing shooter counter to down, counter " + tiltCounter.get());
+    			logger.info("Manual counter " + getTiltCounter());
     			
     			tiltCounterBase = getTiltCounter();
     			
     			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kInWindow);
     			tiltCounter.clearUpSource();
     			
-    			System.out.println("Changing shooter counter to down, counter " + tiltCounter.get());
-    			System.out.println("Manual counter " + getTiltCounter());
+    			logger.info("Changing shooter counter to down, counter " + tiltCounter.get());
+    			logger.info("Manual counter " + getTiltCounter());
     		}
     		shooterWasGoingUp = false;
     	}

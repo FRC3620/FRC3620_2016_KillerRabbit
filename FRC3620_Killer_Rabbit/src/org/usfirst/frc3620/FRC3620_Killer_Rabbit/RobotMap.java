@@ -107,6 +107,7 @@ public class RobotMap {
         intakeSubsystemIntakeRollerTalonBack = new Talon(7);
         LiveWindow.addActuator("IntakeSubsystem", "IntakeRollerTalonBack", (Talon) intakeSubsystemIntakeRollerTalonBack);
         
+
         dummySubsystemAnalogInput = new AnalogInput(2);
         LiveWindow.addSensor("DummySubsystem", "Analog Input 2", dummySubsystemAnalogInput);
         

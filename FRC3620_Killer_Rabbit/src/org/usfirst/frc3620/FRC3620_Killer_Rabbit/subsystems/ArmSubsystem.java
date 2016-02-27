@@ -19,6 +19,7 @@ import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.InterruptHandlerFunction;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Timer;
@@ -56,7 +57,7 @@ public class ArmSubsystem extends Subsystem {
 		armCANTalon.enableBrakeMode(true);
 		// SIMs need reverseSensor(true), BAGs need false.
 		armCANTalon.reverseSensor(true);
-		armCANTalon.setPID(0.3, .00001, 0.01);
+		armCANTalon.setPID(0.4, .00001, 0.01);
 		armCANTalon.setPosition(topSetPoint);
 		// logger.info("encoder position is " + armCANTalon.getEncPosition());
 		// armCANTalon.setEncPosition(0);
@@ -64,11 +65,35 @@ public class ArmSubsystem extends Subsystem {
 		// armCANTalon.getEncPosition());
 		moveManually(0);
 
+		//Check limit switch for homing.
 		if (RobotMap.armSubsystemHomeDigitalInput.get() == false) {
+			//Arm is homed, encoder valid.
 			encoderIsValid = true;
+			armCANTalon.setPosition(topSetPoint);
+		}
+		else {
+			//Arm not home, set for homing.
+			RobotMap.armSubsystemHomeDigitalInput.requestInterrupts(new MyHandler());
+			RobotMap.armSubsystemHomeDigitalInput.setUpSourceEdge(false, true);
+			RobotMap.armSubsystemHomeDigitalInput.enableInterrupts();	
 		}
 		logger.info("encoder is valid = {} ", encoderIsValid);
 	}
+	
+	class MyHandler extends InterruptHandlerFunction<Void> {
+
+		@Override
+		public void interruptFired(int interruptAssertedMask, Void param) {
+			logger.info("Interrupt happened.");
+			if (encoderIsValid == false) {
+				armCANTalon.setPosition(topSetPoint);
+				encoderIsValid = true;
+				logger.info("Encoder is now valid.");
+				RobotMap.armSubsystemHomeDigitalInput.disableInterrupts();
+			}
+		}
+    	
+    }
 
 	public boolean getEncoderIsValid() {
 		return encoderIsValid;
@@ -109,6 +134,8 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	void moveArmToSetpoint(double position, double p, double i, double d) {
+		if (encoderIsValid) {
+			
 		if (weAreInManualMode) {
 			logger.info("flipping into automatic");
 			armCANTalon.changeControlMode(TalonControlMode.Position);
@@ -117,7 +144,10 @@ public class ArmSubsystem extends Subsystem {
 		// TODO set PID from p, i, d
 		armCANTalon.setSetpoint(position);
 		logger.info("setting setpoint = " + position);
-
+		}
+		else {
+			logger.info("Ignoring moveArmToSetpoint because encoder isn't valid");
+		}
 	}
 
 	public void goIntoAutomaticMode() {

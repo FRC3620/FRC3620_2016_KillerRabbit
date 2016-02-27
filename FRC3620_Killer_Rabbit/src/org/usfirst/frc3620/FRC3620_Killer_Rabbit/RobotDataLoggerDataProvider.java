@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
     Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
-    boolean pdbIsPresent = false;
+    boolean pdpIsPresent = false;
     boolean armTalonIsPresent = false;
 
     DriveSubsystem driveSubsystem = Robot.driveSubsystem;
@@ -31,9 +31,9 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
         timer.reset();
         timer.start();
 
-        pdbIsPresent = Robot.canDeviceFinder.isPDPPresent();
+        pdpIsPresent = Robot.canDeviceFinder.isPDPPresent();
         armTalonIsPresent = Robot.canDeviceFinder.isSRXPresent(armTalon);
-        logger.info("PDP present = {}, armTalon present = {}", pdbIsPresent,
+        logger.info("PDP present = {}, armTalon present = {}", pdpIsPresent,
                 armTalonIsPresent);
     }
 
@@ -44,19 +44,19 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 "robotModeInt", //
 
                 "batteryVoltage", //
-                "totalCurrent", //
-                "totalPower", //
-                "totalEnergy", //
+                "pdp.totalCurrent", //
+                "pdp.totalPower", //
+                "pdp.totalEnergy", //
 
-                "lf.power", //
-                "lr.power", //
-                "rf.power", //
-                "rr.power", //
+                "drive.lf.power", //
+                "drive.lr.power", //
+                "drive.rf.power", //
+                "drive.rr.power", //
 
-                "lf.current", //
-                "lr.current", //
-                "rf.current", //
-                "rr.current", //
+                "drive.lf.current", //
+                "drive.lr.current", //
+                "drive.rf.current", //
+                "drive.rr.current", //
 
                 "armTalon.error", //
                 "armTalon.current", //
@@ -84,19 +84,19 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 Robot.currentRobotMode.ordinal(), //
 
                 f2(driverStation.getBatteryVoltage()), //
-                pdbIsPresent ? f2(powerDistributionPanel.getTotalCurrent()) : 0, //
-                pdbIsPresent ? f2(powerDistributionPanel.getTotalPower()) : 0, //
-                pdbIsPresent ? f2(powerDistributionPanel.getTotalEnergy()) : 0, //
+                pdpIsPresent ? f2(powerDistributionPanel.getTotalCurrent()) : 0, //
+                pdpIsPresent ? f2(powerDistributionPanel.getTotalPower()) : 0, //
+                pdpIsPresent ? f2(powerDistributionPanel.getTotalEnergy()) : 0, //
 
                 f2(RobotMap.driveSubsystemLeftFront.get()), //
                 f2(RobotMap.driveSubsystemLeftRear.get()), //
                 f2(RobotMap.driveSubsystemRightFront.get()), //
                 f2(RobotMap.driveSubsystemRightRear.get()), //
 
-                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(12)) : 0, //
-                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(13)) : 0, //
-                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(14)) : 0, //
-                pdbIsPresent ? f2(powerDistributionPanel.getCurrent(15)) : 0, //
+                pdpIsPresent ? f2(powerDistributionPanel.getCurrent(12)) : 0, //
+                pdpIsPresent ? f2(powerDistributionPanel.getCurrent(13)) : 0, //
+                pdpIsPresent ? f2(powerDistributionPanel.getCurrent(14)) : 0, //
+                pdpIsPresent ? f2(powerDistributionPanel.getCurrent(15)) : 0, //
 
                 armTalonIsPresent ? f2(armTalon.getClosedLoopError()) : 0, //
                 armTalonIsPresent ? f2(armTalon.getOutputCurrent()) : 0, //
