@@ -78,12 +78,16 @@ public class AutomatedMove extends Command implements PIDOutput{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	
+    	logger.info("Left Encoder: {}", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
+    	logger.info("Right Encoder: {}", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
+    	
     	if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
     	{
     		return true;
   
     	}
-    	else if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
+    	else if(RobotMap.driveSubsystemRightDriveEncoder.getDistance() > howFarWeWantToMove)
     	{
     		return true;
     	}

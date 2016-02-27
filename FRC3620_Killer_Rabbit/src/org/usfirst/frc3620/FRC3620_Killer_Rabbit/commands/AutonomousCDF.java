@@ -26,12 +26,14 @@ public class AutonomousCDF extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new AutomatedMove(36, .50));
+    	
+    	//AutomatedMove overshoots about 6"
+    	addSequential(new AutomatedMove(37, .65));
     	addSequential(new ArmLowerCommand());
     	addSequential(new AutoWaitForArmDownCommand());
-    	addSequential(new AutomatedMove(12, .50));
+    	addSequential(new AutomatedMove(36, .85));
     	addSequential(new ArmUpCommand());
-    	addSequential(new AutoWaitForArmUpCommand());
-    	addSequential(new AutomatedMove(24, .50));
+    	//addSequential(new AutoWaitForArmUpCommand());
+    	addSequential(new AutomatedMove(48, .80));
     }
 }
