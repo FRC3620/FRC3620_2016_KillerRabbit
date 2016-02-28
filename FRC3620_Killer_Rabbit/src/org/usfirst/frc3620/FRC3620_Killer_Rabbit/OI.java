@@ -94,7 +94,7 @@ public class OI {
 
 
         // SmartDashboard Buttons
-        SmartDashboard.putData("Autonomous1Command", new Autonomous1Command());
+        SmartDashboard.putData("Autonomous1Command", new AutonomousDoNothingCommand());
         SmartDashboard.putData("AutonomousLowBar", new AutonomousLowBar());
         SmartDashboard.putData("ArmUpCommand", new ArmUpCommand());
         SmartDashboard.putData("ArmLowerCommand", new ArmLowerCommand());
