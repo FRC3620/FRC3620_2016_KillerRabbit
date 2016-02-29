@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AutonomousPortcullis extends CommandGroup {
+public class AutonomousReachDefense extends CommandGroup {
     
-    public  AutonomousPortcullis() {
+    public  AutonomousReachDefense() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,13 +28,8 @@ public class AutonomousPortcullis extends CommandGroup {
     	
     	
     	//AutomatedMove overshoots about 6"
-    	//addSequential(new AutomatedMove(37, .65));
     	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(40, .65));
-    	addSequential(new ArmLowerCommand());
-    	addSequential(new AutoWaitForArmDownCommand());
-    	addSequential(new AutomatedMoveTimed(2, .58));
-    	addSequential(new ArmUpCommand());
-    	addSequential(new AutomatedMove(90, 1));
+    	addSequential(new AutomatedMove(40, .85));
+    	
     }
 }
