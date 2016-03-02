@@ -34,7 +34,7 @@ public class RobotMap {
     public static CANTalon shooterSubsystemShooterCANTalon3;
     public static SpeedController shooterSubsystemShooterPositionTalon;
     public static CANTalon armSubsystemArmCANTalon;
-    public static AnalogInput intakeSubsystemBallSensorAnalogInput;
+    public static DigitalInput intakeSubsystemBallSensorDigitalInput;
    //public static Encoder intakeSubsystemIntakeRollerEncoder;
     public static SpeedController intakeSubsystemIntakeRollerTalonFront;
     public static SpeedController intakeSubsystemIntakeRollerTalonBack;
@@ -94,8 +94,8 @@ public class RobotMap {
         armSubsystemArmCANTalon = new CANTalon(1);
         LiveWindow.addActuator("ArmSubsystem", "ArmCANTalon", armSubsystemArmCANTalon);
         
-        intakeSubsystemBallSensorAnalogInput = new AnalogInput(1);
-        LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Analog Input", intakeSubsystemBallSensorAnalogInput);
+        intakeSubsystemBallSensorDigitalInput = new DigitalInput(0);
+        LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Digital Input", intakeSubsystemBallSensorDigitalInput);
         
 //        intakeSubsystemIntakeRollerEncoder = new Encoder(6, 7, false, EncodingType.k4X);
 //        LiveWindow.addSensor("IntakeSubsystem", "Intake RollerEncoder", intakeSubsystemIntakeRollerEncoder);

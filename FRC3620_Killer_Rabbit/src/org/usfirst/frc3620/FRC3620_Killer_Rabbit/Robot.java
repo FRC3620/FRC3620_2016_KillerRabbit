@@ -250,6 +250,8 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("Counter Is Valid", Robot.shooterSubsystem.isCounterIsValid());
 		
+		SmartDashboard.putBoolean("Ball In Intake", Robot.intakeSubsystem.ballIsInIntake());
+		
 		
 		//SmartDashboard.putNumber("Shooter position Encoder",);
 		
