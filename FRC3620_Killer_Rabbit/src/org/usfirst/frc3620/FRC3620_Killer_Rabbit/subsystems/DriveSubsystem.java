@@ -198,7 +198,7 @@ public class DriveSubsystem extends Subsystem {
 		// interface
 
 		try {
-			camera0 = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+			camera0 = NIVision.IMAQdxOpenCamera("cam2", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 			haveCamera0 = true;
 			logger.info("we have camera 0");
 		} catch (VisionException ex) {
