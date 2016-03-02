@@ -34,12 +34,14 @@ public class RobotMap {
     public static CANTalon shooterSubsystemShooterCANTalon3;
     public static SpeedController shooterSubsystemShooterPositionTalon;
     public static CANTalon armSubsystemArmCANTalon;
-    public static AnalogInput intakeSubsystemBallSensorAnalogInput;
-    public static Encoder intakeSubsystemIntakeRollerEncoder;
+    public static DigitalInput intakeSubsystemBallSensorDigitalInput;
+   //public static Encoder intakeSubsystemIntakeRollerEncoder;
     public static SpeedController intakeSubsystemIntakeRollerTalonFront;
     public static SpeedController intakeSubsystemIntakeRollerTalonBack;
-    public static AnalogInput dummySubsystemAnalogInput1;
+    public static AnalogInput shooterSubsystemTiltSensor;
+    public static AnalogInput dummySubsystemAnalogInput;
     public static DigitalInput armSubsystemHomeDigitalInput;
+    public static DigitalInput shooterSubsystemHomeDigitalInput;
 
  
 
@@ -92,23 +94,33 @@ public class RobotMap {
         armSubsystemArmCANTalon = new CANTalon(1);
         LiveWindow.addActuator("ArmSubsystem", "ArmCANTalon", armSubsystemArmCANTalon);
         
-        intakeSubsystemBallSensorAnalogInput = new AnalogInput(0);
-        LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Analog Input", intakeSubsystemBallSensorAnalogInput);
+        intakeSubsystemBallSensorDigitalInput = new DigitalInput(0);
+        LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Digital Input", intakeSubsystemBallSensorDigitalInput);
         
-        intakeSubsystemIntakeRollerEncoder = new Encoder(6, 7, false, EncodingType.k4X);
-        LiveWindow.addSensor("IntakeSubsystem", "Intake RollerEncoder", intakeSubsystemIntakeRollerEncoder);
-        intakeSubsystemIntakeRollerEncoder.setDistancePerPulse(1.0);
-        intakeSubsystemIntakeRollerEncoder.setPIDSourceType(PIDSourceType.kRate);
+//        intakeSubsystemIntakeRollerEncoder = new Encoder(6, 7, false, EncodingType.k4X);
+//        LiveWindow.addSensor("IntakeSubsystem", "Intake RollerEncoder", intakeSubsystemIntakeRollerEncoder);
+//        intakeSubsystemIntakeRollerEncoder.setDistancePerPulse(1.0);
+//        intakeSubsystemIntakeRollerEncoder.setPIDSourceType(PIDSourceType.kRate);
+        
         intakeSubsystemIntakeRollerTalonFront = new Talon(6);
         LiveWindow.addActuator("IntakeSubsystem", "IntakeRollerTalonFront", (Talon) intakeSubsystemIntakeRollerTalonFront);
         
         intakeSubsystemIntakeRollerTalonBack = new Talon(7);
         LiveWindow.addActuator("IntakeSubsystem", "IntakeRollerTalonBack", (Talon) intakeSubsystemIntakeRollerTalonBack);
         
-        dummySubsystemAnalogInput1 = new AnalogInput(1);
-        LiveWindow.addSensor("DummySubsystem", "Analog Input 1", dummySubsystemAnalogInput1);
+
+        dummySubsystemAnalogInput = new AnalogInput(2);
+        LiveWindow.addSensor("DummySubsystem", "Analog Input 2", dummySubsystemAnalogInput);
         
         armSubsystemHomeDigitalInput = new DigitalInput(5);
         LiveWindow.addSensor("ArmSubsystem", "Digital Input 5", armSubsystemHomeDigitalInput);
+        
+        shooterSubsystemHomeDigitalInput = new DigitalInput(6);
+        LiveWindow.addSensor("ShooterSubsystem", "Digital Input 6", shooterSubsystemHomeDigitalInput);
+        
+        shooterSubsystemTiltSensor = new AnalogInput(0);
+        LiveWindow.addSensor("ShooterSubsystem", "Analog Input 0", shooterSubsystemTiltSensor);
+        
+        
 	}
 }

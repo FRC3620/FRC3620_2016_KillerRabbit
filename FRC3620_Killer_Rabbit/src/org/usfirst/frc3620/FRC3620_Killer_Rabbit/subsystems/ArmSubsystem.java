@@ -185,50 +185,54 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	public void moveManually(double directionAndSpeed) {
-		// Positive direction and speed moves us towards smaller setpoints.
-		// Smaller setpoints are up.
-		
-		
-		if (!weAreInManualMode) {
-			logger.info("flipping into manual");
-			armCANTalon.changeControlMode(TalonControlMode.PercentVbus);
-			weAreInManualMode = true;
+		if (Robot.canDeviceFinder.isSRXPresent(armCANTalon)) {
+			// Positive direction and speed moves us towards smaller setpoints.
+			// Smaller setpoints are up.
 
-		}
-		double adjustedPower = 0;
-		double position = armCANTalon.getPosition();
-		if (encoderIsValid) {
-			if (directionAndSpeed > 0) {
-				// moves up toward a smaller top setpoint.
-				if (position < topSetPoint) {
-					adjustedPower = 0;
-				} else if (position < topSetPoint + cushion) {
+			if (!weAreInManualMode) {
+				logger.info("flipping into manual");
+				armCANTalon.changeControlMode(TalonControlMode.PercentVbus);
+				weAreInManualMode = true;
+
+			}
+			double adjustedPower = 0;
+			double position = armCANTalon.getPosition();
+			if (encoderIsValid) {
+				if (directionAndSpeed > 0) {
+					// moves up toward a smaller top setpoint.
+					if (position < topSetPoint) {
+						adjustedPower = 0;
+					} else if (position < topSetPoint + cushion) {
+						adjustedPower = Math.min(creepPower, directionAndSpeed);
+					} else {
+						adjustedPower = directionAndSpeed;
+					}
+				} else {
+					if (position > bottomSetPoint) {
+						adjustedPower = 0;
+					} else if (position > bottomSetPoint - cushion) {
+						adjustedPower = Math.max(-creepPower,
+								directionAndSpeed);
+					} else {
+						adjustedPower = directionAndSpeed;
+					}
+				}
+			} else {
+				if (directionAndSpeed > 0) {
+					// moves up toward a smaller top setpoint.
 					adjustedPower = Math.min(creepPower, directionAndSpeed);
 				} else {
-					adjustedPower = directionAndSpeed;
-				}
-			} else {
-				if (position > bottomSetPoint) {
-					adjustedPower = 0;
-				} else if (position > bottomSetPoint - cushion) {
 					adjustedPower = Math.max(-creepPower, directionAndSpeed);
-				} else {
-					adjustedPower = directionAndSpeed;
 				}
 			}
-		} else {
-			if (directionAndSpeed > 0) {
-				// moves up toward a smaller top setpoint.
-				adjustedPower = Math.min(creepPower, directionAndSpeed);
-			} else {
-				adjustedPower = Math.max(-creepPower, directionAndSpeed);
+			// if direction and speed are positive, it should move up.
+			// Therefore,
+			// negative power.
+			armCANTalon.set(-adjustedPower);
+			if (adjustedPower != directionAndSpeed) {
+				logger.info("arm power {} adjusted to {}", directionAndSpeed,
+						adjustedPower);
 			}
-		}
-		// if direction and speed are positive, it should move up. Therefore,
-		// negative power.
-		armCANTalon.set(-adjustedPower);
-		if (adjustedPower != directionAndSpeed) {
-			logger.info("arm power {} adjusted to {}", directionAndSpeed, adjustedPower);
 		}
 	}
 	

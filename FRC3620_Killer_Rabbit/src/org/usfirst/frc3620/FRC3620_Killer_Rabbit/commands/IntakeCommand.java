@@ -68,10 +68,10 @@ public class IntakeCommand extends Command {
     		
     	}
     	else {
-    		//boolean joystickButtonIsPressed = Robot.oi.intakeButton.get();
-    		//logger.info("IntakeCommand: ispressed = {}, waspressed = {}", joystickButtonIsPressed, joystickButtonWasPressed);
-    		//if (joystickButtonIsPressed && !joystickButtonWasPressed) return true;
-    		//joystickButtonWasPressed = Robot.oi.intakeButton.get();
+    			//boolean joystickButtonIsPressed = Robot.oi.intakeButton.get();
+    			//logger.info("IntakeCommand: ispressed = {}, waspressed = {}", joystickButtonIsPressed, joystickButtonWasPressed);
+    			//if (joystickButtonIsPressed && !joystickButtonWasPressed) return true;
+    			//joystickButtonWasPressed = Robot.oi.intakeButton.get();
     		if (Robot.intakeSubsystem.ballIsInIntake()) return true;
     	}
         return false;
