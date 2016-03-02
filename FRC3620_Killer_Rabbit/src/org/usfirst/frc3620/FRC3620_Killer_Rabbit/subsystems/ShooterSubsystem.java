@@ -44,7 +44,7 @@ public class ShooterSubsystem extends Subsystem {
     private final AnalogInput shooterTiltSensor  = RobotMap.shooterSubsystemTiltSensor;
     private final DigitalInput shooterHomeDigitalInput = RobotMap.shooterSubsystemHomeDigitalInput;
     
-    AnalogTrigger analogTrigger;
+    public AnalogTrigger analogTrigger;
     
     Counter tiltCounter;
     boolean shooterWasRunning;
@@ -61,9 +61,10 @@ public class ShooterSubsystem extends Subsystem {
 		super();
 		
 		analogTrigger = new AnalogTrigger(shooterTiltSensor);
-		analogTrigger.setLimitsVoltage(3.6, 5);
+		analogTrigger.setLimitsVoltage(3.1, 3.3);
+		analogTrigger.setAveraged(true);
 		tiltCounter = new Counter();
-		tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kInWindow);
+		tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
 		tiltCounter.clearDownSource();
 		shooterWasGoingUp = true;
 		counterIsValid = false;
@@ -212,7 +213,7 @@ public class ShooterSubsystem extends Subsystem {
 
     			tiltCounterBase = getTiltCounter();
     			
-    			tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kInWindow);
+    			tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
     			tiltCounter.clearDownSource();
     		
     			
@@ -231,7 +232,7 @@ public class ShooterSubsystem extends Subsystem {
     			
     			tiltCounterBase = getTiltCounter();
     			
-    			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kInWindow);
+    			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kRisingPulse);
     			tiltCounter.clearUpSource();
     			
     			logger.info("Changing shooter counter to down, counter " + tiltCounter.get());
