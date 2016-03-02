@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AutonomousCDF extends CommandGroup {
+public class AutonomousMoatandRampart extends CommandGroup {
     
-    public  AutonomousCDF() {
+    public  AutonomousMoatandRampart() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,15 +26,9 @@ public class AutonomousCDF extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	
-    	//AutomatedMove overshoots about 6"
     	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(37, .65));
-    	addSequential(new ArmLowerCommand());
-    	addSequential(new AutoWaitForArmDownCommand());
-    	addSequential(new AutomatedMove(36, .80));
-    	addSequential(new ArmUpCommand());
-    	//addSequential(new AutoWaitForArmUpCommand());
-    	addSequential(new AutomatedMove(48, .75));
+    	//AutomatedMove overshoots about 6"
+    	addSequential(new AutomatedMove(192, .90));
+    	
     }
 }

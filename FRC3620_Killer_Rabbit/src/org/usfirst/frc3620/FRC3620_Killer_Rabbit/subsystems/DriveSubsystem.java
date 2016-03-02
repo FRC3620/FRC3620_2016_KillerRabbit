@@ -163,6 +163,7 @@ public class DriveSubsystem extends Subsystem {
 		if(robotMode==RobotMode.TELEOP || robotMode==RobotMode.AUTONOMOUS)
 		{
 		resetNavX();
+		logger.info("NavX is resetting");
 		resetEncoders();
 		automaticHeading = 0;
 		}

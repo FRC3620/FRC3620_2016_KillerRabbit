@@ -14,11 +14,12 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
  */
-public class AutomatedMove extends Command implements PIDOutput{
+public class AutomatedMoveTimed extends Command implements PIDOutput{
 	
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
@@ -33,20 +34,22 @@ public class AutomatedMove extends Command implements PIDOutput{
 	static final double kF = .00;
 	double sideStick;
 	
-	double howFarWeWantToMove = 0;
+	double howLongWeWantToMove = 0;
 	double howFastToMove = 0;
+	
+	Timer timer = new Timer();
 	
 	PIDController pidDriveStraight = new PIDController(kP, kI, kD, kF, Robot.driveSubsystem.getAhrs(), this);
 	
 
-    public AutomatedMove(double howFar, double howFast) {
+    public AutomatedMoveTimed(double howLongInSeconds, double howFast) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	pidDriveStraight.setOutputRange(-1, 1);
    
     	howFastToMove = howFast;
-    	howFarWeWantToMove = howFar;
+    	howLongWeWantToMove = howLongInSeconds;
     }
     
     
@@ -60,6 +63,8 @@ public class AutomatedMove extends Command implements PIDOutput{
         pidDriveStraight.setSetpoint(Robot.driveSubsystem.getAutomaticHeading());
     	pidDriveStraight.enable();
     	
+    	timer.reset();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -79,24 +84,8 @@ public class AutomatedMove extends Command implements PIDOutput{
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
-    	logger.info("Left Encoder: {}", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
-    	logger.info("Right Encoder: {}", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
+    	return timer.get() > howLongWeWantToMove;
     	
-    	if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
-    	{
-    		return true;
-  
-    	}
-    	else if(RobotMap.driveSubsystemRightDriveEncoder.getDistance() > howFarWeWantToMove)
-    	{
-    		return true;
-    	}
-    	
-    	else
-    	{
-    		return false;
-    	}
-
     }
 
     // Called once after isFinished returns true
