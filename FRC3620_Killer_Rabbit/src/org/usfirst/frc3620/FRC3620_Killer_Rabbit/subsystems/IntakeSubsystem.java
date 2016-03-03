@@ -54,13 +54,17 @@ public class IntakeSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+    boolean weAreUnsticking = false;
+    public boolean getweAreUnsticking () {
+    	return weAreUnsticking;
+    }
     boolean weAreIntaking = false;
     public boolean getWeAreIntaking (){
     	return weAreIntaking;
     }
     public boolean ballIsInIntake(){
     	
-    	return ballSensorDigitalInput.get();
+    	return !ballSensorDigitalInput.get();
     	
     }
 	public void takeIn () {
@@ -83,7 +87,12 @@ public class IntakeSubsystem extends Subsystem {
 		intakeRollerTalonBack.set(0);
 		intakeRollerTalonFront.set(0);
 		weAreIntaking = false;
+		weAreUnsticking = false;
 	}
-
+	public void ballIsStuck () {
+		intakeRollerTalonFront.set(0.5);
+		intakeRollerTalonBack.set(0.5);
+		weAreUnsticking = true;
+	}
 }
 
