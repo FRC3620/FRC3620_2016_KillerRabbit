@@ -31,7 +31,7 @@ public class RunShooterCommand extends Command {
 		
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-	double shooterPower = 0;
+	double shooterVoltage = 0;
 	
 		
 
@@ -54,15 +54,15 @@ public class RunShooterCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	shooterPower = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Shooter Power", .5);
-    	logger.info("Shooter power: {}", shooterPower);
-    	SmartDashboard.putNumber("ShooterPower", shooterPower);
+    	shooterVoltage = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Shooter Voltage", 9.0);
+    	logger.info("Shooter voltage: {}", shooterVoltage);
+    	SmartDashboard.putNumber("ShooterVoltage", shooterVoltage);
     	//Robot.shooterSubsystem.setUpTalons();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooterSubsystem.setPower(shooterPower);
+    	Robot.shooterSubsystem.setShooterVoltage(shooterVoltage);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -72,7 +72,7 @@ public class RunShooterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooterSubsystem.setPower(0);
+    	Robot.shooterSubsystem.setShooterVoltage(0);
     	logger.info("Shoot Command End");
     	SmartDashboard.putNumber("ShooterPower", 0);
     }

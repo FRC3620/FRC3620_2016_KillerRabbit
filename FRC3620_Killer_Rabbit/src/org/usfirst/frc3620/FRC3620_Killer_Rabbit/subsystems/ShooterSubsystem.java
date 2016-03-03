@@ -69,7 +69,14 @@ public class ShooterSubsystem extends Subsystem {
 		shooterWasGoingUp = true;
 		counterIsValid = false;
 		
-		shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		shooterCANTalon2.changeControlMode(CANTalon.TalonControlMode.Voltage);
+		shooterCANTalon2.setVoltageCompensationRampRate(24.0);
+		shooterCANTalon2.enableBrakeMode(false);
+		
+		shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.Voltage);
+		shooterCANTalon3.setVoltageCompensationRampRate(24.0);
+		shooterCANTalon3.enableBrakeMode(false);
+		
 		//shooterCANTalon3.set(shooterCANTalon2.getDeviceID());
 		
 		// TODO Auto-generated constructor stub
@@ -128,12 +135,12 @@ public class ShooterSubsystem extends Subsystem {
     	shooterCANTalon2.set(0)
     }*/
     
-    public void setPower(double power)
+    public void setShooterVoltage(double voltage)
     {
     	
-    	shooterCANTalon2.set(power);
-    	shooterCANTalon3.set(power);
-		if (power == 0) 
+    	shooterCANTalon2.set(voltage);
+    	shooterCANTalon3.set(voltage);
+		if (voltage == 0) 
 		{
 			//Motors are off here.
 			if (shooterWasRunning)
