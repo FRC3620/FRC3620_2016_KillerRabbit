@@ -245,14 +245,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("NavX Roll",Robot.driveSubsystem.getRoll());
 		SmartDashboard.putNumber("NavX Pitch",Robot.driveSubsystem.getPitch());
 		
-		SmartDashboard.putNumber("Shooter Tilt", Robot.shooterSubsystem.getCounterValue());
 		SmartDashboard.putNumber("Analog Tilt input", RobotMap.shooterSubsystemTiltSensor.getVoltage());
 		SmartDashboard.putNumber("Tilt Counter", Robot.shooterSubsystem.getCounterValue());
-		SmartDashboard.putNumber("Counter Veds", Robot.shooterSubsystem.getTiltVeds());
-		SmartDashboard.putBoolean("InWindow", Robot.shooterSubsystem.analogTrigger.getInWindow());
-		SmartDashboard.putBoolean("TriggerState", Robot.shooterSubsystem.analogTrigger.getTriggerState());
-		
-		SmartDashboard.putBoolean("Counter Is Valid", Robot.shooterSubsystem.isCounterIsValid());
+		SmartDashboard.putNumber("Tilt Veds", Robot.shooterSubsystem.getTiltVeds());
+		SmartDashboard.putBoolean("Tilt Counter Is Valid", Robot.shooterSubsystem.isCounterIsValid());
 		
 		SmartDashboard.putBoolean("Ball In Intake", Robot.intakeSubsystem.ballIsInIntake());
 		
@@ -265,7 +261,9 @@ public class Robot extends IterativeRobot {
 
 		if (canDeviceFinder.isSRXPresent(RobotMap.shooterSubsystemShooterCANTalon2)) {
 		  SmartDashboard.putNumber("Shooter Motor 2 Amps", RobotMap.shooterSubsystemShooterCANTalon2.getOutputCurrent());
+		  SmartDashboard.putNumber("Shooter Motor 2 Volts", RobotMap.shooterSubsystemShooterCANTalon2.getOutputVoltage());
 		  SmartDashboard.putNumber("Shooter Motor 3 Amps", RobotMap.shooterSubsystemShooterCANTalon3.getOutputCurrent());
+		  SmartDashboard.putNumber("Shooter Motor 3 Volts", RobotMap.shooterSubsystemShooterCANTalon3.getOutputVoltage());
 		}
 	}
 
