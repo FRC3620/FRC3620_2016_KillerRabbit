@@ -84,6 +84,9 @@ public class IntakeSubsystem extends Subsystem {
 		intakeRollerTalonFront.set(0);
 		weAreIntaking = false;
 	}
-
+	public void ballIsStuck () {
+		intakeRollerTalonFront.set(0.5);
+		intakeRollerTalonBack.set(0.5);
+	}
 }
 
