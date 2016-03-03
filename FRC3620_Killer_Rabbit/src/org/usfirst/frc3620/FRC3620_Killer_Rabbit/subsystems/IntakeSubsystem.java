@@ -60,7 +60,7 @@ public class IntakeSubsystem extends Subsystem {
     }
     public boolean ballIsInIntake(){
     	
-    	return ballSensorDigitalInput.get();
+    	return !ballSensorDigitalInput.get();
     	
     }
 	public void takeIn () {
