@@ -29,9 +29,9 @@ public class ShooterTiltCommand extends Command {
 		if (leftTrigger > 0.2 || rightTrigger > 0.2) {
 			// the driver is leaning on the triggers. let's go into manual mode
 			if (leftTrigger > 0.2) {
-				Robot.shooterSubsystem.moveShooterPositionUp();
+				Robot.shooterSubsystem.moveShooterPositionUp(.3);
 			} else if (rightTrigger > 0.2) {
-				Robot.shooterSubsystem.moveShooterPositionDown();
+				Robot.shooterSubsystem.moveShooterPositionDown(.3);
 			}
 		}
 		else

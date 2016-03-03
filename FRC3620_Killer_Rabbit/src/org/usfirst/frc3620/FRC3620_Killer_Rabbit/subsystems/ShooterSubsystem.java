@@ -88,12 +88,12 @@ public class ShooterSubsystem extends Subsystem {
 	    		tiltCounter.reset();
 	    		tiltCounterBase = 0;
 	    	}
-	    	else {
+	    	
 				//Arm not home, set for homing.
 				RobotMap.shooterSubsystemHomeDigitalInput.requestInterrupts(new MyHandler());
 				RobotMap.shooterSubsystemHomeDigitalInput.setUpSourceEdge(false, true);
 				RobotMap.shooterSubsystemHomeDigitalInput.enableInterrupts();	
-			}
+		
 	    
 		
 	    	gearCounts = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("gearCounts", 14);
@@ -105,12 +105,16 @@ public class ShooterSubsystem extends Subsystem {
 		@Override
 		public void interruptFired(int interruptAssertedMask, Void param) {
 			logger.info("Interrupt happened.");
-			if (!isCounterIsValid()) {
+			//if (!isCounterIsValid()) {
+			if (!shooterWasGoingUp){
 	    		counterIsValid = true;
-	    		tiltCounter.reset();
-	    		tiltCounterBase = 0;
-				logger.info("Counter is now valid.");
-				RobotMap.shooterSubsystemHomeDigitalInput.disableInterrupts();
+	    		//tiltCounter.reset();
+	    		//tiltCounterBase = 0;
+				logger.info("Resetting Counter");
+				//RobotMap.shooterSubsystemHomeDigitalInput.disableInterrupts();
+			}
+			else{
+				logger.info("Ignoring interrupt, shooter on the way up");
 			}
 		}
     	
@@ -176,14 +180,14 @@ public class ShooterSubsystem extends Subsystem {
 		return timer.get() > 1;
     }
     
-    public void moveShooterPositionUp()
+    public void moveShooterPositionUp(double power)
     {
-    	setMoveTilt(0.5);
+    	setMoveTilt(power);
     }
     
-    public void moveShooterPositionDown()
+    public void moveShooterPositionDown(double power)
     {
-    	setMoveTilt(-0.5);
+    	setMoveTilt(-power);
 
     }
     
@@ -250,7 +254,7 @@ public class ShooterSubsystem extends Subsystem {
     	
     	if (power < 0 && isShooterAtHome()) {
     		// don't go past home
-    		power = 0;
+    		//power = 0;
     	}
     	shooterPositionTalon.set(power);
     }
