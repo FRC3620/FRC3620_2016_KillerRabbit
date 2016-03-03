@@ -33,7 +33,7 @@ public class ArmSubsystem extends Subsystem {
 
 	//static final double bottomSetPoint = 0.7;
 	public static final double bottomSetPoint = 1.15;
-	public static final double topSetPoint = 0;
+	public static final double topSetPoint = -.05;
 	public static final double cushion = 0.1;
 	static final double creepPower = 0.25;
 	
@@ -69,7 +69,7 @@ public class ArmSubsystem extends Subsystem {
 		if (RobotMap.armSubsystemHomeDigitalInput.get() == false) {
 			//Arm is homed, encoder valid.
 			encoderIsValid = true;
-			armCANTalon.setPosition(topSetPoint);
+			armCANTalon.setPosition(0);
 		}
 		else {
 			//Arm not home, set for homing.
@@ -86,7 +86,7 @@ public class ArmSubsystem extends Subsystem {
 		public void interruptFired(int interruptAssertedMask, Void param) {
 			logger.info("Interrupt happened.");
 			if (encoderIsValid == false) {
-				armCANTalon.setPosition(topSetPoint);
+				armCANTalon.setPosition(0);
 				encoderIsValid = true;
 				logger.info("Encoder is now valid.");
 				RobotMap.armSubsystemHomeDigitalInput.disableInterrupts();
