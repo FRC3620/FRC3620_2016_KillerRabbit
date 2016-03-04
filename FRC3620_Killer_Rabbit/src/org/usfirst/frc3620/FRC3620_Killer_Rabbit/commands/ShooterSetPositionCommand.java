@@ -20,7 +20,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
 
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-	PIDController shooterPositionPID = new PIDController(0.3, 0, 0, this, this);
+	PIDController shooterPositionPID = new PIDController(1, 0, 0, this, this);
 	
     public ShooterSetPositionCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -62,7 +62,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     		SmartDashboard.putNumber("ShooterTiltError", error);
     		SmartDashboard.putBoolean("ShooterTiltOnTarget", onTarget);
     		*/
-    		return Math.abs(error) < 5;
+    		return Math.abs(error) < .1;
     }
 
     // Called once after isFinished returns true
@@ -70,6 +70,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     	
     	shooterPositionPID.disable();
     	Robot.shooterSubsystem.stopShooterPositionTalon();
+    	logger.info("Shoot Position command ended");
     }
 
     // Called when another command which requires one or more of the same
@@ -80,7 +81,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
 
 	@Override
 	public void pidWrite(double output) {
-		Robot.shooterSubsystem.setMoveTilt(output);
+		Robot.shooterSubsystem.setMoveTilt(-output);
 	}
 
 	@Override

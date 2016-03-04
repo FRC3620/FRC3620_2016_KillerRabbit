@@ -61,6 +61,7 @@ public class OI {
     public JoystickButton lowBarPositionButton;
     public Joystick driverJoystick;
     public JoystickButton ballIsStuckButton;
+    public JoystickButton shortGoalPositionButton;
     
     public JoystickButton intakeButton;
     
@@ -104,8 +105,11 @@ public class OI {
         ballIsStuckButton = new JoystickButton(operatorJoystick, 6);
         ballIsStuckButton.toggleWhenPressed(new BallIsStuckCommand());
 
+        shortGoalPositionButton = new JoystickButton(operatorJoystick, 7);
+        shortGoalPositionButton.whenPressed(new ShooterSetCloseGoal());
+        
         lowBarPositionButton = new JoystickButton(operatorJoystick, 8);
-        //lowBarPositionButton.whenPressed(ShooterSetPositionCommand());
+        lowBarPositionButton.whenPressed(new ShooterSetHome());
         
         armUpButton = new DPadUpButton(operatorJoystick);
         armUpButton.whenPressed(new ArmUpCommand());

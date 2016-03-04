@@ -245,10 +245,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("NavX Roll",Robot.driveSubsystem.getRoll());
 		SmartDashboard.putNumber("NavX Pitch",Robot.driveSubsystem.getPitch());
 		
-		SmartDashboard.putNumber("Analog Tilt input", RobotMap.shooterSubsystemTiltSensor.getVoltage());
-		SmartDashboard.putNumber("Tilt Counter", Robot.shooterSubsystem.getCounterValue());
-		SmartDashboard.putNumber("Tilt Veds", Robot.shooterSubsystem.getTiltVeds());
-		SmartDashboard.putBoolean("Tilt Counter Is Valid", Robot.shooterSubsystem.isCounterIsValid());
+		SmartDashboard.putNumber("Analog Pot Tilt input", RobotMap.shooterSubsystemTiltSensor.getVoltage());
+	
+
 		
 		SmartDashboard.putBoolean("Ball In Intake", Robot.intakeSubsystem.ballIsInIntake());
 		

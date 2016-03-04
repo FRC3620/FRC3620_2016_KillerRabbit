@@ -4,7 +4,7 @@ public class ShooterSetHome extends ShooterSetPositionCommand {
 
 	@Override
 	double getDesiredVeds() {
-		return edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("homeVeds", 2.5);
+		return edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("homeVeds", 2.9);
 	}
 
 }

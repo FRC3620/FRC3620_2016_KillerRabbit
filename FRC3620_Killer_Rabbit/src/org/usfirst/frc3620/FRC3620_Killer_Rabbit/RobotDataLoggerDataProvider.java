@@ -113,10 +113,10 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 				armTalonIsPresent ? f2(armTalon.getOutputVoltage()) : 0, //
 				armTalonIsPresent ? armTalon.getControlMode().toString() : "", //
 
-				shooterTalonsArePresent ? shooterTalon2.getOutputVoltage() : 0, //
-				shooterTalonsArePresent ? shooterTalon2.getOutputCurrent() : 0, //
-				shooterTalonsArePresent ? shooterTalon3.getOutputVoltage() : 0, //
-				shooterTalonsArePresent ? shooterTalon3.getOutputCurrent() : 0, //
+				shooterTalonsArePresent ? f2(shooterTalon2.getOutputVoltage()) : 0, //
+				shooterTalonsArePresent ? f2(shooterTalon2.getOutputCurrent()) : 0, //
+				shooterTalonsArePresent ? f2(shooterTalon3.getOutputVoltage()) : 0, //
+				shooterTalonsArePresent ? f2(shooterTalon3.getOutputCurrent()) : 0, //
 
 				f2(driveSubsystem.getAutomaticHeading()), //
 				f2(driveSubsystem.getAngle()), //
