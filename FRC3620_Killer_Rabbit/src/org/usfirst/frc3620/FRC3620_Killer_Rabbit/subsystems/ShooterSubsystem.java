@@ -44,30 +44,14 @@ public class ShooterSubsystem extends Subsystem {
     private final AnalogInput shooterTiltSensor  = RobotMap.shooterSubsystemTiltSensor;
     private final DigitalInput shooterHomeDigitalInput = RobotMap.shooterSubsystemHomeDigitalInput;
     
-    public AnalogTrigger analogTrigger;
-    
-    Counter tiltCounter;
     boolean shooterWasRunning;
-    boolean shooterWasGoingUp;
-    boolean counterIsValid;
-   
-    double gearCounts;
-    int tiltCounterBase = 0;
+    boolean potIsValid;
     
     Timer timer = new Timer();
     
 	
     public ShooterSubsystem() {
 		super();
-		
-		analogTrigger = new AnalogTrigger(shooterTiltSensor);
-		analogTrigger.setLimitsVoltage(3.1, 3.3);
-		analogTrigger.setAveraged(true);
-		tiltCounter = new Counter();
-		tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
-		tiltCounter.clearDownSource();
-		shooterWasGoingUp = true;
-		counterIsValid = false;
 		
 		shooterCANTalon2.changeControlMode(CANTalon.TalonControlMode.Voltage);
 		shooterCANTalon2.setVoltageCompensationRampRate(24.0);
@@ -84,60 +68,9 @@ public class ShooterSubsystem extends Subsystem {
 	    if(isShooterAtHome())
 	    	{
 	    		logger.info("Shooter Position at home");
-	    		counterIsValid = true;
-	    		tiltCounter.reset();
-	    		tiltCounterBase = 0;
+	    		
 	    	}
-	    	
-				//Arm not home, set for homing.
-				RobotMap.shooterSubsystemHomeDigitalInput.requestInterrupts(new MyHandler());
-				RobotMap.shooterSubsystemHomeDigitalInput.setUpSourceEdge(false, true);
-				RobotMap.shooterSubsystemHomeDigitalInput.enableInterrupts();	
-		
-	    
-		
-	    	gearCounts = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("gearCounts", 14);
-	    	logger.info("Gear Counts: {}", gearCounts);
 	}
-    
-    class MyHandler extends InterruptHandlerFunction<Void> {
-
-		@Override
-		public void interruptFired(int interruptAssertedMask, Void param) {
-			logger.info("Interrupt happened.");
-			//if (!isCounterIsValid()) {
-			if (!shooterWasGoingUp){
-	    		counterIsValid = true;
-	    		//tiltCounter.reset();
-	    		//tiltCounterBase = 0;
-				logger.info("Resetting Counter");
-				//RobotMap.shooterSubsystemHomeDigitalInput.disableInterrupts();
-			}
-			else{
-				logger.info("Ignoring interrupt, shooter on the way up");
-			}
-		}
-    	
-    }
-
-    public boolean isCounterIsValid() {
-		return counterIsValid;
-	}
-
-    /*public void ShootOut()
-    {
-    	shooterCANTalon2.set(1);
-    }
-
-    public void ShootOutReverse()
-    {
-    	shooterCANTalon2.set(-1);
-    }
-    
-    public void ShootOutStop()
-    {
-    	shooterCANTalon2.set(0)
-    }*/
     
     public void setShooterVoltage(double voltage)
     {
@@ -169,13 +102,7 @@ public class ShooterSubsystem extends Subsystem {
 		}
     }
     
-    public void setUpTalons()
-    {
-    	shooterCANTalon3.changeControlMode(CANTalon.TalonControlMode.Follower);
-		shooterCANTalon3.set(shooterCANTalon2.getDeviceID());
-    }
-    
-    public boolean checkShooter()
+    public boolean isShooterSpunUp()
     {
 		return timer.get() > 1;
     }
@@ -196,62 +123,18 @@ public class ShooterSubsystem extends Subsystem {
     	shooterPositionTalon.set(0);
     }
     
-    public int getCounterValue()
+    public double getTiltPotentiometerPostion () 
     {
-    	return tiltCounter.get();
+    	return shooterTiltSensor.getVoltage();
     }
     
-    public int getTiltCounter()
+    public boolean isPotValid()
     {
-    	
-    	return tiltCounterBase + tiltCounter.get();
+    	return !shooterHomeDigitalInput.get();
     }
- 
- 	public double getTiltVeds()
- 	{
- 			return getTiltCounter() * (gearCounts/14);
- 		
- 	} 
     
     public void setMoveTilt(double power)
     {
-    	if(power>0)
-    	{ 
-    		if(!shooterWasGoingUp)
-    		{
-    			logger.info("Changing shooter counter to up, counter " + tiltCounter.get());
-    			logger.info("Manual counter " + getTiltCounter());
-
-    			tiltCounterBase = getTiltCounter();
-    			
-    			tiltCounter.setUpSource(analogTrigger, AnalogTriggerType.kRisingPulse);
-    			tiltCounter.clearDownSource();
-    		
-    			
-    			logger.info("Changing shooter counter to up, counter " + tiltCounter.get());
-    			logger.info("Manual counter " + getTiltCounter());
-    		}
-    		shooterWasGoingUp = true;
-    	}
-    	else if(power<0)
-    	{
-    		if(shooterWasGoingUp)
-    			
-    		{
-    			logger.info("Changing shooter counter to down, counter " + tiltCounter.get());
-    			logger.info("Manual counter " + getTiltCounter());
-    			
-    			tiltCounterBase = getTiltCounter();
-    			
-    			tiltCounter.setDownSource(analogTrigger, AnalogTriggerType.kRisingPulse);
-    			tiltCounter.clearUpSource();
-    			
-    			logger.info("Changing shooter counter to down, counter " + tiltCounter.get());
-    			logger.info("Manual counter " + getTiltCounter());
-    		}
-    		shooterWasGoingUp = false;
-    	}
-    	
     	if (power < 0 && isShooterAtHome()) {
     		// don't go past home
     		//power = 0;
@@ -260,13 +143,11 @@ public class ShooterSubsystem extends Subsystem {
     }
     
     public boolean isShooterAtHome() {
-    	return ! shooterHomeDigitalInput.get();
-    	
+    	return !shooterHomeDigitalInput.get();
     }
     
     
     public void initDefaultCommand() {
-
     	setDefaultCommand(new ShooterTiltCommand());
 
         // Set the default command for a subsystem here.

@@ -57,7 +57,7 @@ public class ShootBallCommand extends Command {
 			// we don't have a good encoder, so just allow it....
 			canIShoot = true;
 		}
-		if (!Robot.shooterSubsystem.checkShooter()) {
+		if (!Robot.shooterSubsystem.isShooterSpunUp()) {
 			canIShoot = false;
 			logger.info("not shooting, shooter is not up to speed");
 			

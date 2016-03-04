@@ -4,7 +4,7 @@ public class ShooterSetCloseGoal extends ShooterSetPositionCommand {
 
 	@Override
 	double getDesiredVeds() {
-		return edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("closeGoalVeds", 100);
+		return edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("closeGoalVeds", 3.5);
 	}
 
 }

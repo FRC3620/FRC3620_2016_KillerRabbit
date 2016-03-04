@@ -33,7 +33,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(Robot.shooterSubsystem.isCounterIsValid()){
+    	
     		double desiredVeds = getDesiredVeds();
     		logger.info("setting shooter tilt setpoint, desired veds = {}", desiredVeds);
     		shooterPositionPID.setSetpoint(desiredVeds);
@@ -41,10 +41,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     		// onTarget is busted
         	//shooterPositionPID.setAbsoluteTolerance(5);
     		shooterPositionPID.enable();
-    	}
-    	else {
-    		logger.warn("can't set shooter tilt setpoint, counter is not valid");
-    	}
+
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -55,9 +52,6 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     		
-    		if(!Robot.shooterSubsystem.isCounterIsValid()){
-    			return true;
-    		}
     		double error = shooterPositionPID.getError();
     		
     		// onTarget is busted. figure that out someday
@@ -103,6 +97,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
 	@Override
 	public double pidGet() {
 		// TODO Auto-generated method stub
-		return Robot.shooterSubsystem.getTiltVeds();
+		return Robot.shooterSubsystem.getTiltPotentiometerPostion();
+		
 	}
 }
