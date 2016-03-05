@@ -32,7 +32,7 @@ public class ArmSubsystem extends Subsystem {
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 
 	//static final double bottomSetPoint = 0.7;
-	public static final double bottomSetPoint = 1.15;
+	public static final double defaultBottomSetPoint = 1.15;
 	public static final double topSetPoint = -.05;
 	public static final double cushion = 0.1;
 	static final double creepPower = 0.25;
@@ -142,8 +142,11 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	public void moveArmToBottom() {
-		double setPoint  = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("bottom set point", bottomSetPoint);
-		moveArmToSetpoint(setPoint, 0, 0, 0);
+		moveArmToSetpoint(getArmBottomSetPoint(), 0, 0, 0);
+	}
+	
+	public double getArmBottomSetPoint() {
+		return edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("armBottomSetPoint", defaultBottomSetPoint);
 	}
 
 	void moveArmToSetpoint(double position, double p, double i, double d) {
@@ -174,7 +177,7 @@ public class ArmSubsystem extends Subsystem {
 				// setpoints.
 				double encoderPosition = armCANTalon.getPosition();
 				double desiredSetpoint = encoderPosition;
-				desiredSetpoint = Math.min(bottomSetPoint, desiredSetpoint);
+				desiredSetpoint = Math.min(getArmBottomSetPoint(), desiredSetpoint);
 				desiredSetpoint = Math.max(topSetPoint, desiredSetpoint);
 				armCANTalon.setSetpoint(desiredSetpoint);
 				logger.info("encoder position is " + encoderPosition);
@@ -209,6 +212,7 @@ public class ArmSubsystem extends Subsystem {
 						adjustedPower = directionAndSpeed;
 					}
 				} else {
+					double bottomSetPoint = getArmBottomSetPoint();
 					if (position > bottomSetPoint) {
 						adjustedPower = 0;
 					} else if (position > bottomSetPoint - cushion) {
