@@ -75,6 +75,8 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 
 				"drive.automaticHeading", //
 				"drive.angle", //
+				"drive.pitchangle", //
+				"drive.roleangle", //
 		};
 	}
 
@@ -120,6 +122,8 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 
 				f2(driveSubsystem.getAutomaticHeading()), //
 				f2(driveSubsystem.getAngle()), //
+				f2(driveSubsystem.getPitch()), //
+				f2(driveSubsystem.getRoll()), //
 
 		};
 	}

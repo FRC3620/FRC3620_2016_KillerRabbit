@@ -164,14 +164,14 @@ public class DriveSubsystem extends Subsystem {
 	{
 		if(robotMode==RobotMode.TELEOP || robotMode==RobotMode.AUTONOMOUS)
 		{
-		resetNavX();
-		logger.info("NavX is resetting");
-		resetEncoders();
-		automaticHeading = 0;
+			resetNavX();
+			logger.info("NavX is resetting");
+			resetEncoders();
+			automaticHeading = 0;
 		}
-		
+
 	}
-	
+
 	public void resetEncoders()
 	{
 		leftDriveEncoder.reset();
@@ -242,31 +242,49 @@ public class DriveSubsystem extends Subsystem {
 	}
 
 	public void cameraToFront() {
-		if (haveRearCamera) {
-			logger.info("using backCamera");
-			NIVision.IMAQdxStopAcquisition(currentCamera);
-			currentCamera = rearCamera;
-			NIVision.IMAQdxConfigureGrab(currentCamera);
-		} else {
-			logger.info("can't use backCamera");
-		}
-	}
-
-	public void cameraToRear() {
 		if (haveFrontCamera) {
 			logger.info("using frontCamera");
-			NIVision.IMAQdxStopAcquisition(currentCamera);
+			try {
+				NIVision.IMAQdxStopAcquisition(currentCamera);
+			} catch (VisionException ex) {
+				logger.warn("trouble stopping {}, ignoring the problem", nameOfCurrentCamera());
+			}
 			currentCamera = frontCamera;
 			NIVision.IMAQdxConfigureGrab(currentCamera);
 		} else {
 			logger.info("can't use frontCamera");
 		}
 	}
+	
+	String nameOfCurrentCamera() {
+		if (currentCamera == frontCamera) {
+			return "frontCamera";
+		} else if (currentCamera == rearCamera) {
+			return "rearCamera";
+		} else {
+			return "darned if we know which camera it is";
+		}
+	}
+
+	public void cameraToRear() {
+		if (haveRearCamera) {
+			logger.info("using rearCamera");
+			try {
+			    NIVision.IMAQdxStopAcquisition(currentCamera);
+			} catch (VisionException ex) {
+				logger.warn("trouble stopping {}, ignoring the problem", nameOfCurrentCamera());
+			}
+			currentCamera = rearCamera;
+			NIVision.IMAQdxConfigureGrab(currentCamera);
+		} else {
+			logger.info("can't use rearCamera");
+		}
+	}
 
 	public void switchCamera() {
 		if (currentCamera == rearCamera) {
 			cameraToFront();
-		} else {
+		} else if (currentCamera == frontCamera) {
 			cameraToRear();
 		}
 	}
@@ -282,9 +300,23 @@ public class DriveSubsystem extends Subsystem {
 
 				CameraServer.getInstance().setImage(frame);
 			} catch (VisionException ex) {
-				haveFrontCamera = false;
-				haveRearCamera = false;
-				logger.warn("no cameras found");
+				String message = ex.getMessage();
+				if (message.equals("IMAQdxError: -1074360306: No acquisition in progress.")) {
+					logger.info ("vision got a \"No acquisition in progress.\", we're ignoring it");
+				} else {
+					logger.warn("we lost the camera '{}': {}", nameOfCurrentCamera(), ex.toString());
+					ex.printStackTrace();
+					
+					if (currentCamera == frontCamera) {
+						logger.info("disabling front camera");
+						haveFrontCamera = false;
+						//cameraToRear();
+					} else if (currentCamera == rearCamera) {
+						logger.info("disabling rear camera");
+						haveRearCamera = false;
+						//cameraToFront();
+					}
+				}
 			}
 
 		} else {
