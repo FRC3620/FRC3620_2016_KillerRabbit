@@ -20,7 +20,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
 
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-	PIDController shooterPositionPID = new PIDController(1, 0, 0, this, this);
+	PIDController shooterPositionPID = new PIDController(5, 1, 1, this, this);
 	
     public ShooterSetPositionCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -51,18 +51,20 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    		
+    		/* commented out 3-5-16 for testing
     		double error = shooterPositionPID.getError();
     		
     		// onTarget is busted. figure that out someday
-    		/*
+    		
     		boolean onTarget = shooterPositionPID.onTarget();
     		double avgError = shooterPositionPID.getAvgError();
     		SmartDashboard.putNumber("ShooterTiltAvgError", avgError);
     		SmartDashboard.putNumber("ShooterTiltError", error);
     		SmartDashboard.putBoolean("ShooterTiltOnTarget", onTarget);
+    		
+    		return Math.abs(error) < .00075;
     		*/
-    		return Math.abs(error) < .1;
+    	return Robot.oi.operatorJoystick.getRawAxis(3) > .3 || Robot.oi.operatorJoystick.getRawAxis(2) > .3 ;
     }
 
     // Called once after isFinished returns true
