@@ -142,7 +142,8 @@ public class ArmSubsystem extends Subsystem {
 	}
 
 	public void moveArmToBottom() {
-		moveArmToSetpoint(bottomSetPoint, 0, 0, 0);
+		double setPoint  = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("bottom set point", bottomSetPoint);
+		moveArmToSetpoint(setPoint, 0, 0, 0);
 	}
 
 	void moveArmToSetpoint(double position, double p, double i, double d) {
