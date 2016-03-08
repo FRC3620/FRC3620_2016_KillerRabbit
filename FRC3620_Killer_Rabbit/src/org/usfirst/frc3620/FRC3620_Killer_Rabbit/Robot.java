@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	static RobotMode currentRobotMode = RobotMode.INIT, previousRobotMode;
 
 	Command autonomousCommand;
-	SendableChooser autoChooser;
+	public static AverageSendableChooser autoChooser;
 
 	DataLogger robotDataLogger;
 	static Logger logger;
@@ -101,15 +101,8 @@ public class Robot extends IterativeRobot {
 		
 		powerDistributionPanel = new PowerDistributionPanel();
 
-		autoChooser = new SendableChooser();
-
-		autoChooser.addDefault("Do Nothing", new AutonomousDoNothingCommand());
-        autoChooser.addObject("CDF", new AutonomousCDF());
-        autoChooser.addObject("Low Bar", new AutonomousLowBar());
-        autoChooser.addObject("Moat and Rampart", new AutonomousMoatandRampart());
-        autoChooser.addObject("Portcullis", new AutonomousPortcullis());
-        autoChooser.addObject("Rough Terrain", new AutonomousRoughTerrain());
-        autoChooser.addObject("Reach Defense", new AutonomousReachDefense());
+		autoChooser = new AverageSendableChooser();
+		loadAutoChooser();
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
 		robotDataLogger = new DataLogger();
@@ -117,7 +110,17 @@ public class Robot extends IterativeRobot {
 		robotDataLogger.setDataProvider(new RobotDataLoggerDataProvider());
 		robotDataLogger.start();
 	}
-
+	
+	public static void loadAutoChooser() {
+		autoChooser.addDefault("Do Nothing", new AutonomousDoNothingCommand());
+        autoChooser.addObject("CDF", new AutonomousCDF());
+        autoChooser.addObject("Low Bar", new AutonomousLowBar());
+        autoChooser.addObject("Moat and Rampart", new AutonomousMoatandRampart());
+        autoChooser.addObject("Portcullis", new AutonomousPortcullis());
+        autoChooser.addObject("Rough Terrain", new AutonomousRoughTerrain());
+        autoChooser.addObject("Reach Defense", new AutonomousReachDefense());
+	}
+	
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
