@@ -137,7 +137,7 @@ public class ShooterSubsystem extends Subsystem {
     {
     	if (power < 0 && isShooterAtHome()) {
     		// don't go past home
-    		//power = 0;
+    		power = 0;
     	}
     	shooterPositionTalon.set(power);
     }

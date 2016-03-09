@@ -55,6 +55,7 @@ public class RunShooterCommand extends Command {
     protected void initialize() 
     {
     	shooterVoltage = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Shooter Voltage", 9.0);
+    	//1.884 close goal position and 9.0 volts working for competition bot
     	logger.info("Shooter voltage: {}", shooterVoltage);
     	SmartDashboard.putNumber("ShooterVoltage", shooterVoltage);
     	//Robot.shooterSubsystem.setUpTalons();
