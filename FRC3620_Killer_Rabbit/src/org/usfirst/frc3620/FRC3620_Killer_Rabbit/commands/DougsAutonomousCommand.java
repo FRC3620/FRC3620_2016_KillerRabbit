@@ -25,8 +25,8 @@ public class DougsAutonomousCommand extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new AutomatedTurnCommand(90));
+    	addSequential(new AutomatedTurnCommand(45));
     	addSequential(new WaitCommand("DougIsGreat", 2.0));
-    	addSequential(new AutomatedTurnCommand(-90));
+    	addSequential(new AutomatedTurnCommand(-45));
     }
 }

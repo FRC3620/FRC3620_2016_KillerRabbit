@@ -132,7 +132,7 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 
 	String f2(double f) {
 		String rv = f2Formatter.format(f);
-		return f2Formatter.format(f);
+		return rv;
 	}
 
 }

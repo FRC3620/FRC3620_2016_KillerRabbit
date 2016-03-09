@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
         
 		logger = EventLogging.getLogger(Robot.class, Level.INFO);
 		
-		logger.info("Starting robotInit: name {}, MAC address is {}", rioName, getMACAddresses());
+		logger.info("Starting robotInit: name '{}', MAC address is {}", rioName, getMACAddresses());
 
 		canDeviceFinder = new CANDeviceFinder();
 		logger.info("CAN devices = {}", canDeviceFinder.deviceList.toString());
@@ -104,6 +104,9 @@ public class Robot extends IterativeRobot {
 		autoChooser = new AverageSendableChooser();
 		loadAutoChooser();
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+		
+		// start the thingy that keeps the operator console and the chooser in sync
+		new ControlPanelWatcher();
 
 		robotDataLogger = new DataLogger();
 		robotDataLogger.setInterval(1.000);
@@ -119,6 +122,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject("Portcullis", new AutonomousPortcullis());
         autoChooser.addObject("Rough Terrain", new AutonomousRoughTerrain());
         autoChooser.addObject("Reach Defense", new AutonomousReachDefense());
+        autoChooser.addObject("Spare", new DougsAutonomousCommand());
 	}
 	
 	/**

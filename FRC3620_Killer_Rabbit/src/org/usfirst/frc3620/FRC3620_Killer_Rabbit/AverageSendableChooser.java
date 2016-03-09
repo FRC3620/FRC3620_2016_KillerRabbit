@@ -125,7 +125,9 @@ public class AverageSendableChooser implements Sendable {
   }
   
   public String getSelectedName() {
-	  return table.getString(SELECTED, null);
+	  String rv = table.getString(SELECTED, null);
+	  if (rv == null) rv = table.getString(DEFAULT, null);
+	  return rv;
   }
   
   /**
