@@ -64,8 +64,8 @@ public class AutomatedMove extends Command implements PIDOutput{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("PID Error: " + pidDriveStraight.getError());
-    	System.out.println("sideStick value: " + sideStick);
+    	//System.out.println("PID Error: " + pidDriveStraight.getError());
+    	//System.out.println("sideStick value: " + sideStick);
     	
     	SmartDashboard.putNumber("DriveStraight P", pidDriveStraight.getP());
     	SmartDashboard.putNumber("DriveStraight I", pidDriveStraight.getI());
@@ -79,8 +79,8 @@ public class AutomatedMove extends Command implements PIDOutput{
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
-    	logger.info("Left Encoder: {}", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
-    	logger.info("Right Encoder: {}", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
+    	logger.debug("Left Encoder: {}", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
+    	logger.debug("Right Encoder: {}", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
     	
     	if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
     	{

@@ -9,6 +9,7 @@ import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class ControlPanelWatcher {
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
@@ -25,7 +26,8 @@ public class ControlPanelWatcher {
 	class MyTimerTask extends TimerTask {
 		@Override
 		public void run() {
-			boolean controlPanelPresent = controlPanel.getRawButton(11) || controlPanel.getRawButton(12);
+			boolean controlPanelPresent = controlPanel.getAxis(AxisType.kZ) > 0.95;
+			logger.debug("The z axis is {}", controlPanel.getAxis(AxisType.kZ));
 			List<String> chooserNames = autonomousChooser.getChoiceNames();
 			String chooserSelectedName = autonomousChooser.getSelectedName();
 			int chooserIndex = chooserNames.indexOf(chooserSelectedName);
@@ -33,6 +35,7 @@ public class ControlPanelWatcher {
 			if (controlPanelPresent) {
 				// the control panel is connected to the driver's station
 				int controlPanelIndex = readControlPanel();
+				logger.debug("Control panel is {}", controlPanelIndex);
 
 				if (controlPanelIndex != chooserIndex) {
 					if (controlPanelIndex < chooserNames.size()) {
@@ -59,10 +62,12 @@ public class ControlPanelWatcher {
 
 	int readControlPanel() {
 		int rv = 0;
-		for (int i = 3; i > 0; i--) {
+		for (int i = 11; i >= 9; i--) {
 			rv = rv << 1;
-			if (controlPanel.getRawButton(i))
+			boolean b = controlPanel.getRawButton(i);
+			if (b)
 				rv += 1;
+			logger.debug("button {} = {}, value is now {}", i, b, rv);
 		}
 		return rv;
 	}
