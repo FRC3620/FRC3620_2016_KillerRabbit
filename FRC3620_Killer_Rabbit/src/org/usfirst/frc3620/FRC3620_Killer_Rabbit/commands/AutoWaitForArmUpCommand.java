@@ -34,7 +34,7 @@ public class AutoWaitForArmUpCommand extends Command {
     protected boolean isFinished() 
     {
     	
-    	if(armCANTalon.getPosition() <= Robot.armSubsystem.topSetPoint + Robot.armSubsystem.cushion)
+    	if(armCANTalon.getPosition() <= Robot.armSubsystem.getArmTopSetPoint() + Robot.armSubsystem.cushion)
     	{
     		return true;
     	}

@@ -50,6 +50,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     		// onTarget is busted
         	//shooterPositionPID.setAbsoluteTolerance(5);
     		shooterPositionPID.enable();
+    		
 
     }
 
