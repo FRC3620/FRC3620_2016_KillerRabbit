@@ -33,7 +33,7 @@ public class AutonomousHighGoalAndShoot extends CommandGroup {
     	addSequential(new AutomatedMove(50, .7));
     	//addSequential(new AutomatedMove(132, .7));
     	addSequential(new ArmUpCommand());
-    	addSequential(new AutomatedMove(84,.7));
+    	addSequential(new AutomatedMove(84.5,.7));
     	//addSequential(new AutoWaitForArmUpCommand());
     	// addSequential(new AutomatedMove(36, .65));
     	addSequential(new AutomatedShortTurnCommand(53));
