@@ -34,7 +34,7 @@ public class AutonomousLowBarAndShoot extends CommandGroup {
     	//addSequential(new AutoWaitForArmUpCommand());
     	// addSequential(new AutomatedMove(36, .65));
     	addSequential(new AutomatedTurnCommand(60));
-    	addSequential(new AutomatedMove(-98, .65));
+    	addSequential(new AutomatedMove(98, .65));
     	addSequential(new ArmLowerCommand());
     	addSequential(new AutoWaitForArmDownCommand());
     	addSequential(new OuttakeCommand());
