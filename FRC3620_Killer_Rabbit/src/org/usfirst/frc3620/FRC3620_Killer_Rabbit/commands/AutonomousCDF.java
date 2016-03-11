@@ -29,7 +29,7 @@ public class AutonomousCDF extends CommandGroup {
     	
     	//AutomatedMove overshoots about 6"
     	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(37, .65));
+    	addSequential(new AutomatedMove(34, .65));
     	addSequential(new ArmLowerCommand());
     	addSequential(new AutoWaitForArmDownCommand());
     	addSequential(new AutomatedMove(36, .80));

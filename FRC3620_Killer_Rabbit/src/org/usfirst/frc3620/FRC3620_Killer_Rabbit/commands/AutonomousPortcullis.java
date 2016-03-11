@@ -30,7 +30,7 @@ public class AutonomousPortcullis extends CommandGroup {
     	//AutomatedMove overshoots about 6"
     	//addSequential(new AutomatedMove(37, .65));
     	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(40, .65));
+    	addSequential(new AutomatedMove(38, .65));
     	addSequential(new ArmLowerCommand());
     	addSequential(new AutoWaitForArmDownCommand());
     	addSequential(new AutomatedMoveTimed(2, .58));
