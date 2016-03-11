@@ -125,7 +125,7 @@ public class ShooterSubsystem extends Subsystem {
     
     public double getTiltPotentiometerPostion () 
     {
-    	return shooterTiltSensor.getVoltage();
+    	return shooterTiltSensor.getAverageVoltage();
     }
     
     public boolean isPotValid()
