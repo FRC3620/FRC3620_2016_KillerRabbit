@@ -62,6 +62,8 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     		/* commented out 3-5-16 for testing
+    		 * 
+    		 
     		double error = shooterPositionPID.getError();
     		
     		// onTarget is busted. figure that out someday

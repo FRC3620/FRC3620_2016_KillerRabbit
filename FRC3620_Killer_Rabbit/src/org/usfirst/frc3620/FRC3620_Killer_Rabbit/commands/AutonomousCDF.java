@@ -31,7 +31,7 @@ public class AutonomousCDF extends CommandGroup {
     	addSequential(new ResetNavXCommand());
     	addSequential(new AutomatedMove(34, .65));
     	addSequential(new ArmLowerCommand());
-    	addSequential(new AutoWaitForArmDownCommand());
+    	addSequential(new AutoWaitForArmDownCommand(), 1);
     	addSequential(new AutomatedMove(36, .80));
     	addSequential(new ArmUpCommand());
     	//addSequential(new AutoWaitForArmUpCommand());
