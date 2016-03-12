@@ -111,6 +111,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject("Rough Terrain", new AutonomousRoughTerrain());
         autoChooser.addObject("Reach Defense", new AutonomousReachDefense());
         autoChooser.addObject("Low Bar And Shoot", new AutonomousLowBarAndShoot());
+        autoChooser.addObject("Low Bar And High Goal", new AutonomousHighGoalAndShoot());
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
 		robotDataLogger = new DataLogger();

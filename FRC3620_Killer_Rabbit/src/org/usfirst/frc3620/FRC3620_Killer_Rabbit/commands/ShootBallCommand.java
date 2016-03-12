@@ -82,7 +82,7 @@ public class ShootBallCommand extends Command {
 			logger.warn("Bring Arm Up");
 		}
 	}
-
+  
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		if  (!canIShoot) {
