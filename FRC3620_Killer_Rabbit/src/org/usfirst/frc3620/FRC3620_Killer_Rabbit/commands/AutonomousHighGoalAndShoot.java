@@ -25,6 +25,7 @@ public class AutonomousHighGoalAndShoot extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	
     	addSequential(new ResetNavXCommand());
     	addParallel(new ShooterSetHome(), 1);
     	addSequential(new AutomatedMove(30, .65));
@@ -37,10 +38,12 @@ public class AutonomousHighGoalAndShoot extends CommandGroup {
     	//addSequential(new AutoWaitForArmUpCommand());
     	// addSequential(new AutomatedMove(36, .65));
     	addSequential(new AutomatedShortTurnCommand(53));
-    	addSequential(new AutoRunShooterCommand());
     	addSequential(new ShooterSetCloseGoal(), 1.5);
     	addSequential(new AutomatedMove(122, .65));
-    	addSequential(new ShootBallCommand(), 1);
+    	
+    	addParallel(new AutomatedMoveTimed(5, .80));
+    	addParallel(new AutoRunShooterCommand());
+    	addParallel(new AutoWaitAndShoot());
     	addSequential(new AutoStopShooterCommand());
     
     }
