@@ -9,7 +9,7 @@ public class AutoWaitAndShoot extends CommandGroup {
     
     public  AutoWaitAndShoot() {
        
-    	addSequential(new AutonomousDoNothingCommand(), 2);
+    	addSequential(new AutonomousDoNothingCommand(), 1.5);
     	addSequential(new ShootBallCommand());
     	
     }
