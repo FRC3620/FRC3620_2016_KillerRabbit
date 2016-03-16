@@ -75,6 +75,7 @@ public class DriveSubsystem extends Subsystem {
 	int rearCamera;
 	int currentCamera;
 	Image frame;
+
 	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 
 	public void arcadeDrive() {
@@ -297,7 +298,8 @@ public class DriveSubsystem extends Subsystem {
 			try {
 				NIVision.IMAQdxGrab(currentCamera, frame, 1);
 				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-
+				NIVision.imaqOverlayOval(frame, rect, NIVision.RGB_BLACK, DrawMode.PAINT_VALUE);
+				
 				CameraServer.getInstance().setImage(frame);
 			} catch (VisionException ex) {
 				String message = ex.getMessage();
