@@ -63,7 +63,19 @@ public class RunShooterCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
+    	double rightJoystick = Robot.oi.operatorJoystick.getRawAxis(5);
+    	if(rightJoystick < -.5){
     	Robot.shooterSubsystem.setShooterVoltage(shooterVoltage);
+    	logger.info("shooter started");
+    	}
+    	else if(rightJoystick > .5){
+    	Robot.shooterSubsystem.setShooterVoltage(0);
+    	logger.info("shooter stopped");
+    	}
+    	else{
+    		Robot.shooterSubsystem.setShooterVoltage(0);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -73,7 +85,7 @@ public class RunShooterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-//    	Robot.shooterSubsystem.setShooterVoltage(0);
+    	Robot.shooterSubsystem.setShooterVoltage(0);
 //    	logger.info("Shoot Command End");
 //    	SmartDashboard.putNumber("ShooterPower", 0);
     }

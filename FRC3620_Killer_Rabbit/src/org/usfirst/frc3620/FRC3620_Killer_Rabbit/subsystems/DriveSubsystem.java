@@ -297,8 +297,8 @@ public class DriveSubsystem extends Subsystem {
 
 			try {
 				NIVision.IMAQdxGrab(currentCamera, frame, 1);
-				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-				NIVision.imaqOverlayOval(frame, rect, NIVision.RGB_BLACK, DrawMode.PAINT_VALUE);
+				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.00f);
+				NIVision.imaqOverlayRect(frame, rect, NIVision.RGB_GREEN, DrawMode.DRAW_VALUE, null);
 				
 				CameraServer.getInstance().setImage(frame);
 			} catch (VisionException ex) {

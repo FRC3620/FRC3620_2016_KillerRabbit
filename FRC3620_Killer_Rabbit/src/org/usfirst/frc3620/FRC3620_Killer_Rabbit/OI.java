@@ -57,8 +57,7 @@ public class OI {
     public JoystickButton setDriveToFront;
     public JoystickButton setDriveToBack;
     public JoystickButton switchCamera;
-    public JoystickButton ShooterOnButton;
-    public JoystickButton ShooterOffButton;
+    public JoystickButton toggleShooterButton;
     public JoystickButton lowBarPositionButton;
     public Joystick driverJoystick;
     public JoystickButton ballIsStuckButton;
@@ -96,11 +95,9 @@ public class OI {
         forceIntakeButton = new JoystickButton(operatorJoystick, 3);
         forceIntakeButton.whileHeld(new ForceIntakeCommand());
         
-        ShooterOnButton = new JoystickButton(operatorJoystick, 9);
-        ShooterOnButton.toggleWhenPressed(new RunShooterCommand());
+//        toggleShooterButton = new JoystickButton(operatorJoystick, 4);
+//        toggleShooterButton.toggleWhenPressed(new RunShooterCommand());
         
-        ShooterOffButton = new JoystickButton(operatorJoystick, 10);
-        ShooterOffButton.toggleWhenPressed(new StopShooterCommand());
         
         outtake = new JoystickButton(operatorJoystick, 5);
         outtake.whenPressed(new OuttakeCommand());

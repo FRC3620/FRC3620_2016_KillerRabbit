@@ -254,7 +254,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("Ball In Intake", Robot.intakeSubsystem.ballIsInIntake());
 		
-		
+		SmartDashboard.putNumber("Joystick value", Robot.oi.operatorJoystick.getRawAxis(5));
 		//SmartDashboard.putNumber("Shooter position Encoder",);
 		
 		SmartDashboard.putNumber("DriveLeftEncoder", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
