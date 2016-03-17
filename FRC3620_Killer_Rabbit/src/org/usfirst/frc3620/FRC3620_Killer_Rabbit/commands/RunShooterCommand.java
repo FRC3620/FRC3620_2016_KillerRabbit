@@ -11,6 +11,7 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -64,6 +65,15 @@ public class RunShooterCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.shooterSubsystem.setShooterVoltage(shooterVoltage);
+    	
+    	if(!Robot.shooterSubsystem.isShooterSpunUp()){
+    		Robot.oi.operatorJoystick.setRumble(RumbleType.kLeftRumble, 0.6f);
+    	}
+    	
+    	else{
+    		Robot.oi.operatorJoystick.setRumble(RumbleType.kRightRumble, 0.6f);
+    		Robot.oi.operatorJoystick.setRumble(RumbleType.kLeftRumble, 0.0f);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -76,6 +86,8 @@ public class RunShooterCommand extends Command {
     	Robot.shooterSubsystem.setShooterVoltage(0);
     	logger.info("Shoot Command End");
     	SmartDashboard.putNumber("ShooterPower", 0);
+    	Robot.oi.operatorJoystick.setRumble(RumbleType.kRightRumble, 0.0f);
+    	Robot.oi.operatorJoystick.setRumble(RumbleType.kLeftRumble, 0.0f);
     }
 
     // Called when another command which requires one or more of the same
