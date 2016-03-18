@@ -10,31 +10,29 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DummyAutoPortcullis extends Command {
-
+public class DummyAutoPointSenecaLane3 extends Command {
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	Timer timer = new Timer ();
-	
-    public DummyAutoPortcullis() {
+
+
+    public DummyAutoPointSenecaLane3() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	timer.start();
-    	logger.info("doing portcullis");
+    	logger.info("doing Lane3");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return timer.hasPeriodPassed(1);
+    	return timer.hasPeriodPassed(1);
     }
 
     // Called once after isFinished returns true

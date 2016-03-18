@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	SendableChooser autoChooser;
+	SendableChooser laneChooser;
 
 	DataLogger robotDataLogger;
 	static Logger logger;
@@ -104,16 +105,27 @@ public class Robot extends IterativeRobot {
 		autoChooser = new SendableChooser();
 
 		autoChooser.addDefault("Do Nothing", new AutonomousDoNothingCommand());
-        autoChooser.addObject("CDF", new AutonomousCDF());
+        // TODO fix this!
+        autoChooser.addObject("CDF", new DummyAutoCDF());
         autoChooser.addObject("Low Bar", new AutonomousLowBar());
         autoChooser.addObject("Moat and Rampart", new AutonomousMoatandRampart());
-        autoChooser.addObject("Portcullis", new AutonomousPortcullis());
+        // TODO fix this!
+        autoChooser.addObject("Portcullis", new DummyAutoPortcullis());
         autoChooser.addObject("Rough Terrain", new AutonomousRoughTerrain());
         autoChooser.addObject("Reach Defense", new AutonomousReachDefense());
         autoChooser.addObject("Low Bar And Shoot", new AutonomousLowBarAndShoot());
         autoChooser.addObject("Low Bar And High Goal", new AutonomousHighGoalAndShoot());
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 
+		laneChooser = new SendableChooser();
+		laneChooser.addDefault("Lane0", new Integer(0));
+		laneChooser.addObject("Lane1", new Integer(1));
+		laneChooser.addObject("Lane2", new Integer(2));
+        laneChooser.addObject("Lane3", new Integer(3));
+        laneChooser.addObject("Lane4", new Integer(4));
+        laneChooser.addObject("Lane5", new Integer(5));
+		SmartDashboard.putData("Lane chooser", laneChooser);
+		
 		robotDataLogger = new DataLogger();
 		robotDataLogger.setInterval(1.000);
 		robotDataLogger.setDataProvider(new RobotDataLoggerDataProvider());
@@ -139,8 +151,14 @@ public class Robot extends IterativeRobot {
 		allInit(RobotMode.AUTONOMOUS);
 
 		autonomousCommand = (Command) autoChooser.getSelected();
+		
+		int lane = (Integer) laneChooser.getSelected();
+		if (lane > 0) {
+			autonomousCommand = SuperDuperAutonomous.make(autonomousCommand, lane);
+		}
+		
 		if (autonomousCommand != null) {
-		    logger.info("Starting autonomous {}", autonomousCommand.getClass().getName());
+		    logger.info("Starting autonomous {}", autonomousCommand.toString());
 			autonomousCommand.start();
 		}
 	}
