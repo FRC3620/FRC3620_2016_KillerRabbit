@@ -24,11 +24,16 @@ public class AutoPointSenecaLane3 extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	double laneDistance;
+    	laneDistance = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 3 Distance", 44);
+    	
+    	double turnAngle;
+    	turnAngle = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 3 Angle", 64);
     	
     	addSequential(new AutomatedMove(43, .7));
-    	addSequential(new AutomatedShortTurnCommand(64));
+    	addSequential(new AutomatedShortTurnCommand(turnAngle));
     	addSequential(new ShooterSetCloseGoal(), 1.5);
-    	addSequential(new AutomatedMove(44, .7));
-    	addSequential(new AutomatedShortTurnCommand(0));
+    	addSequential(new AutomatedMove(laneDistance, .7));
+    	addSequential(new AutomatedShortTurnCommand(-turnAngle));
     }
 }
