@@ -24,5 +24,10 @@ public class AutoPointSenecaLane5 extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	addSequential(new AutomatedMove(41, .7));
+    	addSequential(new AutomatedShortTurnCommand(-72));
+    	addSequential(new ShooterSetCloseGoal(), 1.5);
+    	addSequential(new AutomatedMove(70, .7));
+    	addSequential(new AutomatedShortTurnCommand(0));
     }
 }
