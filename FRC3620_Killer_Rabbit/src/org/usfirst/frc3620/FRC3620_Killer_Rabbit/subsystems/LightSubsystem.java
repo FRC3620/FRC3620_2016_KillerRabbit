@@ -89,5 +89,34 @@ public class LightSubsystem extends Subsystem {
     	spike1.set(s1);
     }
     
+    public boolean getRed() {
+    	return red;
+    }
+    
+    public boolean getGreen() {
+    	return green;
+    }
+    
+    public boolean getBlue() {
+    	return blue;
+    }
+    
+    public void setColor(int rgb) {
+    	// NOT TESTED!
+    	int r = (rgb & 0xff0000) >> 16;
+    	int g = (rgb & 0x00ff00) >> 8;
+    	int b = (rgb & 0x0000ff);
+    	red = (r >= 0x80);
+    	green = (g >= 0x80);
+    	blue = (b >= 0x80);
+    	hitRelays();
+    }
+    
+    public int getColor() {
+    	// NOT TESTED!
+    	int rv = (red ? 0xff0000 : 0) | (green ? 0xff00 : 0) | (blue ? 0xff : 0);
+    	return rv;
+    }
+    
 }
 
