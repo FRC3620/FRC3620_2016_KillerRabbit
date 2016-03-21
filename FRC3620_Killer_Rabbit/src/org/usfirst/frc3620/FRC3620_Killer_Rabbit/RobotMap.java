@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -42,8 +43,9 @@ public class RobotMap {
     public static AnalogInput dummySubsystemAnalogInput;
     public static DigitalInput armSubsystemHomeDigitalInput;
     public static DigitalInput shooterSubsystemHomeDigitalInput;
-
- 
+    
+    public static Relay lightSubsystemSpike0;
+    public static Relay lightSubsystemSpike1;
 
 	public static void init() {
 		
@@ -121,6 +123,10 @@ public class RobotMap {
         shooterSubsystemTiltSensor = new AnalogInput(0);
         LiveWindow.addSensor("ShooterSubsystem", "Analog Input 0", shooterSubsystemTiltSensor);
         
+        lightSubsystemSpike0 = new Relay(0);
+        LiveWindow.addActuator("LightSubsystem", "Spike 0", lightSubsystemSpike0);
         
+        lightSubsystemSpike1 = new Relay(1);
+        LiveWindow.addActuator("LightSubsystem", "Spike 1", lightSubsystemSpike1);
 	}
 }
