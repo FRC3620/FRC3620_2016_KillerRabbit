@@ -29,9 +29,9 @@ public class AutoShootFromSeneca extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new AutomatedMoveTimed(5, .80));
     	addParallel(new AutoRunShooterCommand());
-    	addParallel(new AutoWaitAndShoot());
+    	addParallel(new AutomatedMoveTimed(7, .80));
+    	addSequential(new AutoWaitAndShoot(), 1.5);
     	addSequential(new AutoStopShooterCommand());
     	
     	
