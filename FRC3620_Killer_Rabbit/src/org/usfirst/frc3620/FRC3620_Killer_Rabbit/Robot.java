@@ -242,9 +242,9 @@ public class Robot extends IterativeRobot {
 	    SmartDashboard.putBoolean("Arm Manual Mode", armSubsystem.areWeInManual());
 
 		SmartDashboard.putNumber("NavX Angle",Robot.driveSubsystem.getAngle());
-		SmartDashboard.putNumber("NavX Displacement X",Robot.driveSubsystem.getDisplacementX());
-		SmartDashboard.putNumber("NavX Displacement Y",Robot.driveSubsystem.getDisplacementY());
-		SmartDashboard.putNumber("NavX Displacement Z",Robot.driveSubsystem.getDisplacementZ());
+//		SmartDashboard.putNumber("NavX Displacement X",Robot.driveSubsystem.getDisplacementX());
+//		SmartDashboard.putNumber("NavX Displacement Y",Robot.driveSubsystem.getDisplacementY());
+//		SmartDashboard.putNumber("NavX Displacement Z",Robot.driveSubsystem.getDisplacementZ());
 		SmartDashboard.putNumber("NavX Roll",Robot.driveSubsystem.getRoll());
 		SmartDashboard.putNumber("NavX Pitch",Robot.driveSubsystem.getPitch());
 		
@@ -262,10 +262,10 @@ public class Robot extends IterativeRobot {
 		
 
 		if (canDeviceFinder.isSRXPresent(RobotMap.shooterSubsystemShooterCANTalon2)) {
-		  SmartDashboard.putNumber("Shooter Motor 2 Amps", RobotMap.shooterSubsystemShooterCANTalon2.getOutputCurrent());
-		  SmartDashboard.putNumber("Shooter Motor 2 Volts", RobotMap.shooterSubsystemShooterCANTalon2.getOutputVoltage());
-		  SmartDashboard.putNumber("Shooter Motor 3 Amps", RobotMap.shooterSubsystemShooterCANTalon3.getOutputCurrent());
-		  SmartDashboard.putNumber("Shooter Motor 3 Volts", RobotMap.shooterSubsystemShooterCANTalon3.getOutputVoltage());
+//		  SmartDashboard.putNumber("Shooter Motor 2 Amps", RobotMap.shooterSubsystemShooterCANTalon2.getOutputCurrent());
+//		  SmartDashboard.putNumber("Shooter Motor 2 Volts", RobotMap.shooterSubsystemShooterCANTalon2.getOutputVoltage());
+//		  SmartDashboard.putNumber("Shooter Motor 3 Amps", RobotMap.shooterSubsystemShooterCANTalon3.getOutputCurrent());
+//		  SmartDashboard.putNumber("Shooter Motor 3 Volts", RobotMap.shooterSubsystemShooterCANTalon3.getOutputVoltage());
 		}
 	}
 
