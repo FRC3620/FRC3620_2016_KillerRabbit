@@ -13,4 +13,12 @@ public class AutoWaitAndShoot extends CommandGroup {
     	addSequential(new ShootBallCommand());
     	
     }
+    
+    public AutoWaitAndShoot(double howLong) {
+    	addSequential(new AutonomousDoNothingCommand(), howLong);
+    	addSequential(new ShootBallCommand());
+    	
+    }
+    
+    
 }

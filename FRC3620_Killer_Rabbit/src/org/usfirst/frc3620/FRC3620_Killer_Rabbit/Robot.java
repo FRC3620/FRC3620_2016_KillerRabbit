@@ -106,11 +106,11 @@ public class Robot extends IterativeRobot {
 
 		autoChooser.addDefault("Do Nothing", new AutonomousDoNothingCommand());
         // TODO fix this!
-        autoChooser.addObject("CDF", new DummyAutoCDF());
+        autoChooser.addObject("CDF", new AutonomousCDF());
         autoChooser.addObject("Low Bar", new AutonomousLowBar());
         autoChooser.addObject("Moat and Rampart", new AutonomousMoatandRampart());
         // TODO fix this!
-        autoChooser.addObject("Portcullis", new DummyAutoPortcullis());
+        autoChooser.addObject("Portcullis", new AutonomousPortcullis());
         autoChooser.addObject("Rough Terrain", new AutonomousRoughTerrain());
         autoChooser.addObject("Reach Defense", new AutonomousReachDefense());
         autoChooser.addObject("Low Bar And Shoot", new AutonomousLowBarAndShoot());

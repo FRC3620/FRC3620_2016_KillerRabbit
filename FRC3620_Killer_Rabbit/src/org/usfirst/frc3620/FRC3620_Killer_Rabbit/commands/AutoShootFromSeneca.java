@@ -31,10 +31,8 @@ public class AutoShootFromSeneca extends CommandGroup {
     	
     	addParallel(new AutoRunShooterCommand());
     	addParallel(new AutomatedMoveTimed(7, .80));
-    	addParallel(new AutonomousDoNothingCommand(), 2);
-    	addSequential(new AutoWaitAndShoot(), 3);
-    	addSequential(new AutoStopShooterCommand());
-    	
-    	
+    	addParallel(new AutoWaitAndShoot(3));    	
     }
+    
+    
 }

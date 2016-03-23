@@ -73,9 +73,9 @@ public class AutoRunShooterCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	//Robot.shooterSubsystem.setShooterVoltage(0);
-    	//logger.info("Shoot Command End");
-    	//SmartDashboard.putNumber("ShooterPower", 0);
+    	Robot.shooterSubsystem.setShooterVoltage(0);
+    	logger.info("Shoot Command End");
+    	SmartDashboard.putNumber("ShooterPower", 0);
     }
 
     // Called when another command which requires one or more of the same

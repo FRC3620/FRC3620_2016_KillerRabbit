@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.InterruptHandlerFunction;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -74,6 +75,7 @@ public class ShooterSubsystem extends Subsystem {
     
     public void setShooterVoltage(double voltage)
     {
+    	SmartDashboard.putNumber("ShooterVoltage", voltage);
     	
     	shooterCANTalon2.set(voltage);
     	shooterCANTalon3.set(voltage);

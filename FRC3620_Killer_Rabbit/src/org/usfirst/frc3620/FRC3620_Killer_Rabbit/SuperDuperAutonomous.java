@@ -1,10 +1,10 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
 
-import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.DummyAutoPointSenecaLane2;
-import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.DummyAutoPointSenecaLane3;
-import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.DummyAutoPointSenecaLane4;
-import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.DummyAutoPointSenecaLane5;
-import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.DummyAutoShootFromSeneca;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoPointSenecaLane2;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoPointSenecaLane3;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoPointSenecaLane4;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoPointSenecaLane5;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoShootFromSeneca;
 
 import java.util.*;
 
@@ -18,17 +18,17 @@ public class SuperDuperAutonomous extends CommandGroup {
 		superDuper.commands.add(startCommand);
 		Command middleCommand = null;
 		if (lane == 2) {
-			middleCommand = new DummyAutoPointSenecaLane2();
+			middleCommand = new AutoPointSenecaLane2();
 		} else if (lane == 3) {
-			middleCommand = new DummyAutoPointSenecaLane3();
+			middleCommand = new AutoPointSenecaLane3();
 		} else if (lane == 4) {
-			middleCommand = new DummyAutoPointSenecaLane4();
+			middleCommand = new AutoPointSenecaLane4();
 		} else if (lane == 5) {
-			middleCommand = new DummyAutoPointSenecaLane5();
+			middleCommand = new AutoPointSenecaLane5();
 		}
 		superDuper.addSequential(middleCommand);
 		superDuper.commands.add(middleCommand);
-		superDuper.addSequential(new DummyAutoShootFromSeneca());
+		superDuper.addSequential(new AutoShootFromSeneca());
 		return superDuper;
 	}
 	
