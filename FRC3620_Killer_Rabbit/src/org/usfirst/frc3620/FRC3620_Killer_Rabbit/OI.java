@@ -147,7 +147,7 @@ public class OI {
         SmartDashboard.putData("DougsAutonomous", new DougsAutonomousCommand());
         SmartDashboard.putData("AutonomousCDF", new AutonomousCDF());
         SmartDashboard.putData("AutonomousMoat", new AutonomousMoatandRampart());
-        SmartDashboard.putData("AutomatedRight70", new AutomatedTurnCommand(70));
+        SmartDashboard.putData("AutomatedRight70", new AutomatedShortTurnCommand(70));
         SmartDashboard.putData("AutomatedRight45", new AutomatedShortTurnCommand(45.0));
 //        SmartDashboard.putData("AutomatedLeft90", new AutomatedTurnCommand(-90.0));
 //        SmartDashboard.putData("AutomatedLeft45", new AutomatedShortTurnCommand(-45.0));
