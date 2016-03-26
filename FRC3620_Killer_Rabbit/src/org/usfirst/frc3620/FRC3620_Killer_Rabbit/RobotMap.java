@@ -43,6 +43,7 @@ public class RobotMap {
     public static AnalogInput dummySubsystemAnalogInput;
     public static DigitalInput armSubsystemHomeDigitalInput;
     public static DigitalInput shooterSubsystemHomeDigitalInput;
+    public static SpeedController liftSubsystemClimberMotor;
     
     public static Relay lightSubsystemSpike0;
     public static Relay lightSubsystemSpike1;
@@ -98,6 +99,9 @@ public class RobotMap {
         
         intakeSubsystemBallSensorDigitalInput = new DigitalInput(0);
         LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Digital Input", intakeSubsystemBallSensorDigitalInput);
+        
+        liftSubsystemClimberMotor = new Talon(8);
+        LiveWindow.addActuator("LiftSubsystem", "ClimberMotor", (Talon) liftSubsystemClimberMotor);
         
 //        intakeSubsystemIntakeRollerEncoder = new Encoder(6, 7, false, EncodingType.k4X);
 //        LiveWindow.addSensor("IntakeSubsystem", "Intake RollerEncoder", intakeSubsystemIntakeRollerEncoder);

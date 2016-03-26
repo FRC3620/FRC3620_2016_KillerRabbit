@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -68,7 +69,12 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
+	public static NetworkTable visionTable;  //dont know if this is right
+	
 	public void robotInit() {
+		
+		visionTable = NetworkTable.getTable("RoboRealms");
+		
         preferences = Preferences.getInstance();
         rioName = preferences.getString("rioName", null);
         
