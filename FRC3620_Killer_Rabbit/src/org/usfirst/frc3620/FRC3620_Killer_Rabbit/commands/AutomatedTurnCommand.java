@@ -2,6 +2,7 @@ package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
 import org.slf4j.Logger;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem;
 import org.usfirst.frc3620.logger.EventLogging;
@@ -100,6 +101,8 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	logger.info("AutomatedTurn end");
     	pidTurn.disable();
     	Robot.driveSubsystem.stopMotors();
+    	RobotMap.driveSubsystemLeftDriveEncoder.reset();
+    	RobotMap.driveSubsystemRightDriveEncoder.reset();
     }
 
     // Called when another command which requires one or more of the same
