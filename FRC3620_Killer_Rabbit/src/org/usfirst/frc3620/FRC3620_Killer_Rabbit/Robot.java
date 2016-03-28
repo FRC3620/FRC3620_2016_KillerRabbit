@@ -69,11 +69,8 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	public static NetworkTable visionTable;  //dont know if this is right
 	
 	public void robotInit() {
-		
-		visionTable = NetworkTable.getTable("RoboRealms");
 		
         preferences = Preferences.getInstance();
         rioName = preferences.getString("rioName", null);

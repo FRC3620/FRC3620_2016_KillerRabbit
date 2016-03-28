@@ -8,6 +8,8 @@ import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,30 +18,27 @@ import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 /**
  *
  */
-public class CenterHighGoalCommand extends Command implements PIDOutput{
+public class CenterHighGoalCommand extends Command implements PIDOutput, PIDSource{
 
 Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
 	double sideStick;
-	
-	
-	
+
 	double whereToTurnTo = 200; //set this to the center of the image. 200 is just a guess
 	
-	PIDController pidCenterHighGoal = new PIDController(.020, .0005, .00, .00, , this); //cant use ahrs need to ask what to use
+	PIDController pidCenterHighGoal = new PIDController(.020, .0005, .00, .00, this, this); //cant use ahrs need to ask what to use
 	//PIDController pidShortTurn = new PIDController(.030, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	//PIDController pidShortTurn = new PIDController(.045, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	//PIDController pidShortTurn = new PIDController(.035, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	
-	public CenterHighGoalCommand() {
-	}
-
-    public CenterHighGoalCommand(double centerOfBlob) // the current center of the blob
+	NetworkTable visionTable;
+	
+    public CenterHighGoalCommand() // the current center of the blob
     {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
-    	
+    	visionTable = NetworkTable.getTable("RoboRealms");
     	pidCenterHighGoal.setInputRange(0.0f,  400f); //set this to the width of the picture. 400 is just a guess
     	pidCenterHighGoal.setOutputRange(-1, 1);
     	pidCenterHighGoal.setContinuous(true);
@@ -49,8 +48,7 @@ Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
     protected void initialize() 
     {
     	logger.info("CenterHighGoalCommand start");
-    	@SuppressWarnings("deprecation")
-		double currentCenter = Robot.visionTable.getNumber("Blob_center_X");
+		double currentCenter = visionTable.getNumber("Blob_center_X", -1);
     	logger.info("Center of blob was {}, desiredCenter is {}", currentCenter, whereToTurnTo);
     	// TODO We need to look at this
     	pidCenterHighGoal.setSetpoint(whereToTurnTo);
@@ -73,7 +71,7 @@ Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
     	SmartDashboard.putNumber("PID Short Angle Error", pidCenterHighGoal.getError());
     	//System.out.println("PID Error: " + pidTurn90.getError());
     	//System.out.println("sideStick value: " + sideStick);
-      	if(Robot.visionTable.getNumber("Blob_center_X") > 200)
+      	if(visionTable.getNumber("Blob_center_X") > 200)
     	{
       		Robot.driveSubsystem.setDriveForward(0, -0.5);
     	}
@@ -108,10 +106,29 @@ Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	logger.info("Center High Goal Command Interrupted");
     	end();
     }
     
     public void pidWrite(double output) {
        sideStick = output;
     }
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double pidGet() {
+		// TODO Auto-generated method stub
+		return visionTable.getNumber("Blob_center_X");
+	}
 }
