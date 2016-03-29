@@ -35,6 +35,6 @@ public class AutonomousPortcullis extends CommandGroup {
     	addSequential(new AutoWaitForArmDownCommand());
     	addSequential(new AutomatedMoveTimed(2, .58));
     	addSequential(new ArmUpCommand());
-    	addSequential(new AutomatedMove(60, 1));
+    	addSequential(new AutomatedMove(40, 1));
     }
 }

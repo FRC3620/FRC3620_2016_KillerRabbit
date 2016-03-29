@@ -33,6 +33,6 @@ public class AutoPointSenecaLane5 extends CommandGroup {
     	addSequential(new AutomatedMove(41, .7));
     	addSequential(new AutomatedShortTurnCommand(turnAngle),2);
     	addSequential(new AutomatedMoveWithoutPID(laneDistance , .7));
-    	addSequential(new AutomatedShortTurnCommand(-turnAngle));
+    	addSequential(new AutomatedTurnCommand(-turnAngle));
     }
 }

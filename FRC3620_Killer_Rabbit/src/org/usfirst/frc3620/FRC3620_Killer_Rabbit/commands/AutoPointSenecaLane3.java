@@ -31,7 +31,7 @@ public class AutoPointSenecaLane3 extends CommandGroup {
     	turnAngle = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 3 Angle", 64);
     	
     	addSequential(new AutomatedMove(43, .7));
-    	addSequential(new AutomatedShortTurnCommand(turnAngle));
+    	addSequential(new AutomatedTurnCommand(turnAngle));
     	addParallel(new ShooterSetCloseGoal(), 1.5);
     	addSequential(new AutomatedMove(15, .7));
     	addSequential(new AutomatedShortTurnCommand(-turnAngle));
