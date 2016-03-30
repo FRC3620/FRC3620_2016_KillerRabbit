@@ -121,9 +121,11 @@ public class Robot extends IterativeRobot {
 		laneChooser.addDefault("Lane0", new Integer(0));
 		laneChooser.addObject("Lane1", new Integer(1));
 		laneChooser.addObject("Lane2", new Integer(2));
-        laneChooser.addObject("Lane3", new Integer(3));
-        laneChooser.addObject("Lane4", new Integer(4));
-        laneChooser.addObject("Lane5", new Integer(5));
+		laneChooser.addObject("Lane2.5", new Integer(3));
+        laneChooser.addObject("Lane3", new Integer(4));
+        laneChooser.addObject("Lane4", new Integer(5));
+        laneChooser.addObject("Lane5", new Integer(6));
+        laneChooser.addObject("Lane5.5", new Integer(7));
 		SmartDashboard.putData("Lane chooser", laneChooser);
 		
 		robotDataLogger = new DataLogger();
