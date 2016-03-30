@@ -62,6 +62,8 @@ public class OI {
     public Joystick driverJoystick;
     public JoystickButton ballIsStuckButton;
     public JoystickButton shortGoalPositionButton;
+    public JoystickButton climberUpButton;
+    public JoystickButton climberDownButton;
     
     public Joystick controlPanel;
     
@@ -120,6 +122,12 @@ public class OI {
         armUpButton.whenPressed(new ArmUpCommand());
         armDownButton = new DPadDownButton(operatorJoystick);
         armDownButton.whenPressed(new ArmLowerCommand());
+        
+        climberUpButton = new JoystickButton(controlPanel, 2);
+        climberUpButton.whileHeld(new ClimberUpCommand());
+        
+        climberDownButton = new JoystickButton(controlPanel, 4);
+        climberDownButton.whileHeld(new ClimberDownCommand());
         
         // SmartDashboard Buttons
 //        SmartDashboard.putData("Autonomous1Command", new AutonomousDoNothingCommand());
