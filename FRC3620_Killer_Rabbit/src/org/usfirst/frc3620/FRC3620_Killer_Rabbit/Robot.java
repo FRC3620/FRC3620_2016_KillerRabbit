@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	static RobotMode currentRobotMode = RobotMode.INIT, previousRobotMode;
 
 	Command autonomousCommand;
-	SendableChooser autoChooser;
+	public static AverageSendableChooser autoChooser;
 
 	DataLogger robotDataLogger;
 	static Logger logger;
@@ -75,7 +75,7 @@ public class Robot extends IterativeRobot {
         
 		logger = EventLogging.getLogger(Robot.class, Level.INFO);
 		
-		logger.info("Starting robotInit: name {}, MAC address is {}", rioName, getMACAddresses());
+		logger.info("Starting robotInit: name '{}', MAC address is {}", rioName, getMACAddresses());
 
 		canDeviceFinder = new CANDeviceFinder();
 		logger.info("CAN devices = {}", canDeviceFinder.deviceList.toString());
@@ -101,8 +101,20 @@ public class Robot extends IterativeRobot {
 		
 		powerDistributionPanel = new PowerDistributionPanel();
 
-		autoChooser = new SendableChooser();
+		autoChooser = new AverageSendableChooser();
+		loadAutoChooser();
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+		
+		// start the thingy that keeps the operator console and the chooser in sync
+		new ControlPanelWatcher();
 
+		robotDataLogger = new DataLogger();
+		robotDataLogger.setInterval(1.000);
+		robotDataLogger.setDataProvider(new RobotDataLoggerDataProvider());
+		robotDataLogger.start();
+	}
+	
+	public static void loadAutoChooser() {
 		autoChooser.addDefault("Do Nothing", new AutonomousDoNothingCommand());
         autoChooser.addObject("CDF", new AutonomousCDF());
         autoChooser.addObject("Low Bar", new AutonomousLowBar());
@@ -113,13 +125,8 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject("Low Bar And Shoot", new AutonomousLowBarAndShoot());
         autoChooser.addObject("Low Bar And High Goal", new AutonomousHighGoalAndShoot());
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
-
-		robotDataLogger = new DataLogger();
-		robotDataLogger.setInterval(1.000);
-		robotDataLogger.setDataProvider(new RobotDataLoggerDataProvider());
-		robotDataLogger.start();
 	}
-
+	
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
