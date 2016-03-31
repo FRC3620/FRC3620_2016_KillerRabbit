@@ -1,13 +1,17 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
+import org.slf4j.Logger;
+import org.usfirst.frc3620.logger.EventLogging;
+import org.usfirst.frc3620.logger.EventLogging.Level;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoPointSenecaLane5AndAHalf extends CommandGroup {
+public class AutoShootFromSenecaRight extends CommandGroup {
     
-    public  AutoPointSenecaLane5AndAHalf() {
+    public  AutoShootFromSenecaRight() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,7 +28,11 @@ public class AutoPointSenecaLane5AndAHalf extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new AutomatedMove(100,.7));
-    	addSequential(new AutomatedTurnCommand(-67));
+    	
+    	addParallel(new AutoRunShooterCommand());
+    	addParallel(new AutomatedMoveWithoutPID(60, .80));
+    	addParallel(new AutoWaitAndShoot(3));    	
     }
+    
+    
 }

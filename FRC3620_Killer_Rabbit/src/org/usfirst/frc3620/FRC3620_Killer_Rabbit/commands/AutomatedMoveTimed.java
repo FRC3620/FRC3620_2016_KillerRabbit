@@ -47,7 +47,9 @@ public class AutomatedMoveTimed extends Command implements PIDOutput{
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	pidDriveStraight.setOutputRange(-1, 1);
-   
+    	pidDriveStraight.setContinuous(true);
+    	
+    	
     	howFastToMove = howFast;
     	howLongWeWantToMove = howLongInSeconds;
     }

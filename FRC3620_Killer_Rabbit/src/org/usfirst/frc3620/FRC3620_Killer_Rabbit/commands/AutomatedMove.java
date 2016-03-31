@@ -44,7 +44,9 @@ public class AutomatedMove extends Command implements PIDOutput{
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	pidDriveStraight.setOutputRange(-1, 1);
-   
+    	pidDriveStraight.setContinuous(true);
+    	
+    	
     	howFastToMove = howFast;
     	howFarWeWantToMove = howFar;
     }
