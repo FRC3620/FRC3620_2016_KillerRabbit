@@ -8,16 +8,19 @@ import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoPointSenecaLane5;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoPointSenecaLane5AndAHalf;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoShootFromSeneca;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class SuperDuperAutonomous extends CommandGroup {
-	public static Command make(Command startCommand, String lane) {
+	public static Command make(Command startCommand, String lane) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		SuperDuperAutonomous superDuper = new SuperDuperAutonomous();
-		superDuper.addSequential(startCommand);
-		superDuper.commands.add(startCommand);
+		Command newStartCommand = makeANewCommand(startCommand);
+		superDuper.addSequential(newStartCommand);
+		superDuper.commands.add(newStartCommand);
 		Command middleCommand = null;
 		if (lane.equalsIgnoreCase("2L")) {
             middleCommand = new AutoPointSenecaLane2AndAHalf();
@@ -46,6 +49,13 @@ public class SuperDuperAutonomous extends CommandGroup {
 	@Override
 	public String toString() {
 		return "SuperDuperAutonomousMaker [commands=" + commands + "]";
+	}
+	
+	static Command makeANewCommand (Command c) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	    Class<?> clazz = c.getClass();
+	    Constructor<?> ctor = clazz.getConstructor();
+	    Object object = ctor.newInstance(new Object[] {  });
+	    return (Command) object;
 	}
 
 }

@@ -44,8 +44,9 @@ public class ControlPanelWatcher {
 				if (controlPanelAutonomousIndex != autonomousChooserIndex) {
 					if (controlPanelAutonomousIndex < autonomousChooserNames.size()) {
 						String controlPanelName = autonomousChooserNames.get(controlPanelAutonomousIndex);
-						logger.info("control panel says autonomous {}, the chooser says {}, updating chooser to {}",
-								controlPanelAutonomousIndex, autonomousChooserIndex, controlPanelName);
+                        String chooserName = autonomousChooserNames.get(autonomousChooserIndex);
+						logger.info("chooser says autonomous {} ({}), control panel says {} ({}), updating chooser to {}",
+								autonomousChooserIndex, chooserName, controlPanelAutonomousIndex, controlPanelName, controlPanelName);
 
 						// update chooser here
 						autonomousChooser.select(controlPanelName);
@@ -61,8 +62,9 @@ public class ControlPanelWatcher {
                 if (controlPanelLaneIndex != laneChooserIndex) {
                     if (controlPanelLaneIndex < laneChooserNames.size()) {
                         String controlPanelName = laneChooserNames.get(controlPanelLaneIndex);
-                        logger.info("control panel says lane {}, the chooser says {}, updating chooser to {}",
-                                controlPanelLaneIndex, laneChooserIndex, controlPanelName);
+                        String chooserName = laneChooserNames.get(laneChooserIndex);
+                        logger.info("chooser says lane {} ({}), control panel says {} ({}), updating chooser to {}",
+                                laneChooserIndex, chooserName, controlPanelLaneIndex, controlPanelName, controlPanelName);
 
                         // update chooser here
                         laneChooser.select(controlPanelName);
