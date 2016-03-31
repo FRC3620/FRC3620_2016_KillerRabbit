@@ -34,7 +34,7 @@ public class ControlPanelWatcher {
 
 			if (controlPanelPresent) {
 				// the control panel is connected to the driver's station
-				int controlPanelIndex = readControlPanel();
+				int controlPanelIndex = readAutonomousFromControlPanel();
 				logger.debug("Control panel is {}", controlPanelIndex);
 
 				if (controlPanelIndex != chooserIndex) {
@@ -60,16 +60,30 @@ public class ControlPanelWatcher {
 		}
 	}
 
-	int readControlPanel() {
+	int readAutonomousFromControlPanel() {
 		int rv = 0;
+		// these bits are 8, 9, 10 on the Arduino end
 		for (int i = 11; i >= 9; i--) {
 			rv = rv << 1;
 			boolean b = controlPanel.getRawButton(i);
 			if (b)
 				rv += 1;
-			logger.debug("button {} = {}, value is now {}", i, b, rv);
+			logger.debug("button {} = {}, autonomous is now {}", i, b, rv);
 		}
 		return rv;
 	}
+
+    int readLaneFromControlPanel() {
+        int rv = 0;
+        // these bits are 5, 6, 7 on the Arduino end
+        for (int i = 8; i >= 6; i--) {
+            rv = rv << 1;
+            boolean b = controlPanel.getRawButton(i);
+            if (b)
+                rv += 1;
+            logger.debug("button {} = {}, lane is now {}", i, b, rv);
+        }
+        return rv;
+    }
 
 }
