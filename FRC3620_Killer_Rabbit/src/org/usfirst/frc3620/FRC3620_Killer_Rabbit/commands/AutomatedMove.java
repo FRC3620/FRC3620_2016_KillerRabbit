@@ -44,7 +44,9 @@ public class AutomatedMove extends Command implements PIDOutput{
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	pidDriveStraight.setOutputRange(-1, 1);
-   
+    	pidDriveStraight.setContinuous(true);
+    	
+    	
     	howFastToMove = howFast;
     	howFarWeWantToMove = howFar;
     }
@@ -78,9 +80,8 @@ public class AutomatedMove extends Command implements PIDOutput{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	
-    	logger.debug("Left Encoder: {}", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
-    	logger.debug("Right Encoder: {}", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
+    	//logger.info("Left Encoder: {}", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
+    	//logger.info("Right Encoder: {}", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
     	
     	if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
     	{

@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	public static AverageSendableChooser autoChooser;
+    public static AverageSendableChooser laneChooser;
 
 	DataLogger robotDataLogger;
 	static Logger logger;
@@ -101,7 +102,6 @@ public class Robot extends IterativeRobot {
 		
 		powerDistributionPanel = new PowerDistributionPanel();
 
-		autoChooser = new AverageSendableChooser();
 		loadAutoChooser();
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 		
@@ -115,14 +115,29 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public static void loadAutoChooser() {
+        autoChooser = new AverageSendableChooser();
 		autoChooser.addDefault("Do Nothing", new AutonomousDoNothingCommand());
+        // TODO fix this!
         autoChooser.addObject("CDF", new AutonomousCDF());
         autoChooser.addObject("Low Bar", new AutonomousLowBar());
         autoChooser.addObject("Moat and Rampart", new AutonomousMoatandRampart());
+        // TODO fix this!
         autoChooser.addObject("Portcullis", new AutonomousPortcullis());
         autoChooser.addObject("Rough Terrain", new AutonomousRoughTerrain());
         autoChooser.addObject("Reach Defense", new AutonomousReachDefense());
-        autoChooser.addObject("Spare", new DougsAutonomousCommand());
+        autoChooser.addObject("Low Bar And Shoot", new AutonomousLowBarAndShoot());
+        autoChooser.addObject("Low Bar And High Goal", new AutonomousHighGoalAndShoot());
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+
+		laneChooser = new AverageSendableChooser();
+		laneChooser.addDefault("None", "");
+		laneChooser.addObject("Lane2Left", "2L");
+		laneChooser.addObject("Lane2", "2");
+        laneChooser.addObject("Lane3", "3");
+        laneChooser.addObject("Lane4", "4");
+        laneChooser.addObject("Lane5", "5");
+        laneChooser.addObject("Lane5Right", "5R");
+		SmartDashboard.putData("Lane chooser", laneChooser);
 	}
 	
 	/**
@@ -144,8 +159,14 @@ public class Robot extends IterativeRobot {
 		allInit(RobotMode.AUTONOMOUS);
 
 		autonomousCommand = (Command) autoChooser.getSelected();
+		
+		String lane = (String) laneChooser.getSelected();
+		if (! lane.equals("")) {
+			autonomousCommand = SuperDuperAutonomous.make(autonomousCommand, lane);
+		}
+		
 		if (autonomousCommand != null) {
-		    logger.info("Starting autonomous {}", autonomousCommand.getClass().getName());
+		    logger.info("Starting autonomous {}", autonomousCommand.toString());
 			autonomousCommand.start();
 		}
 	}
@@ -244,6 +265,7 @@ public class Robot extends IterativeRobot {
 	        SmartDashboard.putNumber("Arm Position", RobotMap.armSubsystemArmCANTalon.getPosition());
 	    }
 	    SmartDashboard.putBoolean("Arm Encoder Valid", armSubsystem.getEncoderIsValid());
+	    SmartDashboard.putBoolean("Arm Manual Mode", armSubsystem.areWeInManual());
 
 		SmartDashboard.putNumber("NavX Angle",Robot.driveSubsystem.getAngle());
 		SmartDashboard.putNumber("NavX Displacement X",Robot.driveSubsystem.getDisplacementX());

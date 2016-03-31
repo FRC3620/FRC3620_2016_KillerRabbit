@@ -1,14 +1,17 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
+import org.slf4j.Logger;
+import org.usfirst.frc3620.logger.EventLogging;
+import org.usfirst.frc3620.logger.EventLogging.Level;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
-public class AutonomousCDF extends CommandGroup {
+public class AutoShootFromSenecaRight extends CommandGroup {
     
-    public  AutonomousCDF() {
+    public  AutoShootFromSenecaRight() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,15 +29,10 @@ public class AutonomousCDF extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	
-    	//AutomatedMove overshoots about 6"
-    	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(33, .65));
-    	addSequential(new ArmLowerCommand());
-    	addSequential(new AutoWaitForArmDownCommand(), 1);
-    	addSequential(new AutomatedMove(36, .80));
-    	addSequential(new ArmUpCommand());
-    	//addSequential(new AutoWaitForArmUpCommand());
-    	addSequential(new AutomatedMove(36, .75));
+    	addParallel(new AutoRunShooterCommand());
+    	addParallel(new AutomatedMoveWithoutPID(60, .80));
+    	addParallel(new AutoWaitAndShoot(3));    	
     }
+    
+    
 }

@@ -33,7 +33,7 @@ public class ArmSubsystem extends Subsystem {
 
 	//static final double bottomSetPoint = 0.7;
 	public static final double defaultBottomSetPoint = 1.15;
-	public static final double topSetPoint = -.05;
+	public static final double defaultTopSetPoint = 0.0;
 	public static final double cushion = 0.1;
 	static final double creepPower = 0.25;
 	
@@ -50,6 +50,12 @@ public class ArmSubsystem extends Subsystem {
 	public ArmSubsystem() {
 		super();
 
+		double kP = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ArmP Value", .4);
+		double kI = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ArmI Value", 0);
+		double kD = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ArmD Value", 0);
+		logger.info("armpid p={} i={} d={}", kP, kI, kD);
+
+		
 		// TODO Auto-generated constructor stub
 		// armCANTalon.changeControlMode(TalonControlMode.Position);
 		weAreInManualMode = true;
@@ -57,8 +63,9 @@ public class ArmSubsystem extends Subsystem {
 		armCANTalon.enableBrakeMode(true);
 		// SIMs need reverseSensor(true), BAGs need false.
 		armCANTalon.reverseSensor(true);
-		armCANTalon.setPID(0.4, .00001, 0.01);
-		armCANTalon.setPosition(topSetPoint);
+		//armCANTalon.setPID(0.4, .00001, 0.01); hitting robot too hard
+		armCANTalon.setPID(kP, kI, kD);
+		armCANTalon.setPosition(getArmTopSetPoint());
 		// logger.info("encoder position is " + armCANTalon.getEncPosition());
 		// armCANTalon.setEncPosition(0);
 		// logger.info("now the encoder position is " +
@@ -119,14 +126,22 @@ public class ArmSubsystem extends Subsystem {
 	 * (disabled -> teleop, teleop -> disabled, etc)
 	 */
 	public void allInit(RobotMode newRobotMode) {
+		
 		if (newRobotMode == RobotMode.TELEOP) {
 			logger.info("Armsubsystem sees we are going into Teleop, setting vbusmode");
 			moveManually(0);
+			
+			double kP = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ArmP Value", .4);
+			double kI = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ArmI Value", 0);
+			double kD = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ArmD Value", 0);
+			logger.info("armpid p={} i={} d={}", kP, kI, kD);
+			
+			armCANTalon.setPID(kP, kI, kD);
 		}
 	}
 
 	public void moveArmToTop() {
-		moveArmToSetpoint(topSetPoint, 0, 0, 0);
+		moveArmToSetpoint(getArmTopSetPoint(), 0, 0, 0);
 		if(RobotMap.armSubsystemHomeDigitalInput.get())
 		{
 			timer.start();
@@ -145,8 +160,13 @@ public class ArmSubsystem extends Subsystem {
 		moveArmToSetpoint(getArmBottomSetPoint(), 0, 0, 0);
 	}
 	
+	
 	public double getArmBottomSetPoint() {
 		return edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("armBottomSetPoint", defaultBottomSetPoint);
+	}
+	
+	public double getArmTopSetPoint() {
+		return edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("armTopSetPoint", defaultTopSetPoint);
 	}
 
 	void moveArmToSetpoint(double position, double p, double i, double d) {
@@ -178,7 +198,7 @@ public class ArmSubsystem extends Subsystem {
 				double encoderPosition = armCANTalon.getPosition();
 				double desiredSetpoint = encoderPosition;
 				desiredSetpoint = Math.min(getArmBottomSetPoint(), desiredSetpoint);
-				desiredSetpoint = Math.max(topSetPoint, desiredSetpoint);
+				desiredSetpoint = Math.max(getArmTopSetPoint(), desiredSetpoint);
 				armCANTalon.setSetpoint(desiredSetpoint);
 				logger.info("encoder position is " + encoderPosition);
 				logger.info("setting setpoint to " + armCANTalon.getSetpoint());
@@ -204,9 +224,9 @@ public class ArmSubsystem extends Subsystem {
 			if (encoderIsValid) {
 				if (directionAndSpeed > 0) {
 					// moves up toward a smaller top setpoint.
-					if (position < topSetPoint) {
+					if (position < getArmTopSetPoint()) {
 						adjustedPower = 0;
-					} else if (position < topSetPoint + cushion) {
+					} else if (position < getArmTopSetPoint() + cushion) {
 						adjustedPower = Math.min(creepPower, directionAndSpeed);
 					} else {
 						adjustedPower = directionAndSpeed;
@@ -260,5 +280,10 @@ public class ArmSubsystem extends Subsystem {
 
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+	}
+	
+	public boolean areWeInManual()
+	{
+		return weAreInManualMode;
 	}
 }

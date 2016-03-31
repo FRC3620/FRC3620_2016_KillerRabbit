@@ -20,7 +20,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
 
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-	PIDController shooterPositionPID = new PIDController(5, 1, 1, this, this);
+	PIDController shooterPositionPID = new PIDController(1 ,0 , 0,this, this);
 	
     public ShooterSetPositionCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -34,6 +34,15 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     // Called just before this Command runs the first time
     protected void initialize() {
     	
+    		double kP = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ShooterBasketP Value", 5);
+    		double kI = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ShooterBasketI Value", 0);
+    		double kD = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("ShooterBasketD Value", 0);
+    		logger.info("shooterpid p={} i={} d={}", kP, kI, kD);
+    		
+    		
+    		shooterPositionPID.setPID(kP, kI, kD);
+    		shooterPositionPID.setAbsoluteTolerance(.01);
+    		
     		double desiredVeds = getDesiredVeds();
     		logger.info("setting shooter tilt setpoint, desired veds = {}", desiredVeds);
     		shooterPositionPID.setSetpoint(desiredVeds);
@@ -41,6 +50,7 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     		// onTarget is busted
         	//shooterPositionPID.setAbsoluteTolerance(5);
     		shooterPositionPID.enable();
+    		
 
     }
 
@@ -52,6 +62,8 @@ abstract public class ShooterSetPositionCommand extends Command implements PIDSo
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     		/* commented out 3-5-16 for testing
+    		 * 
+    		 
     		double error = shooterPositionPID.getError();
     		
     		// onTarget is busted. figure that out someday

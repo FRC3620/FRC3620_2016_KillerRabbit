@@ -2,6 +2,7 @@ package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
 import org.slf4j.Logger;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem;
 import org.usfirst.frc3620.logger.EventLogging;
@@ -32,7 +33,7 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
 	//PIDController pidTurn = new PIDController(.035, .001, 00, kF, ahrs, this); overshot
 	//PIDController pidTurn = new PIDController(.015, .001, 00, kF, ahrs, this); overshot
 	//PIDController pidTurn = new PIDController(.015, .0001, 00, kF, ahrs, this); works
-	PIDController pidTurn = new PIDController(.015, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
+	PIDController pidTurn = new PIDController(.018, .00005, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	
 	public AutomatedTurnCommand() {
 		this(90.0);
@@ -100,6 +101,8 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	logger.info("AutomatedTurn end");
     	pidTurn.disable();
     	Robot.driveSubsystem.stopMotors();
+    	RobotMap.driveSubsystemLeftDriveEncoder.reset();
+    	RobotMap.driveSubsystemRightDriveEncoder.reset();
     }
 
     // Called when another command which requires one or more of the same

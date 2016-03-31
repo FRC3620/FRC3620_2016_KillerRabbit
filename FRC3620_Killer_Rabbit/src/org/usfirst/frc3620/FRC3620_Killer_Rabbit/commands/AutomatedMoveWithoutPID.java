@@ -14,44 +14,26 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
  */
-public class AutomatedMoveTimed extends Command implements PIDOutput{
+public class AutomatedMoveWithoutPID extends Command {
 	
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 	
-
-	//Last working kP = .05
-	static final double kP = .05;
-	//Last working kI = .0015
-	static final double kI = .0015;	
-	//Last working kD = .02
-	static final double kD = .02;
 	
-	static final double kF = .00;
-	double sideStick;
-	
-	double howLongWeWantToMove = 0;
+	double howFarWeWantToMove = 0;
 	double howFastToMove = 0;
 	
-	Timer timer = new Timer();
-	
-	PIDController pidDriveStraight = new PIDController(kP, kI, kD, kF, Robot.driveSubsystem.getAhrs(), this);
-	
 
-    public AutomatedMoveTimed(double howLongInSeconds, double howFast) {
+    public AutomatedMoveWithoutPID(double howFar, double howFast) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
-    	pidDriveStraight.setOutputRange(-1, 1);
-    	pidDriveStraight.setContinuous(true);
-    	
-    	
+   
     	howFastToMove = howFast;
-    	howLongWeWantToMove = howLongInSeconds;
+    	howFarWeWantToMove = howFar;
     }
     
     
@@ -62,38 +44,44 @@ public class AutomatedMoveTimed extends Command implements PIDOutput{
     	logger.info("AutomatedMove start");
     	RobotMap.driveSubsystemLeftDriveEncoder.reset();
     	RobotMap.driveSubsystemRightDriveEncoder.reset();
-        pidDriveStraight.setSetpoint(Robot.driveSubsystem.getAutomaticHeading());
-    	pidDriveStraight.enable();
+//        pidDriveStraight.setSetpoint(Robot.driveSubsystem.getAutomaticHeading());
+//    	pidDriveStraight.enable();
     	
-    	timer.reset();
-    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("PID Error: " + pidDriveStraight.getError());
-    	System.out.println("sideStick value: " + sideStick);
     	
-    	SmartDashboard.putNumber("DriveStraight P", pidDriveStraight.getP());
-    	SmartDashboard.putNumber("DriveStraight I", pidDriveStraight.getI());
-    	SmartDashboard.putNumber("DriveStraight D", pidDriveStraight.getD());
-    	
-    	SmartDashboard.putNumber("PID DriveStraight Error", pidDriveStraight.getError());
-    	SmartDashboard.putNumber("PID DriveStraight Sidestick", sideStick);
-    	Robot.driveSubsystem.setDriveForward(-howFastToMove, sideStick);
+    	Robot.driveSubsystem.setDriveForward(-howFastToMove, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
-    	return timer.get() > howLongWeWantToMove;
+    	//logger.info("Left Encoder: {}", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
+    	//logger.info("Right Encoder: {}", RobotMap.driveSubsystemRightDriveEncoder.getDistance());
     	
+    	if(RobotMap.driveSubsystemLeftDriveEncoder.getDistance() > howFarWeWantToMove)
+    	{
+    		return true;
+  
+    	}
+    	else if(RobotMap.driveSubsystemRightDriveEncoder.getDistance() > howFarWeWantToMove)
+    	{
+    		return true;
+    	}
+    	
+    	else
+    	{
+    		return false;
+    	}
+
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	logger.info("AutomatedMove end");
-    	pidDriveStraight.disable();
+//    	pidDriveStraight.disable();
     	Robot.driveSubsystem.stopMotors();
     }
 
@@ -102,10 +90,5 @@ public class AutomatedMoveTimed extends Command implements PIDOutput{
     protected void interrupted() {
         end();
     }
-      
-    public void pidWrite(double output) {
-       sideStick = output;
-    }
-
    
 }

@@ -1,14 +1,13 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
-public class AutonomousCDF extends CommandGroup {
+public class AutoPointSenecaLane5 extends CommandGroup {
     
-    public  AutonomousCDF() {
+    public  AutoPointSenecaLane5() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -25,16 +24,15 @@ public class AutonomousCDF extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	double laneDistance;
+    	laneDistance = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 5 Distance", 83);
     	
+    	double turnAngle;
+    	turnAngle = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 5 Angle", -72);
     	
-    	//AutomatedMove overshoots about 6"
-    	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(33, .65));
-    	addSequential(new ArmLowerCommand());
-    	addSequential(new AutoWaitForArmDownCommand(), 1);
-    	addSequential(new AutomatedMove(36, .80));
-    	addSequential(new ArmUpCommand());
-    	//addSequential(new AutoWaitForArmUpCommand());
-    	addSequential(new AutomatedMove(36, .75));
+    	addSequential(new AutomatedMove(85, .7));
+    	addSequential(new AutomatedTurnCommand(turnAngle),2);
+    	addSequential(new AutomatedMoveWithoutPID(laneDistance , .7));
+    	addSequential(new AutomatedTurnCommand(-turnAngle));
     }
 }

@@ -17,6 +17,7 @@ public class ControlPanelWatcher {
 	Timer timer = new Timer();
 	Joystick controlPanel = Robot.oi.controlPanel;
 	AverageSendableChooser autonomousChooser = Robot.autoChooser;
+    AverageSendableChooser laneChooser = Robot.laneChooser;
 
 	public ControlPanelWatcher() {
 		// look at the control panel every 2000 ms (2 seconds)
@@ -28,42 +29,67 @@ public class ControlPanelWatcher {
 		public void run() {
 			boolean controlPanelPresent = controlPanel.getAxis(AxisType.kZ) > 0.95;
 			logger.debug("The z axis is {}", controlPanel.getAxis(AxisType.kZ));
-			List<String> chooserNames = autonomousChooser.getChoiceNames();
-			String chooserSelectedName = autonomousChooser.getSelectedName();
-			int chooserIndex = chooserNames.indexOf(chooserSelectedName);
+			List<String> autonomousChooserNames = autonomousChooser.getChoiceNames();
+			String autonomousChooserSelectedName = autonomousChooser.getSelectedName();
+			int autonomousChooserIndex = autonomousChooserNames.indexOf(autonomousChooserSelectedName);
+            List<String> laneChooserNames = laneChooser.getChoiceNames();
+            String laneChooserSelectedName = laneChooser.getSelectedName();
+            int laneChooserIndex = laneChooserNames.indexOf(laneChooserSelectedName);
 
 			if (controlPanelPresent) {
 				// the control panel is connected to the driver's station
-				int controlPanelIndex = readAutonomousFromControlPanel();
-				logger.debug("Control panel is {}", controlPanelIndex);
+				int controlPanelAutonomousIndex = readAutonomousFromControlPanel();
+				logger.debug("Control panel autonomous is {}", controlPanelAutonomousIndex);
 
-				if (controlPanelIndex != chooserIndex) {
-					if (controlPanelIndex < chooserNames.size()) {
-						String controlPanelName = chooserNames.get(controlPanelIndex);
-						logger.info("control panel says {}, the chooser says {}, updating chooser to {}",
-								controlPanelIndex, chooserIndex, controlPanelName);
+				if (controlPanelAutonomousIndex != autonomousChooserIndex) {
+					if (controlPanelAutonomousIndex < autonomousChooserNames.size()) {
+						String controlPanelName = autonomousChooserNames.get(controlPanelAutonomousIndex);
+						logger.info("control panel says autonomous {}, the chooser says {}, updating chooser to {}",
+								controlPanelAutonomousIndex, autonomousChooserIndex, controlPanelName);
 
 						// update chooser here
 						autonomousChooser.select(controlPanelName);
-						chooserSelectedName = controlPanelName;
+						autonomousChooserSelectedName = controlPanelName;
 					} else {
-						logger.info("control panel says {}, don't have that many", controlPanelIndex);
+						logger.info("control panel says autonomous {}, don't have that many", controlPanelAutonomousIndex);
 					}
 				}
+
+				int controlPanelLaneIndex = readLaneFromControlPanel();
+                logger.debug("Control panel lane is {}", controlPanelLaneIndex);
+
+                if (controlPanelLaneIndex != laneChooserIndex) {
+                    if (controlPanelLaneIndex < laneChooserNames.size()) {
+                        String controlPanelName = laneChooserNames.get(controlPanelLaneIndex);
+                        logger.info("control panel says lane {}, the chooser says {}, updating chooser to {}",
+                                controlPanelLaneIndex, laneChooserIndex, controlPanelName);
+
+                        // update chooser here
+                        laneChooser.select(controlPanelName);
+                        laneChooserSelectedName = controlPanelName;
+                    } else {
+                        logger.info("control panel says lane {}, don't have that many", controlPanelLaneIndex);
+                    }
+                }
 			}
 
-			String preferencesName = Robot.preferences.getString("autonomous", chooserNames.get(0));
-			if (!chooserSelectedName.equals(preferencesName)) {
-				logger.info("changing autonomous in preferences from {} to {}", preferencesName, chooserSelectedName);
-				Robot.preferences.putString("autonomous", chooserSelectedName);
+			String autonomousPreferencesName = Robot.preferences.getString("autonomous", autonomousChooserNames.get(0));
+			if (!autonomousChooserSelectedName.equals(autonomousPreferencesName)) {
+				logger.info("changing autonomous in preferences from {} to {}", autonomousPreferencesName, autonomousChooserSelectedName);
+				Robot.preferences.putString("autonomous", autonomousChooserSelectedName);
 			}
+            String lanePreferencesName = Robot.preferences.getString("autonomousLane", laneChooserNames.get(0));
+            if (!laneChooserSelectedName.equals(lanePreferencesName)) {
+                logger.info("changing autonomous lane in preferences from {} to {}", lanePreferencesName, laneChooserSelectedName);
+                Robot.preferences.putString("autonomousLane", laneChooserSelectedName);
+            }
 		}
 	}
 
 	int readAutonomousFromControlPanel() {
 		int rv = 0;
-		// these bits are 8, 9, 10 on the Arduino end
-		for (int i = 11; i >= 9; i--) {
+		// these bits are 7, 8, 9, 10 on the Arduino end
+		for (int i = 11; i >= 8; i--) {
 			rv = rv << 1;
 			boolean b = controlPanel.getRawButton(i);
 			if (b)
@@ -75,8 +101,8 @@ public class ControlPanelWatcher {
 
     int readLaneFromControlPanel() {
         int rv = 0;
-        // these bits are 5, 6, 7 on the Arduino end
-        for (int i = 8; i >= 6; i--) {
+        // these bits are 4, 5, 6 on the Arduino end
+        for (int i = 7; i >= 5; i--) {
             rv = rv << 1;
             boolean b = controlPanel.getRawButton(i);
             if (b)

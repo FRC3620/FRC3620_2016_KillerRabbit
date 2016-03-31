@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.InterruptHandlerFunction;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -74,6 +75,7 @@ public class ShooterSubsystem extends Subsystem {
     
     public void setShooterVoltage(double voltage)
     {
+    	SmartDashboard.putNumber("ShooterVoltage", voltage);
     	
     	shooterCANTalon2.set(voltage);
     	shooterCANTalon3.set(voltage);
@@ -125,7 +127,7 @@ public class ShooterSubsystem extends Subsystem {
     
     public double getTiltPotentiometerPostion () 
     {
-    	return shooterTiltSensor.getVoltage();
+    	return shooterTiltSensor.getAverageVoltage();
     }
     
     public boolean isPotValid()
@@ -137,7 +139,7 @@ public class ShooterSubsystem extends Subsystem {
     {
     	if (power < 0 && isShooterAtHome()) {
     		// don't go past home
-    		//power = 0;
+    		power = 0;
     	}
     	shooterPositionTalon.set(power);
     }
