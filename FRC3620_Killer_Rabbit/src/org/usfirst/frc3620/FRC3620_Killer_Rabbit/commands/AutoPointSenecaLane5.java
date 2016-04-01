@@ -30,7 +30,7 @@ public class AutoPointSenecaLane5 extends CommandGroup {
     	double turnAngle;
     	turnAngle = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 5 Angle", -72);
     	
-    	addSequential(new AutomatedMove(85, .7));
+    	addSequential(new AutomatedMove(75, .7));
     	addSequential(new AutomatedTurnCommand(turnAngle),2);
     	addSequential(new AutomatedMoveWithoutPID(laneDistance , .7));
     	addSequential(new AutomatedTurnCommand(-turnAngle));

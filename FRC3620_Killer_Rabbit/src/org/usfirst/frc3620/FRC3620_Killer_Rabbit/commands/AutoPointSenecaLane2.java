@@ -33,8 +33,8 @@ public class AutoPointSenecaLane2 extends CommandGroup {
     	addSequential(new AutomatedMove(40, .7));
     	addSequential(new AutomatedShortTurnCommand(turnAngle));
     	addParallel(new ShooterSetCloseGoal(), 1.5);
-    	addSequential(new AutomatedMove(laneDistance, .7));
-    	addSequential(new AutomatedTurnCommand(-turnAngle));
+    	addSequential(new AutomatedMove(laneDistance + 3, .7));
+    	addSequential(new AutomatedTurnCommand(-75));
     	
     }
 }

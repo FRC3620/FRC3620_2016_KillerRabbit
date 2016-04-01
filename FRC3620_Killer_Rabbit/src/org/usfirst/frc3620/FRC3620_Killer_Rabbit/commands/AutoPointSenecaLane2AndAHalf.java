@@ -24,7 +24,7 @@ public class AutoPointSenecaLane2AndAHalf extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new AutomatedMove(125,.7));
+    	addSequential(new AutomatedMove(128,.7));
     	addSequential(new AutomatedTurnCommand(67));
     	
     }
