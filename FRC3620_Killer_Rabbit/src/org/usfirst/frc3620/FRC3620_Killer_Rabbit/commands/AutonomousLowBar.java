@@ -26,7 +26,7 @@ public class AutonomousLowBar extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(29, .65));
+    	addSequential(new AutomatedMove(27, .65));
     	addSequential(new ArmLowerCommand());
     	addSequential(new AutoWaitForArmDownCommand());
     	addSequential(new AutomatedMove(132, .7));

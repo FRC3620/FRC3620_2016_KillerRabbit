@@ -224,23 +224,25 @@ public class ArmSubsystem extends Subsystem {
 			if (encoderIsValid) {
 				if (directionAndSpeed > 0) {
 					// moves up toward a smaller top setpoint.
-					if (position < getArmTopSetPoint()) {
-						adjustedPower = 0;
-					} else if (position < getArmTopSetPoint() + cushion) {
-						adjustedPower = Math.min(creepPower, directionAndSpeed);
-					} else {
-						adjustedPower = directionAndSpeed;
-					}
+//					if (position < getArmTopSetPoint()) {
+//						adjustedPower = 0;
+//					} else if (position < getArmTopSetPoint() + cushion) {
+//						adjustedPower = Math.min(creepPower, directionAndSpeed);
+//					} else {
+//						adjustedPower = directionAndSpeed;
+//					}
+					adjustedPower = directionAndSpeed;
 				} else {
 					double bottomSetPoint = getArmBottomSetPoint();
-					if (position > bottomSetPoint) {
-						adjustedPower = 0;
-					} else if (position > bottomSetPoint - cushion) {
-						adjustedPower = Math.max(-creepPower,
-								directionAndSpeed);
-					} else {
-						adjustedPower = directionAndSpeed;
-					}
+//					if (position > bottomSetPoint) {
+//						adjustedPower = 0;
+//					} else if (position > bottomSetPoint - cushion) {
+//						adjustedPower = Math.max(-creepPower,
+//								directionAndSpeed);
+//					} else {
+//						adjustedPower = directionAndSpeed;
+//					}
+					adjustedPower = directionAndSpeed;
 				}
 			} else {
 				if (directionAndSpeed > 0) {

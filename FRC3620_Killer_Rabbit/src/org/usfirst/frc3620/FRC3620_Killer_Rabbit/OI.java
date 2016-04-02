@@ -80,14 +80,14 @@ public class OI {
         
         // 4 = Y button
         
-        setDriveToBack = new JoystickButton(driverJoystick, 5);
-        setDriveToBack.whenPressed(new SetDriveToRearCommand());
+        //setDriveToBack = new JoystickButton(driverJoystick, 5);
+       //setDriveToBack.whenPressed(new SetDriveToRearCommand());
         
-        setDriveToFront = new JoystickButton(driverJoystick, 6);
-        setDriveToFront.whenPressed(new SetDriveToFrontCommand());
+        //setDriveToFront = new JoystickButton(driverJoystick, 6);
+        //setDriveToFront.whenPressed(new SetDriveToFrontCommand());
         
-        switchCamera = new JoystickButton(driverJoystick, 9);
-        switchCamera.whenPressed(new SwitchCameraCommand());
+        //switchCamera = new JoystickButton(driverJoystick, 9);
+        //switchCamera.whenPressed(new SwitchCameraCommand());
        
         
         intakeButton = new JoystickButton(operatorJoystick, 1);
