@@ -56,6 +56,13 @@ public class LightSubsystem extends Subsystem {
     	hitRelays();
     }
     
+    public void setColor (int color) {
+        red = (color & 0xff0000) > 0x800000;
+        green = (color & 0x00ff00) > 0x008000;
+        blue = (color & 0x0000ff) > 0x000080;
+        hitRelays();
+    }
+
     void hitRelays() {
     	Relay.Value s0 = Value.kOff;
     	if (red) {
