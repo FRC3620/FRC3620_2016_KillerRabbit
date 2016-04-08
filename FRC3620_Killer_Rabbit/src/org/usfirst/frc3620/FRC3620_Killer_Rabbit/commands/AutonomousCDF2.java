@@ -31,7 +31,7 @@ public class AutonomousCDF2 extends CommandGroup {
     	addSequential(new AutomatedMove(.5, -.60), .5);
     	addSequential(new AutomatedMove(36, .80));
     	addSequential(new ArmUpCommand());
-    	addSequential(new AutomatedMove(40, .75));
+    	addSequential(new AutomatedMove(36, .75));
     	
     }
 }

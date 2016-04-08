@@ -29,7 +29,7 @@ public class AutomatedShortTurnCommand extends Command implements PIDOutput{
 	double howFarWeWantToTurn = 0;
 	
 	
-	PIDController pidShortTurn = new PIDController(.020, .0005, .00, .00, Robot.driveSubsystem.getAhrs(), this);
+	PIDController pidShortTurn = new PIDController(.030, .0005, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	//PIDController pidShortTurn = new PIDController(.030, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	//PIDController pidShortTurn = new PIDController(.045, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);
 	//PIDController pidShortTurn = new PIDController(.035, .0001, .00, .00, Robot.driveSubsystem.getAhrs(), this);

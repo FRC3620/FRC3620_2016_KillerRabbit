@@ -11,6 +11,8 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems;
 
+import java.awt.Color;
+
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 
 import edu.wpi.first.wpilibj.Relay;

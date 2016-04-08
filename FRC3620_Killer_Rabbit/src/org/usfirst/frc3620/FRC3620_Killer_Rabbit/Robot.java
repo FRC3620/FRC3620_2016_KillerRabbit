@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.awt.Color;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -164,9 +165,10 @@ public class Robot extends IterativeRobot {
      */
 
     public void disabledInit() {
-    	Robot.lightSubsystem.setBlue(false);
-    	Robot.lightSubsystem.setRed(false);
-    	Robot.lightSubsystem.setGreen(false);
+//    	Robot.lightSubsystem.setBlue(false);
+//    	Robot.lightSubsystem.setRed(false);
+//    	Robot.lightSubsystem.setGreen(false);
+    	Robot.lightSubsystem.setColor(0);
     	allInit(RobotMode.DISABLED);
     }
 
@@ -214,7 +216,7 @@ public class Robot extends IterativeRobot {
             ((Command) autonomousCommand).cancel();
         telopTimer.reset();
         telopTimer.start();
-        lightSubsystem.setBlue(true);
+        lightSubsystem.setColor(0x0000ff);
         allInit(RobotMode.TELEOP);
     }
    
