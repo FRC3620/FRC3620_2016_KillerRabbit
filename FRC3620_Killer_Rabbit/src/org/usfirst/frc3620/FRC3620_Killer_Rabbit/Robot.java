@@ -10,6 +10,7 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
@@ -17,7 +18,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.net.NetworkInterface;
@@ -58,6 +58,8 @@ public class Robot extends IterativeRobot {
 
     public static Preferences preferences;
     public static String rioName = null;
+    
+    public static DriverStation driverStation;
 
 
     public static OI oi;
@@ -89,6 +91,8 @@ public class Robot extends IterativeRobot {
 
         canDeviceFinder = new CANDeviceFinder();
         logger.info("CAN devices = {}", canDeviceFinder.deviceList.toString());
+        
+        driverStation = DriverStation.getInstance();
 
         RobotMap.init();
 
@@ -255,6 +259,8 @@ public class Robot extends IterativeRobot {
      */
     void allInit(RobotMode newMode) {
         logger.info("Switching from {} to {}", currentRobotMode, newMode);
+        logger.info("isFMS {}, position {}{}", driverStation.isFMSAttached(), driverStation.getAlliance(), driverStation.getLocation());
+        
         previousRobotMode = currentRobotMode;
         currentRobotMode = newMode;
 

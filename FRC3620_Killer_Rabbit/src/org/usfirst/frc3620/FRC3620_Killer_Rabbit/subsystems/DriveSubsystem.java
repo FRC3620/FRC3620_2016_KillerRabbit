@@ -337,6 +337,15 @@ public class DriveSubsystem extends Subsystem {
     public double getPitch() {
         return ahrs.getPitch();
     }
+    public double getAccelX() {
+        return ahrs.getRawAccelX();
+    }
+    public double getAccelY() {
+        return ahrs.getRawAccelY();
+    }
+    public double getAccelZ() {
+        return ahrs.getRawAccelZ();
+    }
     public double getDisplacementX() {
         return ahrs.getDisplacementX();
     }

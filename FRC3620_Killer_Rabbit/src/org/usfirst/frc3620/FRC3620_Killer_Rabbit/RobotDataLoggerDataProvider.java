@@ -8,6 +8,7 @@ import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 import org.usfirst.frc3620.logger.IDataLoggerDataProvider;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -26,6 +27,8 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 	CANTalon shooterTalon2 = RobotMap.shooterSubsystemShooterCANTalon2;
 	CANTalon shooterTalon3 = RobotMap.shooterSubsystemShooterCANTalon3;
 	DriverStation driverStation = DriverStation.getInstance();
+	
+	BuiltInAccelerometer builtinAccelerometer = new BuiltInAccelerometer();
 
 	Timer timer = new Timer();
 
@@ -77,6 +80,15 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 				"drive.angle", //
 				"drive.pitchangle", //
 				"drive.roleangle", //
+
+                "drive.accel.x", //
+                "drive.accel.y", //
+                "drive.accel.z", //
+
+                "bi.accel.x", //
+                "bi.accel.y", //
+                "bi.accel.z", //
+
 		};
 	}
 
@@ -124,6 +136,14 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 				f2(driveSubsystem.getAngle()), //
 				f2(driveSubsystem.getPitch()), //
 				f2(driveSubsystem.getRoll()), //
+
+                f2(driveSubsystem.getAccelX()), //
+                f2(driveSubsystem.getAccelY()), //
+                f2(driveSubsystem.getAccelZ()), //
+
+                f2(builtinAccelerometer.getX()), //
+                f2(builtinAccelerometer.getY()), //
+                f2(builtinAccelerometer.getZ()), //
 
 		};
 	}
