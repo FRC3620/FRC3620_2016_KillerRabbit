@@ -28,7 +28,11 @@ public class AutonomousCDF2 extends CommandGroup {
     	addSequential(new AutomatedMove(50, .65));
     	addSequential(new ArmLowerCommand());
     	addSequential(new AutoWaitForArmDownCommand(), 1);
-    	addSequential(new AutomatedMove(.5, -.60), .5);
+    	
+    	// 2016-04-09 1030 add a little more 'backward'
+    	//addSequential(new AutomatedMove(.5, -.60), .5);
+    	addSequential(new AutomatedMove(1.0, -.60), .75);
+    	
     	addSequential(new AutomatedMove(36, .80));
     	addSequential(new ArmUpCommand());
     	addSequential(new AutomatedMove(36, .75));

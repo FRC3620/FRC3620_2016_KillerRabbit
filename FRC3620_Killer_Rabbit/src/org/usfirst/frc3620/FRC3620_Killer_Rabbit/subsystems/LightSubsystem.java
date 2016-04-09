@@ -11,8 +11,6 @@
 
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems;
 
-import java.awt.Color;
-
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 
 import edu.wpi.first.wpilibj.Relay;
@@ -58,11 +56,18 @@ public class LightSubsystem extends Subsystem {
     	hitRelays();
     }
     
-    public void setColor (int color) {
+    /*public void setColor (int color) {
         red = (color & 0xff0000) > 0x800000;
         green = (color & 0x00ff00) > 0x008000;
         blue = (color & 0x0000ff) > 0x000080;
         hitRelays();
+    }*/
+    
+    public void setColor (Color color) {
+    	red = color.r() > 127;
+    	green = color.g() > 127;
+    	blue = color.b() > 127;
+    	hitRelays();
     }
 
     void hitRelays() {
@@ -96,6 +101,24 @@ public class LightSubsystem extends Subsystem {
     		}
     	}
     	spike1.set(s1);
+    }
+    
+    public enum Color {
+    	RED(0xff0000), BLUE(0x0000ff), GREEN(0x00ff00), YELLOW(0xffff00), OFF(0x000000);
+    	
+    	int rgb;
+    	Color (int _rgb) {
+    		rgb = _rgb;
+    	}
+    	public int r() {
+    		return (rgb & 0xff0000) >> 16;
+    	}
+    	public int g() {
+    		return (rgb & 0x00ff00) >> 8;
+    	}
+    	public int b() {
+    		return (rgb & 0x0000ff);
+    	}
     }
     
 }

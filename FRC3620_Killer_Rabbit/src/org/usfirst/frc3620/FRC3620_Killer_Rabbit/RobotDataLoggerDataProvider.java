@@ -79,7 +79,7 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
 				"drive.automaticHeading", //
 				"drive.angle", //
 				"drive.pitchangle", //
-				"drive.roleangle", //
+				"drive.rollangle", //
 
                 "drive.accel.x", //
                 "drive.accel.y", //

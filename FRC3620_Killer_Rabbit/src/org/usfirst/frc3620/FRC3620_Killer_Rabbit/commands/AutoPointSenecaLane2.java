@@ -25,16 +25,22 @@ public class AutoPointSenecaLane2 extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	double laneDistance;
-    	laneDistance = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 2 Distance", 73);
+    	//laneDistance = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 2 Distance", 73);
+    	laneDistance = 78;
     	
     	double turnAngle;
     	turnAngle = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 2 Angle", 77);
     	
     	addSequential(new AutomatedMove(40, .7));
-    	addSequential(new AutomatedShortTurnCommand(turnAngle));
+    	
+    	// 2016-04-09 1030 add timeouut
+    	addSequential(new AutomatedShortTurnCommand(turnAngle), 2.0);
+    	
     	addParallel(new ShooterSetCloseGoal(), 1.5);
-    	addSequential(new AutomatedMove(laneDistance + 3, .7));
-    	addSequential(new AutomatedShortTurnCommand(-75));
+    	addSequential(new AutomatedMove(laneDistance, .7));
+    	
+    	// 2016-04-09 1030 add timeout, use same angle
+    	addSequential(new AutomatedShortTurnCommand(-turnAngle), 2.0);
     	
     }
 }

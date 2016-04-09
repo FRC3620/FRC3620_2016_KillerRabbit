@@ -31,7 +31,10 @@ public class AutoPointSenecaLane5 extends CommandGroup {
     	turnAngle = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 5 Angle", -72);
     	
     	addSequential(new AutomatedMove(60, .7));
-    	addSequential(new AutomatedShortTurnCommand(turnAngle));
+    	
+    	// 2016-04-09 1132 add timeout
+    	addSequential(new AutomatedShortTurnCommand(turnAngle),2);
+    	
     	addSequential(new AutomatedMove(laneDistance , .7));
     	addSequential(new AutomatedShortTurnCommand(-turnAngle),2);
     }
