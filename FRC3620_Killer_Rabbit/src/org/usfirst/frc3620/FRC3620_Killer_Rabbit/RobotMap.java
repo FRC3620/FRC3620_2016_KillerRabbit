@@ -39,6 +39,7 @@ public class RobotMap {
    //public static Encoder intakeSubsystemIntakeRollerEncoder;
     public static SpeedController intakeSubsystemIntakeRollerTalonFront;
     public static SpeedController intakeSubsystemIntakeRollerTalonBack;
+    public static SpeedController liftSubsystemLiftTalon;
     public static AnalogInput shooterSubsystemTiltSensor;
     public static AnalogInput dummySubsystemAnalogInput;
     public static DigitalInput armSubsystemHomeDigitalInput;
@@ -128,5 +129,8 @@ public class RobotMap {
         
         lightSubsystemSpike1 = new Relay(1);
         LiveWindow.addActuator("LightSubsystem", "Spike 1", lightSubsystemSpike1);
+        
+        liftSubsystemLiftTalon = new Talon(8);
+        LiveWindow.addActuator("LiftSubsystem", "LiftTalon", (Talon) liftSubsystemLiftTalon);
 	}
 }
