@@ -14,12 +14,14 @@ public class LiftSubsystem extends Subsystem {
     // here. Call these from Commands.
 	  private final SpeedController liftSubsystemLiftTalon = RobotMap.liftSubsystemLiftTalon;
 	  
+	  double climberPower = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Climber Power", 1);
+	  
 	  public void climberUp() {
-		  liftSubsystemLiftTalon.set(.85);
+		  liftSubsystemLiftTalon.set(climberPower);
 	  }
 	  
 	  public void climberDown() {
-		  liftSubsystemLiftTalon.set(-.85);
+		  liftSubsystemLiftTalon.set(-climberPower);
 	  }
 	  
 	  public void climberStop() {

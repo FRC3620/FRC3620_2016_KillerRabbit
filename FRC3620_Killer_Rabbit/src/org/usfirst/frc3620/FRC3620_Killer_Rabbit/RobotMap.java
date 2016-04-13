@@ -130,7 +130,7 @@ public class RobotMap {
         lightSubsystemSpike1 = new Relay(1);
         LiveWindow.addActuator("LightSubsystem", "Spike 1", lightSubsystemSpike1);
         
-        liftSubsystemLiftTalon = new Talon(8);
+        liftSubsystemLiftTalon = new Talon(9);
         LiveWindow.addActuator("LiftSubsystem", "LiftTalon", (Talon) liftSubsystemLiftTalon);
 	}
 }
