@@ -65,7 +65,7 @@ public class OI {
     public JoystickButton climberUpButton;
     public JoystickButton climberDownButton;
     public JoystickButton hangShotButton;
-    public JoystickButton armHangShotButton;
+    public JoystickButton armResetButton;
     
     public Joystick controlPanel;
     
@@ -134,8 +134,8 @@ public class OI {
         hangShotButton = new JoystickButton(controlPanel, 1);
         hangShotButton.whenPressed(new HangshotCommand());
         
-        armHangShotButton = new JoystickButton(controlPanel, 3);
-        armHangShotButton.whenPressed(new ArmHangshotCommand());
+        armResetButton = new JoystickButton(controlPanel, 3);
+        armResetButton.whenPressed(new ResetArmCommand());
         
         // SmartDashboard Buttons
 //        SmartDashboard.putData("Autonomous1Command", new AutonomousDoNothingCommand());

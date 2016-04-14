@@ -37,7 +37,7 @@ public class AutoPointSenecaLane2 extends CommandGroup {
     	addSequential(new AutomatedShortTurnCommand(77), 2.0);
     	
     	addParallel(new ShooterSetCloseGoal(), 1.5);
-    	addSequential(new AutomatedMove(laneDistance, .7));
+    	addSequential(new AutomatedMove(84, .7));
     	
     	// 2016-04-09 1030 add timeout, use same angle
     	addSequential(new AutomatedShortTurnCommand(-77), 2.0);

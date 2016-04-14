@@ -141,6 +141,12 @@ public class ArmSubsystem extends Subsystem {
 		}
 	}
 
+	public void resetArm(){
+		armCANTalon.setPosition(0);
+		armCANTalon.setSetpoint(0);
+		logger.info("Resetting Arm Encoder");
+	}
+	
 	public void moveArmToTop() {
 		moveArmToSetpoint(getArmTopSetPoint(), 0, 0, 0);
 //		if(RobotMap.armSubsystemHomeDigitalInput.get())
