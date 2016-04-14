@@ -143,18 +143,18 @@ public class ArmSubsystem extends Subsystem {
 
 	public void moveArmToTop() {
 		moveArmToSetpoint(getArmTopSetPoint(), 0, 0, 0);
-		if(RobotMap.armSubsystemHomeDigitalInput.get())
-		{
-			timer.start();
-			if (timer.get() < 0.2) {
-				Robot.armSubsystem.nudgeToTop();
-			}
-			else {
-				Robot.armSubsystem.stopNudging();
-				timer.stop();
-				timer.reset();
-			}
-		}
+//		if(RobotMap.armSubsystemHomeDigitalInput.get())
+//		{
+//			timer.start();
+//			if (timer.get() < 0.2) {
+//				Robot.armSubsystem.nudgeToTop();
+//			}
+//			else {
+//				Robot.armSubsystem.stopNudging();
+//				timer.stop();
+//				timer.reset();
+//			}
+//		}
 	}
 
 	public void moveArmToBottom() {

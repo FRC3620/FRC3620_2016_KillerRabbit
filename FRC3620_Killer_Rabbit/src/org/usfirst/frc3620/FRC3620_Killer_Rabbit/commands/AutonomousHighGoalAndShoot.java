@@ -35,15 +35,15 @@ public class AutonomousHighGoalAndShoot extends CommandGroup {
     	addSequential(new ArmUpCommand());
     	
     	// 2016-04-09 1146 add some distance
-    	//addSequential(new AutomatedMove(85,.7));
-    	addSequential(new AutomatedMove(109,.7));
+    	addSequential(new AutomatedMove(96,.7));
+    	//addSequential(new AutomatedMove(109,.7));
 
     	// 2016-04-09 1146 add timeout
-    	addSequential(new AutomatedShortTurnCommand(52), 2.0);
+    	addSequential(new AutomatedShortTurnCommand(55), 2.0);
     	
     	addSequential(new ShooterSetCloseGoal(), 1.5);
     	addSequential(new AutomatedMove(122, .65));
-    	addParallel(new AutomatedMoveTimed(5, .80));
+    	addParallel(new AutomatedMoveTimed(5, .95));
     	addParallel(new AutoRunShooterCommand());
     	addParallel(new AutoWaitAndShoot());
     	addSequential(new AutoStopShooterCommand());
