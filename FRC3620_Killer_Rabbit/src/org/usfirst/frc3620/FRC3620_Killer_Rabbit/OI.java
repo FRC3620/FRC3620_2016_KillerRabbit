@@ -115,7 +115,7 @@ public class OI {
         ballIsStuckButton.toggleWhenPressed(new BallIsStuckCommand());
 
         shortGoalPositionButton = new JoystickButton(operatorJoystick, 7);
-        shortGoalPositionButton.whenPressed(new ShooterSetCloseGoal());
+        shortGoalPositionButton.whenPressed(new ShooterSetCloseGoal()); 
         
         lowBarPositionButton = new JoystickButton(operatorJoystick, 8);
         lowBarPositionButton.whenPressed(new ShooterSetHome());
@@ -128,8 +128,8 @@ public class OI {
         climberUpButton = new JoystickButton(controlPanel, 2);
         climberUpButton.whileHeld(new ClimberUpCommand());
         
-        climberDownButton = new JoystickButton(controlPanel, 4);
-        climberDownButton.whileHeld(new ClimberDownCommand());
+//        climberDownButton = new JoystickButton(controlPanel, 4);
+//        climberDownButton.whileHeld(new ClimberDownCommand());
         
         hangShotButton = new JoystickButton(controlPanel, 1);
         hangShotButton.whenPressed(new HangshotCommand());
