@@ -22,17 +22,17 @@ import org.usfirst.frc3620.logger.EventLogging.Level;
 /**
  *
  */
-public class ArmHangshotCommand extends Command {
+public class ArmHangCommand extends Command {
     Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 
-    public ArmHangshotCommand() {
+    public ArmHangCommand() {
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
         CANTalonLogger.startCANTalonPositionLogger("armHangshot", RobotMap.armSubsystemArmCANTalon);
-        logger.info("Arm Hangshot");
-        Robot.armSubsystem.moveArmToHangshot();
+        logger.info("Arm Hang");
+        Robot.armSubsystem.moveArmToHang();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -46,7 +46,7 @@ public class ArmHangshotCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        logger.info("Arm Hangshot ended");
+        logger.info("Arm Hang ended");
     }
 
     // Called when another command which requires one or more of the same

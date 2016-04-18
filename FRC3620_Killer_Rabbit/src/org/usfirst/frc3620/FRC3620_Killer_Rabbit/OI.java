@@ -62,10 +62,9 @@ public class OI {
     public Joystick driverJoystick;
     public JoystickButton ballIsStuckButton;
     public JoystickButton shortGoalPositionButton;
-    public JoystickButton climberUpButton;
-    public JoystickButton climberDownButton;
-    public JoystickButton hangShotButton;
+    public JoystickButton runClimberButton;
     public JoystickButton armResetButton;
+    public JoystickButton deployClimberButton;
     
     public Joystick controlPanel;
     
@@ -125,14 +124,11 @@ public class OI {
         armDownButton = new DPadDownButton(operatorJoystick);
         armDownButton.whenPressed(new ArmLowerCommand());
         
-        climberUpButton = new JoystickButton(controlPanel, 2);
-        climberUpButton.whileHeld(new ClimberUpCommand());
-        
-//        climberDownButton = new JoystickButton(controlPanel, 4);
-//        climberDownButton.whileHeld(new ClimberDownCommand());
-        
-        hangShotButton = new JoystickButton(controlPanel, 1);
-        hangShotButton.whenPressed(new HangshotCommand());
+        runClimberButton = new JoystickButton(controlPanel, 2);
+        runClimberButton.whileHeld(new RunClimberCommand());
+       
+        deployClimberButton = new JoystickButton(controlPanel, 4);
+        deployClimberButton.whenPressed(new DeployClimberCommand());
         
         armResetButton = new JoystickButton(controlPanel, 3);
         armResetButton.whenPressed(new ResetArmCommand());

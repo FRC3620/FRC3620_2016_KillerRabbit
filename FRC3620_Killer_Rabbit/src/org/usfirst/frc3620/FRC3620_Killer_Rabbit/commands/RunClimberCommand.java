@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ClimberDownCommand extends Command {
-
+public class RunClimberCommand extends Command {
+	
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 
-	
-    public ClimberDownCommand() {
+
+    public RunClimberCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -26,8 +26,8 @@ public class ClimberDownCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	logger.info("Climber is going down");
-    	Robot.liftSubsystem.climberDown();
+    	logger.info("Climber is going up");
+    	Robot.liftSubsystem.climberUp();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,11 +38,13 @@ public class ClimberDownCommand extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.liftSubsystem.climberStop();
+    	logger.info("RunClimber end");
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	logger.info("RunClimber interrupted");
     	end();
     }
 }
