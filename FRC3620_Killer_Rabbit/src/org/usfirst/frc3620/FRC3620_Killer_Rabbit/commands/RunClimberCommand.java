@@ -18,6 +18,7 @@ public class RunClimberCommand extends Command {
     public RunClimberCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.liftSubsystem);
     }
 
     // Called just before this Command runs the first time

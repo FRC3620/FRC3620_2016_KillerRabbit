@@ -34,7 +34,7 @@ public class ArmSubsystem extends Subsystem {
 	//static final double bottomSetPoint = 0.7;
 	public static final double defaultBottomSetPoint = 1.15;
 	public static final double defaultTopSetPoint = 0.0;
-	public static final double defaultHangshotSetPoint = .60;
+	public static final double defaultHangshotSetPoint = .50;
 	public static final double cushion = 0.1;
 	static final double creepPower = 0.25;
 	

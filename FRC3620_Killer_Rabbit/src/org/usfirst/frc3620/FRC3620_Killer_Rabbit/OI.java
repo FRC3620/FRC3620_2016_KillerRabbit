@@ -65,6 +65,7 @@ public class OI {
     public JoystickButton runClimberButton;
     public JoystickButton armResetButton;
     public JoystickButton deployClimberButton;
+    public JoystickButton shutDownClimberButton;
     
     public Joystick controlPanel;
     
@@ -123,6 +124,9 @@ public class OI {
         armUpButton.whenPressed(new ArmUpCommand());
         armDownButton = new DPadDownButton(operatorJoystick);
         armDownButton.whenPressed(new ArmLowerCommand());
+        
+        shutDownClimberButton = new JoystickButton(controlPanel, 1);
+        shutDownClimberButton.whenPressed(new ShutDownClimberCommand());
         
         runClimberButton = new JoystickButton(controlPanel, 2);
         runClimberButton.whileHeld(new RunClimberCommand());
