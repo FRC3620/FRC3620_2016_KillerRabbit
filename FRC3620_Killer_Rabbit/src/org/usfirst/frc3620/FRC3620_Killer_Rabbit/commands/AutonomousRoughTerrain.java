@@ -29,8 +29,8 @@ public class AutonomousRoughTerrain extends CommandGroup {
     	
     	//AutomatedMove overshoots about 6"
     	addSequential(new ResetNavXCommand());
-    	addSequential(new AutomatedMove(18, .65));
-    	addSequential(new AutomatedMove(152, .90));
+    	addSequential(new AutomatedMove(10, .65));
+    	addSequential(new AutomatedMove(138, 1));
     	
     }
 }

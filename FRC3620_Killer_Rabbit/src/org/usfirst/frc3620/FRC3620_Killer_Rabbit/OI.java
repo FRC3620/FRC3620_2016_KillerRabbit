@@ -111,9 +111,12 @@ public class OI {
         outtake = new JoystickButton(operatorJoystick, 5);
         outtake.whenPressed(new OuttakeCommand());
         
-        ballIsStuckButton = new JoystickButton(operatorJoystick, 6);
-        ballIsStuckButton.toggleWhenPressed(new BallIsStuckCommand());
+//        ballIsStuckButton = new JoystickButton(operatorJoystick, 6);
+//        ballIsStuckButton.toggleWhenPressed(new BallIsStuckCommand());
 
+//        ballIsStuckButton = new JoystickButton(operatorJoystick, 6);
+//        ballIsStuckButton.toggleWhenPressed(new BallIsStuckCommand());
+        
         shortGoalPositionButton = new JoystickButton(operatorJoystick, 7);
         shortGoalPositionButton.whenPressed(new ShooterSetCloseGoal()); 
         

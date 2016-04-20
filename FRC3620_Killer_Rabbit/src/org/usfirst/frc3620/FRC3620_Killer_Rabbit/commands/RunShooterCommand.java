@@ -68,6 +68,7 @@ public class RunShooterCommand extends Command {
     	
     	if(!Robot.shooterSubsystem.isShooterSpunUp()){
     		Robot.oi.operatorJoystick.setRumble(RumbleType.kLeftRumble, 0.6f);
+    		Robot.lightSubsystem.setHeadlight(true);
     	}
     	
     	else{
@@ -88,6 +89,7 @@ public class RunShooterCommand extends Command {
     	SmartDashboard.putNumber("ShooterPower", 0);
     	Robot.oi.operatorJoystick.setRumble(RumbleType.kRightRumble, 0.0f);
     	Robot.oi.operatorJoystick.setRumble(RumbleType.kLeftRumble, 0.0f);
+    	Robot.lightSubsystem.setHeadlight(false);
     }
 
     // Called when another command which requires one or more of the same

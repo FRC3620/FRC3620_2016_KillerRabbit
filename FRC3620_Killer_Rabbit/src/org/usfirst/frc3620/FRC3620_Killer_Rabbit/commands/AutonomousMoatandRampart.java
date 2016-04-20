@@ -31,7 +31,7 @@ public class AutonomousMoatandRampart extends CommandGroup {
     	
     	// 2016-04-09 1203 shorten it up
     	//addSequential(new AutomatedMove(192, .90));
-    	addSequential(new AutomatedMove(156, .90));
+    	addSequential(new AutomatedMove(150, .90));
     	
     }
 }

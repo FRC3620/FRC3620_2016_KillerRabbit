@@ -1,6 +1,7 @@
 package org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems;
 
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.ControllerRunClimber;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,6 +32,7 @@ public class LiftSubsystem extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new ControllerRunClimber());
     }
 }
 
