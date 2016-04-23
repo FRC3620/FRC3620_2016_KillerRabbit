@@ -219,6 +219,7 @@ public class Robot extends IterativeRobot {
         telopTimer.start();
     	Robot.lightSubsystem.setColor(LightSubsystem.Color.BLUE);
         allInit(RobotMode.TELEOP);
+        Robot.liftSubsystem.resetClimberHasBeenRunFlag();
     }
    
     /**

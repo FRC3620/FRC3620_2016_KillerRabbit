@@ -15,18 +15,29 @@ public class LiftSubsystem extends Subsystem {
     // here. Call these from Commands.
 	  private final SpeedController liftSubsystemLiftTalon = RobotMap.liftSubsystemLiftTalon;
 	  
+	  boolean climberHasBeenRun = false;
+	  
 	  double climberPower = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Climber Power", 1);
 	  
 	  public void climberUp() {
 		  liftSubsystemLiftTalon.set(climberPower);
+		  climberHasBeenRun = true;
 	  }
 	  
-	  public void climberDown() {
-		  liftSubsystemLiftTalon.set(-climberPower);
-	  }
+//	  public void climberDown() {
+//		  liftSubsystemLiftTalon.set(-climberPower);
+//	  }
 	  
 	  public void climberStop() {
 		  liftSubsystemLiftTalon.set(0);
+	  }
+	  
+	  public boolean climberExtendHasBeenRun(){
+		  return climberHasBeenRun;
+	  }
+	  
+	  public void resetClimberHasBeenRunFlag(){
+		  climberHasBeenRun=false;
 	  }
 
     public void initDefaultCommand() {

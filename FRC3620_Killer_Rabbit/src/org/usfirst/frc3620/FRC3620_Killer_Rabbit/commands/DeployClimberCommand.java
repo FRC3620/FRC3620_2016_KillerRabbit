@@ -26,6 +26,6 @@ public class DeployClimberCommand extends CommandGroup {
         // arm.
     	addSequential(new ArmHangCommand());
     	addSequential(new AutonomousDoNothingCommand(), 1);
-    	addSequential(new RunClimberCommand(), 4.5);
+    	addSequential(new RunClimberAutomatedCommand(), 4.5);
     }
 }

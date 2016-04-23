@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ControllerRunClimber extends Command {
-
-	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
-	boolean safetyOff=false;;
+public class RunClimberAutomatedCommand extends Command {
 	
-    public ControllerRunClimber() {
+	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
+	
+	boolean climberHasBeenRun = false;
+	
+    public RunClimberAutomatedCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.liftSubsystem);
@@ -23,36 +24,30 @@ public class ControllerRunClimber extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	climberHasBeenRun = Robot.liftSubsystem.climberExtendHasBeenRun();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	
-    	if(Robot.oi.operatorJoystick.getRawButton(6)){
-    		if(Robot.oi.operatorJoystick.getRawAxis(1)<-.5){
-    			Robot.liftSubsystem.climberUp();
-    		}
-    		else{
-    			Robot.liftSubsystem.climberStop();
-    		}
+    	if(!climberHasBeenRun){
+    	logger.info("Climber is going up");
+    	Robot.liftSubsystem.climberUp();
     	}
     	else{
-    		Robot.liftSubsystem.climberStop();
+    		logger.info("Climber has been extended already, cannot run");
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return climberHasBeenRun;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.liftSubsystem.climberStop();
     	logger.info("RunClimber end");
-    	safetyOff = false;
     }
 
     // Called when another command which requires one or more of the same
