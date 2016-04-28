@@ -24,8 +24,8 @@ public class DeployClimberCommand extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ArmHangCommand());
+    	addSequential(new ArmLowerCommand());
     	addSequential(new AutonomousDoNothingCommand(), 1);
-    	addSequential(new RunClimberAutomatedCommand(), 4.5);
+    	addSequential(new RunClimberAutomatedCommand(), 4.4);
     }
 }
