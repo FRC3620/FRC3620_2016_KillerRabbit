@@ -40,7 +40,7 @@ public class AutoPointSenecaLane3 extends CommandGroup {
     	
     	// 2016-04-09 1030 shorten up the sideways a little
     	//addSequential(new AutomatedMove(25, .7));
-    	addSequential(new AutomatedMove(24, .7));
+    	addSequential(new AutomatedMove(34, .7));
     	
     	// 2016-04-09 1030 add timeouut
     	//addSequential(new AutomatedShortTurnCommand(-turnAngle));

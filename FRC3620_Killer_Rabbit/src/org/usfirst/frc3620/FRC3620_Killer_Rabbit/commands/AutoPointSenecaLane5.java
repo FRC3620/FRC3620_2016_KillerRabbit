@@ -25,7 +25,7 @@ public class AutoPointSenecaLane5 extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	double laneDistance;
-    	laneDistance = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 5 Distance", 76);
+    	laneDistance = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 5 Distance", 64);
     	
     	double turnAngle;
     	turnAngle = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Lane 5 Angle", -72);

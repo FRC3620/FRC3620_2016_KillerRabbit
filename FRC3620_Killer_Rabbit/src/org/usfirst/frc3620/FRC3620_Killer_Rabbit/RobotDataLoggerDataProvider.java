@@ -88,6 +88,9 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 "bi.accel.x", //
                 "bi.accel.y", //
                 "bi.accel.z", //
+                
+                "lift.power",
+                "lift.current",
 
 		};
 	}
@@ -144,6 +147,9 @@ public class RobotDataLoggerDataProvider implements IDataLoggerDataProvider {
                 f2(builtinAccelerometer.getX()), //
                 f2(builtinAccelerometer.getY()), //
                 f2(builtinAccelerometer.getZ()), //
+                
+				pdpIsPresent ? f2(powerDistributionPanel.getCurrent(0)) : 0, //
+			    f2(RobotMap.liftSubsystemLiftTalon.get()),
 
 		};
 	}
