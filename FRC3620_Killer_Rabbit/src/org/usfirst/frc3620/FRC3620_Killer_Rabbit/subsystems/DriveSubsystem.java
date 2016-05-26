@@ -71,6 +71,8 @@ public class DriveSubsystem extends Subsystem {
     boolean haveFrontCamera = false;
 	boolean haveRearCamera = false;
 
+	double kidzKonstant = .75;
+	
 	int frontCamera;
 	int rearCamera;
 	int currentCamera;
@@ -89,7 +91,7 @@ public class DriveSubsystem extends Subsystem {
 		if (Math.abs(rotate) <= 0.2) {
 			rotate = 0;
 		}
-		robotDrive41.arcadeDrive(move, rotate);
+		robotDrive41.arcadeDrive(move * kidzKonstant, rotate);
 
 	}
 
@@ -100,7 +102,7 @@ public class DriveSubsystem extends Subsystem {
 		if (Math.abs(rotate) <= 0.2) {
 			rotate = 0;
 		}
-		robotDrive41.arcadeDrive(-move, rotate);
+		robotDrive41.arcadeDrive(-move * kidzKonstant, rotate);
 
 	}
 	// Put methods for controlling this subsystem
