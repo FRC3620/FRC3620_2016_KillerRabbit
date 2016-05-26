@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj.Talon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
@@ -78,10 +79,35 @@ public class DriveSubsystem extends Subsystem {
 	int currentCamera;
 	Image frame;
 	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+	
+	NetworkTable roboRealm = NetworkTable.getTable("RoboRealm");
+	
+	public double getTargetCenter() {
+		return roboRealm.getNumber("Direction_Center_X", 0);
+	}
+	
+	public boolean isBlobThere()
+	{
+		return roboRealm.getNumber("BLOB_COUNT",0)==1;
+	}
 
 	public void arcadeDrive() {
 		robotDrive41.arcadeDrive(Robot.oi.driverJoystick);
 
+	}
+	
+	public void rotateRobotToImage(){
+		if(isBlobThere()){
+			if(getTargetCenter()>10)
+				robotDrive41.arcadeDrive(0, .5);
+			else if(getTargetCenter()<-10)
+				robotDrive41.arcadeDrive(0, -.5);
+			else{
+				robotDrive41.arcadeDrive(0, 0);
+			}
+		} else {
+			robotDrive41.arcadeDrive(0, 0);
+		}
 	}
 
 	public void setDriveForward(double move, double rotate) {
