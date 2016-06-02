@@ -170,6 +170,7 @@ public class Robot extends IterativeRobot {
 //    	Robot.lightSubsystem.setRed(false);
 //    	Robot.lightSubsystem.setGreen(false);
     	Robot.lightSubsystem.setColor(LightSubsystem.Color.OFF);
+    	Robot.lightSubsystem.setHeadlight(false);
     	allInit(RobotMode.DISABLED);
     }
 
@@ -218,6 +219,7 @@ public class Robot extends IterativeRobot {
         telopTimer.reset();
         telopTimer.start();
     	Robot.lightSubsystem.setColor(LightSubsystem.Color.BLUE);
+    	Robot.lightSubsystem.setHeadlight(true);
         allInit(RobotMode.TELEOP);
         Robot.liftSubsystem.resetClimberHasBeenRunFlag();
     }
@@ -324,6 +326,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("DriveLeftEncoder", RobotMap.driveSubsystemLeftDriveEncoder.getDistance());
 		SmartDashboard.putNumber("DriveRightEncoder", RobotMap.driveSubsystemRightDriveEncoder.getDistance());		
 		
+		SmartDashboard.putNumber("Blob Count", Robot.driveSubsystem.getBlobCount());
+		SmartDashboard.putNumber("Blob Distance", Robot.driveSubsystem.getTargetCenter());
 
 //		if (canDeviceFinder.isSRXPresent(RobotMap.shooterSubsystemShooterCANTalon2)) {
 //		  SmartDashboard.putNumber("Shooter Motor 2 Amps", RobotMap.shooterSubsystemShooterCANTalon2.getOutputCurrent());

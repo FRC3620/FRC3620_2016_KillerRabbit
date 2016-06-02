@@ -80,15 +80,19 @@ public class DriveSubsystem extends Subsystem {
 	Image frame;
 	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 	
-	NetworkTable roboRealm = NetworkTable.getTable("RoboRealm");
+	NetworkTable roboRealm = NetworkTable.getTable("RoboRealms");
 	
 	public double getTargetCenter() {
-		return roboRealm.getNumber("Direction_Center_X", 0);
+		return roboRealm.getNumber("Blob_center_X", 0);
 	}
 	
-	public boolean isBlobThere()
-	{
+	
+	public boolean isBlobThere(){
 		return roboRealm.getNumber("BLOB_COUNT",0)==1;
+	}
+	
+	public double getBlobCount(){
+		return roboRealm.getNumber("BLOB_COUNT",0);
 	}
 
 	public void arcadeDrive() {
@@ -98,15 +102,22 @@ public class DriveSubsystem extends Subsystem {
 	
 	public void rotateRobotToImage(){
 		if(isBlobThere()){
-			if(getTargetCenter()>10)
-				robotDrive41.arcadeDrive(0, .5);
-			else if(getTargetCenter()<-10)
-				robotDrive41.arcadeDrive(0, -.5);
+			if(getTargetCenter()>20){
+				robotDrive41.arcadeDrive(0, .75);
+				logger.info("Robot to far right");
+			}
+			else if(getTargetCenter()<-20){
+				robotDrive41.arcadeDrive(0, -.75);
+				logger.info("Robot to far left");
+			}
 			else{
 				robotDrive41.arcadeDrive(0, 0);
+				logger.info("Blob is not there");
 			}
-		} else {
+		}
+		else {
 			robotDrive41.arcadeDrive(0, 0);
+			logger.info("Blob is centered");
 		}
 	}
 
