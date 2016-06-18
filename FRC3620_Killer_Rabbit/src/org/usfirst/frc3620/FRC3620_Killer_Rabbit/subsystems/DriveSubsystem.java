@@ -129,7 +129,7 @@ public class DriveSubsystem extends Subsystem {
 			rotate = 0;
 		}
 		robotDrive41.arcadeDrive(move * kidzKonstant, rotate);
-
+		
 	}
 
 	public void setDriveBackward(double move, double rotate) {

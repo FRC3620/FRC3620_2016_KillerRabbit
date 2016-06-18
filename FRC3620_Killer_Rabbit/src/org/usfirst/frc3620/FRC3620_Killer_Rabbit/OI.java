@@ -178,6 +178,7 @@ public class OI {
 //        SmartDashboard.putData("AutomatedRight30", new AutomatedShortTurnCommand(30.0));
         SmartDashboard.putData("AutomatedRight15", new AutomatedShortTurnCommand(15.0));
         SmartDashboard.putData("Move5Feet(.75)", new AutomatedMove(60, .75));
+        SmartDashboard.putData("Rotate Robot to Image No PID", new RotateRobotToImageCommandNoPID());
         SmartDashboard.putData("Rotate Robot to Image", new RotateRobotToImageCommand());
 //        SmartDashboard.putData("Move5Feet(.50)", new AutomatedMove(60, .5));
 //        SmartDashboard.putData("Move5Feet(.25)", new AutomatedMove(60, .25));

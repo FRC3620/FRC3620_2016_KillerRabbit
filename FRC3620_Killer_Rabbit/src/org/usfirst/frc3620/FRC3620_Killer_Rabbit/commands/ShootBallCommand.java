@@ -95,6 +95,7 @@ public class ShootBallCommand extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		logger.info("command done");
 		Robot.armSubsystem.stopNudging();
 		Robot.intakeSubsystem.intakeStop();
 	}

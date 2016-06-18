@@ -56,8 +56,7 @@ public class AutoRunShooterCommand extends Command {
     {
     	shooterVoltage = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Shooter Voltage", 9.0);
     	//1.884 close goal position and 9.0 volts working for competition bot
-    	logger.info("Shooter voltage: {}", shooterVoltage);
-    	SmartDashboard.putNumber("ShooterVoltage", shooterVoltage);
+    	logger.info("AutoRunShooterCommand start, shooter voltage: {}", shooterVoltage);
     	//Robot.shooterSubsystem.setUpTalons();
     }
 
@@ -74,8 +73,7 @@ public class AutoRunShooterCommand extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.shooterSubsystem.setShooterVoltage(0);
-    	logger.info("Shoot Command End");
-    	SmartDashboard.putNumber("ShooterPower", 0);
+    	logger.info("AutoRunShooterCommand End");
     }
 
     // Called when another command which requires one or more of the same
