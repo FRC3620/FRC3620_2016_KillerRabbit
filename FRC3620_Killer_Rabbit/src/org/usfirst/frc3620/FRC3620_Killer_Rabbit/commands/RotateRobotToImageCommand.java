@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RotateRobotToImageCommand extends Command implements PIDSource, PIDOutput {
 
-	double kP = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionP Value", 5);
-	double kI = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionI Value", 5);
-	double kD = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionD Value", 5);
+	double kP = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionP Value", .05);
+	double kI = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionI Value", 0);
+	double kD = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionD Value", 0);
 	
 	double sideStick;
 	
@@ -27,9 +27,9 @@ public class RotateRobotToImageCommand extends Command implements PIDSource, PID
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	
-    	pidRotateRobotToImage.setInputRange(0.0f, 1000.0f);
+    	pidRotateRobotToImage.setInputRange(0.0f, 1024.0f);
     	pidRotateRobotToImage.setOutputRange(-1, 1);
-    	pidRotateRobotToImage.setContinuous(true);
+    	
     }
 
     // Called just before this Command runs the first time
@@ -45,25 +45,27 @@ public class RotateRobotToImageCommand extends Command implements PIDSource, PID
     	SmartDashboard.putNumber("Vision I", pidRotateRobotToImage.getI());
     	SmartDashboard.putNumber("Vision D", pidRotateRobotToImage.getD());
     	SmartDashboard.putNumber("PID Vision Sidestick", sideStick);
+    	SmartDashboard.putNumber("PID Vision Input", pidGet());
     	
-    	Robot.driveSubsystem.setDriveForward(0, sideStick);
+    	//Robot.driveSubsystem.setDriveForward(0, sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
-    	if(Math.abs(Robot.driveSubsystem.getTargetCenter())<20){
-    		return true;
-    	}
-    	else{
+//    	if(Math.abs(Robot.driveSubsystem.getTargetCenter())<20){
+//    		return true;
+//    	}
+//    	else{
     		return false;
-    	}
+//    	}
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	pidRotateRobotToImage.disable();
     	Robot.driveSubsystem.stopMotors();
+    	
     }
 
     // Called when another command which requires one or more of the same
@@ -72,7 +74,12 @@ public class RotateRobotToImageCommand extends Command implements PIDSource, PID
     	end();
     }
     public void pidWrite(double output){
+    	if(Robot.driveSubsystem.isBlobThere()){
     	sideStick=output;
+    	}
+    	else{
+    		sideStick = 0.0;
+    	}
     }
     
     public void setPIDSourceType(PIDSourceType pidSource){
