@@ -80,19 +80,34 @@ public class DriveSubsystem extends Subsystem {
 	Image frame;
 	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 	
-	NetworkTable roboRealm = NetworkTable.getTable("RoboRealms");
+	NetworkTable roboRealm = NetworkTable.getTable("RoboRealm");
 	
 	public double getTargetCenter() {
-		return roboRealm.getNumber("Blob_center_X", 0);
+		String x = roboRealm.getString("Blob_center_X", "0");
+		double rv = 0;
+		try {
+			rv = Double.parseDouble(x);
+		} catch (NumberFormatException ex) {
+			
+		}
+		return rv;
 	}
 	
 	
 	public boolean isBlobThere(){
-		return roboRealm.getNumber("BLOB_COUNT",0)==1;
+		return getBlobCount() == 1;
 	}
 	
 	public double getBlobCount(){
-		return roboRealm.getNumber("BLOB_COUNT",0);
+		String blobCount = roboRealm.getString("BLOB_COUNT","0");
+		double bc = 0;
+		try{
+			bc = Double.parseDouble(blobCount);
+		} catch (NumberFormatException ex){
+			
+		}
+		return bc;
+				
 	}
 
 	public void arcadeDrive() {

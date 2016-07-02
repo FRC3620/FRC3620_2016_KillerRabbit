@@ -14,11 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RotateRobotToImageCommand extends Command implements PIDSource, PIDOutput {
 
-	double kP = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionP Value", .05);
-	double kI = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionI Value", 0);
-	double kD = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionD Value", 0);
+	
 	
 	double sideStick;
+	
+	double kP;
+	double kI;
+	double kD;
 	
 	PIDController pidRotateRobotToImage = new PIDController(kP, kI, kD, 0.0, this, this);
 	
@@ -27,13 +29,20 @@ public class RotateRobotToImageCommand extends Command implements PIDSource, PID
         // eg. requires(chassis);
     	requires(Robot.driveSubsystem);
     	
+    	
+    	
     	pidRotateRobotToImage.setInputRange(0.0f, 1024.0f);
-    	pidRotateRobotToImage.setOutputRange(-1, 1);
+    	pidRotateRobotToImage.setOutputRange(-.75, .75);
     	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	kP = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionP Value", .05);
+    	kI = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionI Value", 0);
+    	kD = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("VisionD Value", 0);
+    	pidRotateRobotToImage.setPID(kP, kI, kD);
+    	
     	pidRotateRobotToImage.reset();
     	pidRotateRobotToImage.setAbsoluteTolerance(20.0);
     	pidRotateRobotToImage.enable();
@@ -47,7 +56,7 @@ public class RotateRobotToImageCommand extends Command implements PIDSource, PID
     	SmartDashboard.putNumber("PID Vision Sidestick", sideStick);
     	SmartDashboard.putNumber("PID Vision Input", pidGet());
     	
-    	//Robot.driveSubsystem.setDriveForward(0, sideStick);
+    	Robot.driveSubsystem.setDriveForward(0, -sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()

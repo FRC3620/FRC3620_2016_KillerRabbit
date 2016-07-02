@@ -310,6 +310,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean("Arm Manual Mode", armSubsystem.areWeInManual());
 
         SmartDashboard.putNumber("NavX Angle", Robot.driveSubsystem.getAngle());
+        
+        SmartDashboard.putBoolean("Is Blob There", driveSubsystem.isBlobThere());
 //        SmartDashboard.putNumber("NavX Displacement X", Robot.driveSubsystem.getDisplacementX());
 //        SmartDashboard.putNumber("NavX Displacement Y", Robot.driveSubsystem.getDisplacementY());
 //        SmartDashboard.putNumber("NavX Displacement Z", Robot.driveSubsystem.getDisplacementZ());
