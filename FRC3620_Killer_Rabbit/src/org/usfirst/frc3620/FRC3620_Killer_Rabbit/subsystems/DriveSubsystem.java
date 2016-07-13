@@ -143,7 +143,7 @@ public class DriveSubsystem extends Subsystem {
 		if (Math.abs(rotate) <= 0.2) {
 			rotate = 0;
 		}
-		robotDrive41.arcadeDrive(move * kidzKonstant, rotate);
+		robotDrive41.arcadeDrive(move, rotate);
 		
 	}
 
@@ -154,7 +154,7 @@ public class DriveSubsystem extends Subsystem {
 		if (Math.abs(rotate) <= 0.2) {
 			rotate = 0;
 		}
-		robotDrive41.arcadeDrive(-move * kidzKonstant, rotate);
+		robotDrive41.arcadeDrive(-move, rotate);
 
 	}
 	// Put methods for controlling this subsystem
