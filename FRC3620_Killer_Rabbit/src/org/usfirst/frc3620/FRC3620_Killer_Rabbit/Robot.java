@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.slf4j.Logger;
+import org.usfirst.frc3620.UDPReciever;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.*;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.*;
 import org.usfirst.frc3620.logger.DataLogger;
@@ -291,6 +293,15 @@ public class Robot extends IterativeRobot {
         // and log data!
         updateDashboard();
     }
+    
+    if (false) // turn off UDPReciver
+		try
+		{
+			new UDPReciever().start();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 
     /*
      * this method takes care of logging to the dashboard
