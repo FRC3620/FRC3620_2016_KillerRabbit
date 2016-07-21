@@ -45,19 +45,25 @@ public class RotateRobotToImageCommand extends Command implements PIDSource, PID
     	SmartDashboard.putNumber("Vision I", pidRotateRobotToImage.getI());
     	SmartDashboard.putNumber("Vision D", pidRotateRobotToImage.getD());
     	SmartDashboard.putNumber("PID Vision Sidestick", sideStick);
+    	if(Robot.driveSubsystem.isBlobThere() == false){
+    		Robot.driveSubsystem.stopMotors();
+    	}
+    	else {
+    		Robot.driveSubsystem.setDriveForward(0, sideStick);
+    	}
     	
-    	Robot.driveSubsystem.setDriveForward(0, sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	
-    	if(Math.abs(Robot.driveSubsystem.getTargetCenter())<20){
+    	return false;
+    	/*if(Math.abs(Robot.driveSubsystem.getTargetCenter())<20){
     		return true;
     	}
     	else{
     		return false;
     	}
+    	*/
     }
 
     // Called once after isFinished returns true

@@ -25,4 +25,17 @@ public class VisionData {
 					+ x + ", y=" + y + ", rt=" + rt + ", count=" + count
 					+ ", whenRecieved=" + whenRecieved + "]";
 		}
+
+		public int getCount() {
+			if (getAge() > 500) {
+				return 0;
+			}
+			return count;
+			
+			
+		}
+		
+		public double getAge(){
+			return System.currentTimeMillis() - whenRecieved;
+		}
 	}

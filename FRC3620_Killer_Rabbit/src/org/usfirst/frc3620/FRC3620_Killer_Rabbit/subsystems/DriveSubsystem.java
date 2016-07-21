@@ -12,6 +12,7 @@ package org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems;
 
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMode;
+import org.usfirst.frc3620.FRC3620_Killer_Rabbit.UDPReciever;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.*;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
@@ -80,19 +81,21 @@ public class DriveSubsystem extends Subsystem {
 	Image frame;
 	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 	
-	NetworkTable roboRealm = NetworkTable.getTable("RoboRealms");
+	
 	
 	public double getTargetCenter() {
-		return roboRealm.getNumber("Blob_center_X", 0);
+		if (UDPReciever.visionData == null) return 0;
+		return UDPReciever.visionData.getX();
 	}
 	
 	
 	public boolean isBlobThere(){
-		return roboRealm.getNumber("BLOB_COUNT",0)==1;
+		return getBlobCount() == 1;
 	}
 	
 	public double getBlobCount(){
-		return roboRealm.getNumber("BLOB_COUNT",0);
+		if (UDPReciever.visionData == null) return 0;
+		return UDPReciever.visionData.getCount();
 	}
 
 	public void arcadeDrive() {

@@ -39,7 +39,7 @@ public class UDPReciever extends Thread {
                 byte[] data = packet.getData();
                 lastDataReceived = new String(data, 0, packet.getLength());
                 //SmartDashboard.putString("last Data Received", lastDataReceived);
-                System.out.println ("'" + lastDataReceived + "'");
+               // System.out.println ("'" + lastDataReceived + "'");
                 // figure out response
                 visionData = gson.fromJson(lastDataReceived, VisionData.class);
                 visionData.whenRecieved = System.currentTimeMillis();
