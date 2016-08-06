@@ -62,12 +62,13 @@ public class RotateRobotToImageCommand extends Command implements PIDSource, PID
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	
-//    	if(Math.abs(Robot.driveSubsystem.getTargetCenter())<20){
-//    		return true;
-//    	}
-//    	else{
+    	if(Math.abs(Robot.driveSubsystem.getTargetCenter())<20){
+    		Robot.driveSubsystem.setAutomaticHeading(Robot.driveSubsystem.getAngle());
+    		return true;
+    	}
+    	else{
     		return false;
-//    	}
+    	}
     }
 
     // Called once after isFinished returns true

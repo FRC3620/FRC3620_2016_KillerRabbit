@@ -206,6 +206,11 @@ public class DriveSubsystem extends Subsystem {
 	public double getAutomaticHeading() {
 		return automaticHeading;
 	}
+	
+	public double setAutomaticHeading(double newHeading){
+		automaticHeading = newHeading;
+		return automaticHeading;
+	}
 
 	public double changeAutomaticHeading(double changeAngle) {
 		automaticHeading = automaticHeading + changeAngle;
