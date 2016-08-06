@@ -17,12 +17,16 @@ public class LiftSubsystem extends Subsystem {
 	  
 	  boolean climberHasBeenRun = false;
 	  
-	  double climberPower = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Climber Power", 1);
+	  double climberPower = edu.wpi.first.wpilibj.Preferences.getInstance().getDouble("Climber Power", .95);
 	  
 	  public void climberUp() {
 		  liftSubsystemLiftTalon.set(climberPower);
 		  climberHasBeenRun = true;
 	  }
+	  public void climberRunUp() {
+		  liftSubsystemLiftTalon.set(1);
+	  }
+	  
 	  
 //	  public void climberDown() {
 //		  liftSubsystemLiftTalon.set(-climberPower);

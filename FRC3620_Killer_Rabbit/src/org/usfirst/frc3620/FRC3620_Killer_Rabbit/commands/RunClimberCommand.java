@@ -28,7 +28,7 @@ public class RunClimberCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	logger.info("Climber is going up");
-    	Robot.liftSubsystem.climberUp();
+    	Robot.liftSubsystem.climberRunUp();
     }
 
     // Make this return true when this Command no longer needs to run execute()
