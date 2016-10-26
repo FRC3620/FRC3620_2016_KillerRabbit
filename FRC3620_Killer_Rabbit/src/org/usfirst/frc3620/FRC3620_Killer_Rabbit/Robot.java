@@ -134,7 +134,7 @@ public class Robot extends IterativeRobot {
         autoChooser = new AverageSendableChooser();
         autoChooser.addDefault("Do Nothing", new AutonomousDoNothingCommand());
         // TODO fix this!
-        autoChooser.addObject("CDF", new AutonomousCDF());
+        autoChooser.addObject("CDF", new AutonomousCDF2());
         autoChooser.addObject("CDF2", new AutonomousCDF2());
         autoChooser.addObject("Low Bar", new AutonomousLowBar());
         autoChooser.addObject("Moat and Rampart",
