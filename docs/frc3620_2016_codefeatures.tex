@@ -1,0 +1,267 @@
+\documentclass[]{article}
+
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage[margin=1in]{geometry}
+\usepackage{courier}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+
+%opening
+\title{Noteworthy Features of the Average Joes' 2016 FRC Code}
+\author{Doug Wegscheid}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+FRC Team 3620, "The Average Joes", from St.\ Joseph High School in St.\ Joseph, Michigan, is releasing their 2016 Java code for other FRC teams to learn from.
+The code is available on github:
+\\
+\texttt{https://github.com/FRC3620/FRC3620\_2016\_KillerRabbit}
+\\
+\texttt{https://github.com/Kai3620/FRC3620\_CustomDriverBoard}
+
+This paper is a summary of what the team programming mentor considers to be features that other FRC teams may want to look at and use: event logging, data logging, use of the Kauai Labs navX MXP to keep a heading during autonomous, creation of autonomous CommandGroups on the fly, use of the Talon SRX to control mechanism position (with both preset and driver-changed setpoints), and the use of an Arduino at the driver station to select autonomous modes.
+
+Some of the information contained here was not discovered or developed by The Average Joes; much of it was gleaned from other team's postings of code, discussions on Chief Delphi, or other publicly available sources.
+We didn't generally keep track of where we got ideas that we reused, and apologize for not being able to attribute them properly.
+
+\end{abstract}
+
+\section{Overview}
+
+Our 2016 FRC programming was done in Java command-based code, using RobotBuilder.
+We did version control with git, using github as our central repository.
+
+The code was developed by Patrick Fischer (senior), Seneca Masterson (senior), Ved Ameresh (junior), Kai Borah (sophomore), and myself.
+
+There are 6 features of the 2016 code that may be of use to other teams:
+
+\begin{itemize}[topsep=0pt]
+
+\item event logging
+
+Event logging is the timestamped logging to a file of significant events during the execution of robot code.
+Events worth logging could include:
+\begin{itemize}[noitemsep,topsep=0pt]
+\item transitions between autonomous, teleop, test, and disabled states.
+\item initialization, end, and interruption of commands.
+\item blockage of operation because of limit switches.
+\item acquisition and loss of vision targets.
+\item brownouts.
+\item selection of different autonomous modes.
+\end{itemize}
+
+One of our requirements was that all logging be done at the roboRIO (not the driver station PC, which would consume valuable bandwidth).
+
+The event logging code was significantly restructured betweeen 2015 and 2016.
+
+This data was invaluable for determining the sources of unexpected behaviour in autonomous in 2016.
+
+Figure~\ref{fig:eventlog} is an example of an event log.
+\begin{figure}[h]
+\begin{mdframed}
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+2016/04/01 04:52:21.796 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot] INFO - Starting robotInit: name 'null', MAC address is [00-80-2F-17-EB-08]
+2016/04/01 04:52:22.126 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot] INFO - CAN devices = [PDP 0, SRX 1, SRX 2, SRX 3]
+2016/04/01 04:52:22.404 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - NaxX connected = false, firmware = 0.0
+2016/04/01 04:52:23.474 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - we are missing frontCamera at cam2
+2016/04/01 04:52:23.477 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - we are missing rearCamera at cam1
+2016/04/01 04:52:23.486 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] WARNING - no cameras to send a frame from
+2016/04/01 04:52:23.516 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem] INFO - armpid p=0.25 i=0.0 d=0.0
+2016/04/01 04:52:23.527 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem] INFO - encoder is valid = true 
+2016/04/01 04:52:24.012 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotDataLoggerDataProvider] INFO - PDP present = true, armTalon present = true
+2016/04/01 04:52:24.025 [org.usfirst.frc3620.logger.DataLogger] INFO - DataLogger interval = 1000ms
+2016/04/01 04:52:24.033 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot] INFO - Switching from INIT to DISABLED
+2016/04/01 04:52:24.040 [org.usfirst.frc3620.logger.DataLogger] INFO - Writing dataLogger to /home/lvuser/logs/20160401-165221.csv
+2016/04/01 04:54:05.986 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.ControlPanelWatcher] INFO - chooser says lane 2 (Lane2), control panel says 1 (Lane2Left), updating chooser to Lane2Left
+2016/04/01 04:54:05.988 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.ControlPanelWatcher] INFO - changing autonomous lane in preferences from Lane2 to Lane2Left
+2016/04/01 04:54:07.986 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.ControlPanelWatcher] INFO - chooser says lane 1 (Lane2Left), control panel says 2 (Lane2), updating chooser to Lane2
+2016/04/01 04:54:07.988 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.ControlPanelWatcher] INFO - changing autonomous lane in preferences from Lane2Left to Lane2
+2016/04/01 04:55:38.739 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot] INFO - Switching from DISABLED to AUTONOMOUS
+2016/04/01 04:55:38.743 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - Resetting X Displacement, X = 0.83239746
+2016/04/01 04:55:38.749 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - Resetting NavX Angle, Angle = 0.7699999809265137
+2016/04/01 04:55:38.751 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - NavX is resetting
+2016/04/01 04:55:38.785 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot] INFO - Starting autonomous SuperDuperAutonomousMaker [commands=[AutonomousCDF, AutoPointSenecaLane2]]
+2016/04/01 04:55:38.793 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem] INFO - flipping into automatic
+2016/04/01 04:55:38.804 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem] INFO - encoder position is 0.0
+2016/04/01 04:55:38.807 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem] INFO - setting setpoint to 0.07
+2016/04/01 04:55:38.839 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - Resetting X Displacement, X = 0.0
+2016/04/01 04:55:38.843 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.DriveSubsystem] INFO - Resetting NavX Angle, Angle = 0.0
+2016/04/01 04:55:38.845 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedMove] INFO - AutomatedMove start
+2016/04/01 04:55:39.900 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedMove] INFO - AutomatedMove end
+...
+2016/04/01 04:55:42.752 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedMove] INFO - AutomatedMove start
+2016/04/01 04:55:43.708 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedMove] INFO - AutomatedMove end
+2016/04/01 04:55:43.710 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedShortTurnCommand] INFO - AutomatedTurn start
+2016/04/01 04:55:43.711 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedShortTurnCommand] INFO - angle was 0.0, new setpoint is 77.0
+2016/04/01 04:55:43.720 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedShortTurnCommand] INFO - we rechecked the setpoint = 77.0
+2016/04/01 04:55:43.771 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedShortTurnCommand] INFO - want 77.0, got 1.5800000429153442, error 75.41999995708466, ontarget false, getAvgError 0.0, getError 75.41999995708466
+...
+2016/04/01 04:55:53.940 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutomatedMoveTimed] INFO - AutomatedMove end
+2016/04/01 04:55:54.099 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot] INFO - Switching from AUTONOMOUS to DISABLED
+2016/04/01 04:55:54.100 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.ShooterSetCloseGoal] INFO - Shoot Position command ended
+2016/04/01 04:55:54.103 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ShooterSubsystem] INFO - Shooter just stopped running
+2016/04/01 04:55:54.104 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.AutoRunShooterCommand] INFO - Shoot Command End
+2016/04/01 04:55:55.839 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot] INFO - Switching from DISABLED to TELEOP
+2016/04/01 04:55:55.841 [org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem] INFO - Armsubsystem sees we are going into Teleop, setting vbusmode
+
+\end{lstlisting}
+\caption{Event log sample}
+\label{fig:eventlog}
+\end{mdframed}
+\end{figure}
+
+\item data logging
+
+Data logging is the continuous timestamped logging of significant sensor data, actuator status, power statistics (voltage and current draw), and operator inputs to a file.
+This data could be processed after a test session, practice session, or match using Excel, Veusz, gnuplot, or some other graphics or analytical software to provide plots of such data.
+Figure~\ref{fig:datalog} is an example of such a data log.
+
+\begin{figure}[h]
+\begin{mdframed}
+\begin{lstlisting}[basicstyle=\ttfamily\tiny]
+time,timeSinceStart,robotMode,robotModeInt,batteryVoltage,pdp.totalCurrent,pdp.totalPower,pdp.totalEnergy,drive.lf.power,drive.lr.power,drive.rf.power,drive.rr.power,drive.lf.current,drive.lr.current,drive.rf.current,drive.rr.current,armTalon.error,armTalon.current,armTalon.voltage,armTalon.mode,shooter.2.v,shooter.2.a,shooter.3.v,shooter.3.a,drive.automaticHeading,drive.angle,drive.pitchangle,drive.roleangle
+04-01-2016 16:52:25.51,1.028302,DISABLED,1,12.71,1.12,6.25,459.16,0,0,0,0,0,0,1.12,0,0,0,0,PercentVbus,0,0,0,0,0,1.42,-0.88,-1.46
+...
+16:55:38.67,194.043372,DISABLED,1,12.72,1.12,6.38,1602.89,0,0,0,0,0,0,1.12,0,0,0,0,PercentVbus,0,0,0,0,0,0.77,-0.82,-1.51
+04-01-2016 16:55:39.67,195.043767,AUTONOMOUS,2,12,37.62,6.5,1608.39,0.42,0.42,-0.42,-0.42,8.38,8.38,8.38,8.25,281,0,0.81,Position,0,0,0,0,0,0.2,-0.72,1.41
+04-01-2016 16:55:40.67,196.043815,AUTONOMOUS,2,12.3,29.12,7.38,1612.43,-1,-1,-1,-1,3.38,2.88,3,2.25,4086,15.25,11.13,Position,0,0,0,0,0,2.14,-0.88,0.35
+...
+04-01-2016 16:55:53.70,209.047208,AUTONOMOUS,2,11.29,61.12,5.62,1663.42,0.64,0.64,-0.22,-0.22,19.75,19.62,4.38,4.62,174,0,0.47,Position,8.35,5.5,8.33,6.38,2,358.85,-0.7,6.84
+04-01-2016 16:55:54.69,210.045516,AUTONOMOUS,2,12.05,56.5,2.5,1667.08,-1,-1,-1,-1,20.5,20.88,1.25,1,174,0,0.47,Position,8.24,6.12,8.22,7.12,2,358.93,-0.72,7.22
+04-01-2016 16:55:55.67,211.044027,DISABLED,1,12.55,1.12,6.12,1672.75,-1,-1,-1,-1,0,0,1.12,0,174,0,0,Position,0,0,0,0,2,357.84,-1.12,6.38
+04-01-2016 16:55:56.68,212.044631,TELEOP,3,11.48,1.12,5.12,1678.33,-0.75,-0.75,0.75,0.75,0,0,3.25,2.5,392,0,1.18,Position,0,0,0,0,0,0,-1.78,5.78
+04-01-2016 16:55:57.68,213.044922,TELEOP,3,8.82,37,2.88,1682.03,-1,-1,-1,-1,14.88,15.38,2.62,4.12,256,0,0.74,Position,0,0,0,0,0,351.3,-1.87,-6.37
+04-01-2016 16:55:58.68,214.044337,TELEOP,3,11.28,23.12,1.38,1685.86,0.57,0.57,-0.57,-0.57,24.38,24.75,35.25,2.88,3638,5.12,8.49,Position,0,0,0,0,0,150.14,-2.07,-4.13
+...
+\end{lstlisting}
+\caption{Data log sample}
+\label{fig:datalog}
+\end{mdframed}
+\end{figure}
+
+We changed the data logging from 2015 to 2016, simplifying the initialization, and providing the ability to change how often data was logged.
+
+We used this data in 2016 to ensure that both motors on each side of our drive were actually drawing current (didn't have an open conection).
+
+We used this data in 2015 to determine if it was possible to lose weight by changing to a smaller air compressor.
+We logged the current drawn by the compressor, and by looking at the plot of current draw, we were able to determine exactly how much the compressor was run during any given match. See Figure~\ref{fig:plot}.
+
+\begin{figure}[h]
+\begin{mdframed}
+\includegraphics[width=6in]{Plots3.pdf}
+\caption{Veusz plot of compressor current data}
+\label{fig:plot}
+\end{mdframed}
+\end{figure}
+
+\item Use of the Kawai Labs navX MXP to keep a heading during autonomous
+
+Our autonomous mode in 2016 was heavily dependent on dead reckoning, and was very good in getting our robot to the goal. Part of that was the use of the Kawai Labs NavX board, and code written in our \texttt{AutomatedMove} and \texttt{AutomatedMoveTimed} commands, along with supporting methods and instance variables in the \texttt{DriveSubsystem}.
+
+\item creation of autonomous CommandGroups on the fly
+
+Our autonomous was implemented by a CommandGroup that was created from driver input at runtime.
+
+\item use of the Talon SRX to control mechanism position (with both preset and driver-changed setpoints)
+
+We used the Talon SRX in position control mode to control our intake arm, with provision for seamlessly flipping between position control mode and a driver-controller manual mode.
+
+\item use of an Arduino at the driver station to select autonomous modes
+
+We built a custom hardware box for the driver station for the drive team to use to configure autonomous mode.
+
+\end{itemize}
+
+\section {Log File Naming and Location}
+
+One of our requirements for logging was that the event and data logs should be placed in the same directory (on a thumb drive, if one is inserted in the roboRIO), and have the same name (but different file types).
+The filename format we decided on was based on the current time, and was formatted "yyyyMMdd-HHmmss" (which sorts correctly).
+For simplicity (and because none of our matches spanned any Daylight Savings Time "spring forwards" or "fall backs") we decided to format the date and time using the Eastern Time Zone, where all our practices and matches took place (except for CMP). We considered using GMT (commonly used in industry because of it's unambiguous nature and lack of glitches around DST changes), but those advantages had no value here, and were offset by the disadvantage of having to do timezone conversion when trying to find the files for a particular time.
+
+New data and event log files (with new names) are written every time the robot code is restarted (at roboRIO boot, user code load, or user code restart). If multiple practice matches are played in a row, with no intervening roboRIO restarts, the data for all the matches will be in the same data and event logs.
+
+The roboRIO has no onboard realtime clock; the system clock appears to start at Linux epoch time 0 (January 1, 1970) when the roboRIO is booted.
+The system clock apparently is initialized to the driver station current time sometime during the establishment of communications between the driver station and the roboRIO.
+Until that initialization takes place, the roboRIO has no idea of the current time, and cannot determine the correct file name. We made the decision to just not log data or events until that occurs.
+
+The filename is derived from the system time at the instant of the first data or event logging that takes place after the system clock is set. 
+
+Method \texttt{getTimestampString()} in class \texttt{org.usfirst.frc3620.logger.LoggingMaster} contains the code that determines the filename for the data and event logs;
+\texttt{getTimestampString()} will return a null if the system clock has not yet been sent, else it provides the "yyyyMMdd-HHmmss" data.
+Once \texttt{getTimestampString()} has determine the correct name to use, the name is cached so that calls to determine event and data log file names return the same result, even though the calls happen at different times.
+
+The code to determine the directory to put the data and event logs into is in the \texttt{getLoggingDirectory()} method of \texttt{LoggingMaster}.
+It looks for a thumbdrive with a writable "logs" directory; if none is found, logging will go to /home/lvuser/logs.
+
+\section {Event Logging}
+
+We used the JRE provided java.util.logging framework to do the actual logging\footnote {
+We considered using Apache log4j 2 instead of java.util.logging, but log4j has dependencies on parts of the Java runtime that are not present in the compact version of the Java runtime that FIRST has us install on the roboRIO.
+}, but used the SLF4J logging API as our mechanism to getting log events into java.util.logging.
+If the runtime on the roboRIO becomes complete enough to support log4j2, we would be able to use that (with it's configuration and performance advantages over j.u.l), and keep the same logging statements that we have always used.
+
+Method \texttt{setup()} in class \texttt{org.usfirst.frc3620.logger.EventLogging} contains the code for programmatically setting up java.util.logging.
+It sets up a console handler (so that logged messages go to Riolog), and also sets up a custom file handler.
+The custom file handler will silently ignore logging attempts until it is able to get a valid log file name from LogTimestamp.
+EventLogging also has a custom event formatter that formats the events reasonably concisely.
+
+\texttt{EventLogging} has some useful convenience methods:
+\texttt{writeToDS} will write a message to the message area of the FRC Driver Station, and \texttt{exceptionToString} makes a reasonably concise formatting of an exception.
+
+\texttt{EventLogging} also has a convenience method for getting an org.slf4j.Logger object for a class, and setting it up for the desired logging level.
+Use of this can be seen in the \texttt{Robot} class.
+java.util.logging is typically configured by using a configuration file and specifying the name of that configuration file on the java command line, or by passing the configuration into the readConfiguration() method of java.util.logging.LogManager.
+We rejected this because it required students that were debugging to make changes in both the modules they were debugging and the central log configuration.
+We finally landed on this compromise where the logging level for a module was set in the module's code when creating the logger for that module.
+
+\section {Data Logging}
+
+Data logging was taken care of in class \texttt{org.usfirst.frc3620.logger.DataLogger}. This class logs data to a file throughout the match.
+
+The setup for data logging can be found in method init() of class Robot; when logging, the caller needs to provide a object that implements the \texttt{IDataLoggerDataProvider} interface.
+This interface defines a method that provided the names of the data items, and a method that provided the values of the data items to be logged.
+Class \texttt{RobotDataLoggerDataProvider} provides this interface.
+
+We also implemented class \texttt{FastDataLoggerCollections}, which is used to collect data quickly, then write it out at the end of an operation.
+We used this to tune PID loops; this can be found in \texttt{CANTalonLogger}, and a vestigial use of that can be found in the initialize() methods of \texttt{ArmHangCommand} and \texttt{ArmUpCommand}. 
+
+\section {Use of the Kauai Labs navX MXP to keep a heading during autonomous}
+
+\texttt{DriveSubsystem} has an instance variable \texttt{automaticHeading} which contains the current desired heading of the robot when in autonomous modes. 
+There is a \texttt{changeAutomaticHeading} method that was called to change this, with allowances for keeping the value between 0 and 360 degrees.
+
+The \texttt{AutomatedMove} and \texttt{AutomatedMoveTimed}\footnote{we should combine these} commands use the navX MXP, the \texttt{automaticHeading} variable, and a PID controller to determine the amount of 'sidestick' to apply to a virtual joystick to keep the robot on heading.
+
+The \texttt{AutomatedTurn} and \texttt{AutomatedShortTurn} commands use the \texttt{changeAutomaticHeading} method to set a new desired heading, and then use the navX MXP, the \texttt{automaticHeading} variable, and a PID controller to determine the amount of 'sidestick' to apply to a virtual joystick to get the robot to the new desired heading.
+
+\section {Creation of autonomous CommandGroups on the fly}
+
+Our autonomous had the abiity to traverse almost all the defenses, then navigate to the goal. This was accomplished by writing separate commands to traverse a defense, then navigate to a known point on the field in front of the goal, then crawl to the goal and shoot. Before the match, the drive team would input which defense position (1..5) the robot was positioned at, which defense the robot was in front of, and which goal the robot should shoot for.
+
+At the start of autonomous, the code look at the autonomous configuration input by the drive team, and construct a CommandGroup with the appropriate commands, and start it. In testing, we found that it was not possible to put the same command in a CommandGroup in successive test runs (this is enforced in the WPIlib Command.setParent()). As a hack, the code for creating the command groups on the fly actually creates new copies of the passed in commands. This would not work well for commands that took variables in their constructors. 
+
+This was all done in \texttt{org.usfirst.frc3620.FRC3620\_Killer\_Rabbit.SuperDuperAutonomous}.
+
+\section {Use of the Talon SRX to control mechanism position (with both preset and driver-changed setpoints)}
+
+We did not put the Talon SRX for our intake arm into closed-loop position mode until we have determined that the arm has been been in a known position (determined by a home limit switch); at this point, we put the Talon SRX into position control mode. We have known setpoints for arm position.
+
+Command \texttt{ArmManualCommand} gives the driver the ability to 'fudge' the current arm position; if the driver actuates the XBox controllewr triggers, then the Talon SRX is taken out of position mode, and the amount of power signalled by the driver is applied to the arm motor.
+When the triggers are released, then the current arm position is queried from the Talon SRX, that position is set into the Talon SRX as the new desired position, and the Talon is put back into position control mode.
+
+\section {Use of an Arduino at the driver station to select autonomous modes}
+
+We have used the SendableChooser in the past to configure settings for atonomous mode. In 2016, we created a custom Arduino-based hardware panel with pushbuttons, a rotary encoder, and LCD screen to allow the drive team to select autonomous modes. This was named the ``Kai box''.
+
+We did not want to rely on special software that would need to be installed on the driver station pc, so instead of using network tables or direct network communication from the driver station to the RoboRIO (requiring special software on the driver station end), the hardware panel appears to the driver station PC as a 3rd joystick.
+
+We also did not want to rely on a one-of-a-kind hardware box, so the software was designed so that autonomous modes could be selected from either the hardware box or from a SendableChooser. The software on the roboRIO (class org.usfirst.frc3620.FRC3620\_Killer\_Rabbit.ControlPanelWatcher) watches the 'joystick' buttons from the Kai box, and changes the chooser selections to match what is on the Kai box. We had to copy the WPIlib SendableChooser and add methods so that the current selection could be changed from our program.
+
+\end{document}
