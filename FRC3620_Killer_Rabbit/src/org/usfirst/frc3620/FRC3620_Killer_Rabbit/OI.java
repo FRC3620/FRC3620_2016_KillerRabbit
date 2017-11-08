@@ -105,7 +105,7 @@ public class OI {
         forceIntakeButton.whileHeld(new ForceIntakeCommand());
         
         toggleShooterButton = new JoystickButton(operatorJoystick, 4);
-        toggleShooterButton.toggleWhenPressed(new RunShooterCommand());
+//        toggleShooterButton.toggleWhenPressed(new RunShooterCommand());
         
         
         outtake = new JoystickButton(operatorJoystick, 5);

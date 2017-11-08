@@ -2,7 +2,7 @@ package org.usfirst.frc3620.logger;
 
 import org.usfirst.frc3620.logger.FastDataLoggerCollections;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 
 public class CANTalonLogger {
     public static void startCANTalonPositionLogger(String name,

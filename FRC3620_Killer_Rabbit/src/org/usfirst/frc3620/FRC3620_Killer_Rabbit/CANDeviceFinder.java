@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.*;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.can.CANJNI;
 
 public class CANDeviceFinder {
@@ -117,7 +117,7 @@ public class CANDeviceFinder {
             timeStamp.order(ByteOrder.LITTLE_ENDIAN);
             timeStamp.asIntBuffer().put(0, 0x00000000);
 
-            CANJNI.FRCNetworkCommunicationCANSessionMuxReceiveMessage(
+            CANJNI.FRCNetCommCANSessionMuxReceiveMessage(
                     targetID.asIntBuffer(), 0x1fffffff, timeStamp);
 
             long retval = timeStamp.getInt();

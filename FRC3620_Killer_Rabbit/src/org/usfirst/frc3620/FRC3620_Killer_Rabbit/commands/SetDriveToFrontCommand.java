@@ -38,9 +38,9 @@ public class SetDriveToFrontCommand extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-    	Robot.driveSubsystem.cameraToFront();
-    }
+//    protected void initialize() {
+//    	Robot.driveSubsystem.cameraToFront();
+//    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

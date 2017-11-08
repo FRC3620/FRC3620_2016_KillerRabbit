@@ -4,7 +4,7 @@ import org.usfirst.frc3620.FRC3620_Killer_Rabbit.Robot;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.RobotMap;
 import org.usfirst.frc3620.FRC3620_Killer_Rabbit.subsystems.ArmSubsystem;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**

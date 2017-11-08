@@ -16,11 +16,11 @@ import org.usfirst.frc3620.FRC3620_Killer_Rabbit.commands.*;
 import org.usfirst.frc3620.logger.EventLogging;
 import org.usfirst.frc3620.logger.EventLogging.Level;
 
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.DrawMode;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ShapeMode;
-import com.ni.vision.VisionException;
+//import com.ni.vision.NIVision;
+//import com.ni.vision.NIVision.DrawMode;
+//import com.ni.vision.NIVision.Image;
+//import com.ni.vision.NIVision.ShapeMode;
+//import com.ni.vision.VisionException;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -77,8 +77,8 @@ public class DriveSubsystem extends Subsystem {
 	int frontCamera;
 	int rearCamera;
 	int currentCamera;
-	Image frame;
-	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+	//Image frame;
+	//NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 
 	public void arcadeDrive() {
 		robotDrive41.arcadeDrive(Robot.oi.driverJoystick);
@@ -198,40 +198,40 @@ public class DriveSubsystem extends Subsystem {
 		ahrs = new AHRS(SPI.Port.kMXP);
         logger.info("NaxX connected = {}, firmware = {}", ahrs.isConnected(), ahrs.getFirmwareVersion());
 
-		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		//frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
 		// the camera name (ex "cam0") can be found through the roborio web
 		// interface
 
 	    String frontCameraName = edu.wpi.first.wpilibj.Preferences.getInstance().getString("frontCamera", "cam2");
-		try {
-			frontCamera = NIVision.IMAQdxOpenCamera(frontCameraName, NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-			haveFrontCamera = true;
-			logger.info("we have frontCamera at {}", frontCameraName);
-		} catch (VisionException ex) {
-			// looks like camera 0 is not there
-			logger.info("we are missing frontCamera at {}", frontCameraName);
-		}
+//		try {
+//			frontCamera = NIVision.IMAQdxOpenCamera(frontCameraName, NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+//			haveFrontCamera = true;
+//			logger.info("we have frontCamera at {}", frontCameraName);
+//		} catch (VisionException ex) {
+//			// looks like camera 0 is not there
+//			logger.info("we are missing frontCamera at {}", frontCameraName);
+//		}
 
 		String rearCameraName = edu.wpi.first.wpilibj.Preferences.getInstance().getString("rearCamera", "cam1");
-		try {
-			rearCamera = NIVision.IMAQdxOpenCamera(rearCameraName, NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-			haveRearCamera = true;
-			logger.info("we have rearCamera at {}", rearCameraName);
-		} catch (VisionException ex) {
-			// looks like camera 1 is not there
-			logger.info("we are missing rearCamera at {}", rearCameraName);
-		}
+//		try {
+//			rearCamera = NIVision.IMAQdxOpenCamera(rearCameraName, NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+//			haveRearCamera = true;
+//			logger.info("we have rearCamera at {}", rearCameraName);
+//		} catch (VisionException ex) {
+//			// looks like camera 1 is not there
+//			logger.info("we are missing rearCamera at {}", rearCameraName);
+//		}
 
-		if (haveFrontCamera) {
-			currentCamera = frontCamera;
-			NIVision.IMAQdxConfigureGrab(currentCamera);
-			logger.info("using frontCamera");
-		} else if (haveRearCamera) {
-			currentCamera = rearCamera;
-			NIVision.IMAQdxConfigureGrab(currentCamera);
-			logger.info("using rearCamera");
-		}
+//		if (haveFrontCamera) {
+//			currentCamera = frontCamera;
+//			NIVision.IMAQdxConfigureGrab(currentCamera);
+//			logger.info("using frontCamera");
+//		} else if (haveRearCamera) {
+//			currentCamera = rearCamera;
+//			NIVision.IMAQdxConfigureGrab(currentCamera);
+//			logger.info("using rearCamera");
+//		}
 		
 		Timer timer = new Timer();
 		timer.schedule(new SendFrameTask(), 0, 30);
@@ -244,20 +244,7 @@ public class DriveSubsystem extends Subsystem {
 		}
 	}
 
-	public void cameraToFront() {
-		if (haveFrontCamera) {
-			logger.info("using frontCamera");
-			try {
-				NIVision.IMAQdxStopAcquisition(currentCamera);
-			} catch (VisionException ex) {
-				logger.warn("trouble stopping {}, ignoring the problem", nameOfCurrentCamera());
-			}
-			currentCamera = frontCamera;
-			NIVision.IMAQdxConfigureGrab(currentCamera);
-		} else {
-			logger.info("can't use frontCamera");
-		}
-	}
+	 
 	
 	String nameOfCurrentCamera() {
 		if (currentCamera == frontCamera) {
@@ -269,58 +256,58 @@ public class DriveSubsystem extends Subsystem {
 		}
 	}
 
-	public void cameraToRear() {
-		if (haveRearCamera) {
-			logger.info("using rearCamera");
-			try {
-			    NIVision.IMAQdxStopAcquisition(currentCamera);
-			} catch (VisionException ex) {
-				logger.warn("trouble stopping {}, ignoring the problem", nameOfCurrentCamera());
-			}
-			currentCamera = rearCamera;
-			NIVision.IMAQdxConfigureGrab(currentCamera);
-		} else {
-			logger.info("can't use rearCamera");
-		}
-	}
+//	public void cameraToRear() {
+//		if (haveRearCamera) {
+//			logger.info("using rearCamera");
+//			try {
+//			    NIVision.IMAQdxStopAcquisition(currentCamera);
+//			} catch (VisionException ex) {
+//				logger.warn("trouble stopping {}, ignoring the problem", nameOfCurrentCamera());
+//			}
+//			currentCamera = rearCamera;
+//			NIVision.IMAQdxConfigureGrab(currentCamera);
+//		} else {
+//			logger.info("can't use rearCamera");
+//		}
+//	}
 
-	public void switchCamera() {
-		if (currentCamera == rearCamera) {
-			cameraToFront();
-		} else if (currentCamera == frontCamera) {
-			cameraToRear();
-		}
-	}
+//	public void switchCamera() {
+//		if (currentCamera == rearCamera) {
+//			cameraToFront();
+//		} else if (currentCamera == frontCamera) {
+//			cameraToRear();
+//		}
+//	}
 
 	boolean weHaveAlreadyWarned = false;
 
 	public void sendFrame() {
 		if (haveFrontCamera || haveRearCamera) {
 
-			try {
-				NIVision.IMAQdxGrab(currentCamera, frame, 1);
-				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-
-				CameraServer.getInstance().setImage(frame);
-			} catch (VisionException ex) {
-				String message = ex.getMessage();
-				if (message.equals("IMAQdxError: -1074360306: No acquisition in progress.")) {
-					logger.info ("vision got a \"No acquisition in progress.\", we're ignoring it");
-				} else {
-					logger.warn("we lost the camera '{}': {}", nameOfCurrentCamera(), ex.toString());
-					ex.printStackTrace();
-					
-					if (currentCamera == frontCamera) {
-						logger.info("disabling front camera");
-						haveFrontCamera = false;
-						//cameraToRear();
-					} else if (currentCamera == rearCamera) {
-						logger.info("disabling rear camera");
-						haveRearCamera = false;
-						//cameraToFront();
-					}
-				}
-			}
+//			try {
+//				NIVision.IMAQdxGrab(currentCamera, frame, 1);
+//				NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+//
+//				CameraServer.getInstance().setImage(frame);
+//			} catch (VisionException ex) {
+//				String message = ex.getMessage();
+//				if (message.equals("IMAQdxError: -1074360306: No acquisition in progress.")) {
+//					logger.info ("vision got a \"No acquisition in progress.\", we're ignoring it");
+//				} else {
+//					logger.warn("we lost the camera '{}': {}", nameOfCurrentCamera(), ex.toString());
+//					ex.printStackTrace();
+//					
+//					if (currentCamera == frontCamera) {
+//						logger.info("disabling front camera");
+//						haveFrontCamera = false;
+//						//cameraToRear();
+//					} else if (currentCamera == rearCamera) {
+//						logger.info("disabling rear camera");
+//						haveRearCamera = false;
+//						//cameraToFront();
+//					}
+//				}
+//			}
 
 		} else {
 			if (!weHaveAlreadyWarned) {

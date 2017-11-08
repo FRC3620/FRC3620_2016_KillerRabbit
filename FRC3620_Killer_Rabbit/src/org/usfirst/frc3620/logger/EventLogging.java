@@ -12,8 +12,8 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
-import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
-import edu.wpi.first.wpilibj.communication.HALControlWord;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.hal.HAL;
 
 public class EventLogging {
 
@@ -77,10 +77,8 @@ public class EventLogging {
      *            Message to log.
      */
     public static final void writeToDS(String message) {
-        final HALControlWord controlWord = FRCNetworkCommunicationsLibrary
-                .HALGetControlWord();
-        if (controlWord.getDSAttached()) {
-            FRCNetworkCommunicationsLibrary.HALSetErrorData(message);
+        if (DriverStation.getInstance().isDSAttached()) {
+        	HAL.setErrorData(message);
         }
     }
 
