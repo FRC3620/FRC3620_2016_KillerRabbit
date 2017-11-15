@@ -79,7 +79,7 @@ public class AutomatedTurnCommand extends Command implements PIDOutput{
     	SmartDashboard.putNumber("PID Angle Error", pidTurn.getError());
     	//System.out.println("PID Error: " + pidTurn90.getError());
     	//System.out.println("sideStick value: " + sideStick);
-    	Robot.driveSubsystem.setDriveForward(0, sideStick);
+    	//Robot.driveSubsystem.setDriveForward(0, sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()

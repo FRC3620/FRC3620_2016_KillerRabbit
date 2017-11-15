@@ -76,7 +76,7 @@ public class AutomatedMove extends Command implements PIDOutput{
     	
     	SmartDashboard.putNumber("PID DriveStraight Error", pidDriveStraight.getError());
     	SmartDashboard.putNumber("PID DriveStraight Sidestick", sideStick);
-    	Robot.driveSubsystem.setDriveForward(-howFastToMove, sideStick);
+    	//Robot.driveSubsystem.setDriveForward(-howFastToMove, sideStick);
     }
 
     // Make this return true when this Command no longer needs to run execute()
