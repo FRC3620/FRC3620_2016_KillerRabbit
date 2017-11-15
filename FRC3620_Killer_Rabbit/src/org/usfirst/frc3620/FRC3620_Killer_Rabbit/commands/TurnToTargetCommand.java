@@ -22,14 +22,13 @@ public class TurnToTargetCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	logger.info("TurnToTargetCount started");
-    	SmartDashboard.putNumber("Blob Count", Robot.driveSubsystem.getBlobCount());
+    	SmartDashboard.putString("Blob Count", "" + Robot.driveSubsystem.getContourX());
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.driveSubsystem.turnToTarget();
-    	System.out.println("Turning to target");
     }
     
 
