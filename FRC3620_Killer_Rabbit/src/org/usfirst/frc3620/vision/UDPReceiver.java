@@ -41,7 +41,7 @@ public class UDPReceiver extends Thread {
                 socket.receive(packet);
                 InetAddress sender = packet.getAddress();
                 if (lastSender == null || ! lastSender.equals(sender)) {
-                	logger.info ("Kangaru is at {}", sender);
+                	logger.info ("RaspberryPi is at {}", sender);
                 }
                 lastSender = sender;
                 byte[] data = packet.getData();
