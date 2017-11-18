@@ -9,6 +9,8 @@ import org.usfirst.frc3620.logger.EventLogging.Level;
 
 import com.google.gson.Gson;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class UDPReceiver extends Thread {
 	Logger logger = EventLogging.getLogger(getClass(), Level.INFO);
 
@@ -30,7 +32,7 @@ public class UDPReceiver extends Thread {
     
     public void run() {
     	logger.info("thread start");
-    	byte[] buf = new byte[256];
+    	byte[] buf = new byte[1024];
     	DatagramPacket packet = new DatagramPacket(buf, buf.length);
     	InetAddress lastSender  = null;
         while (moreQuotes) {
@@ -47,11 +49,11 @@ public class UDPReceiver extends Thread {
                 byte[] data = packet.getData();
                 lastDataReceived = new String(data, 0, packet.getLength());
                 //SmartDashboard.putString("last Data Received", lastDataReceived);
-               // System.out.println ("'" + lastDataReceived + "'");
+                System.out.println ("'" + lastDataReceived + "'");
                 // figure out response
                 visionData = gson.fromJson(lastDataReceived, VisionData.class);
                 visionData.whenRecieved = System.currentTimeMillis();
-        		//System.out.println(visionData);
+        		System.out.println(visionData);
             } catch (IOException e) {
                 e.printStackTrace();
         moreQuotes = false;

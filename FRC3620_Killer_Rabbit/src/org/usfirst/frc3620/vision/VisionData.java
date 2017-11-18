@@ -3,41 +3,34 @@ package org.usfirst.frc3620.vision;
 import java.util.Date;
 
 public class VisionData {
-		double height, width, x, y, rt;
-		int count;
+		double image_height, image_width;
+		Double x, y;  //removed "rt" mystery value
 		long whenRecieved;
 
 		public double getImageWidth() {
-			return width;
+			return image_width;
 		}
 
 		public long getWhenRecieved() {
 			return whenRecieved;
 		}
 
-		public double getX() {
+		public Double getX() {
 			return x;
 		}
 		
-		public double getY() {
+		public Double getY() {
 			return y;
 		}
 
 		@Override
 		public String toString() {
-			return "VisionData [height=" + height + ", width=" + width + ", x="
-					+ x + ", y=" + y + ", rt=" + rt + ", count=" + count
-					+ ", whenRecieved=" + whenRecieved + "]";
+			return "VisionData [height=" + image_height + ", width=" + image_width + ", x="
+					+ x + ", y=" + y + ", count=" + ", whenRecieved=" + whenRecieved + "]";
 		}
-
-		public int getCount() {
-			if (getAge() > 500) {
-				return 0;
-			}
-			return count;
+		// + ", rt=" + rt (removed from above)
 			
 			
-		}
 		
 		public double getAge(){
 			return System.currentTimeMillis() - whenRecieved;

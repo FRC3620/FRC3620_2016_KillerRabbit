@@ -148,20 +148,20 @@ public class DriveSubsystem extends Subsystem {
 		return UDPReceiver.visionData.getImageWidth()/2;
 	}
 	
-	public boolean isBlobThere(){
-		return getBlobCount() != 0;
+	public boolean isContourThere(){
+		return getContourX() != null;
 	}
 	
-	public double getBlobCount(){
+	public Double getContourX(){
 		if (UDPReceiver.visionData == null){
 			if (!complainedAboutNoVision) {
 				logger.warn("ImageWidth not recieved");
 			}
 			complainedAboutNoVision = true;
-			return 0;
+			return null;
 		}
 		complainedAboutNoVision = false;
-		return UDPReceiver.visionData.getCount();
+		return UDPReceiver.visionData.getX();
 	}
 	
 	public double xOffset(){
@@ -291,7 +291,8 @@ public class DriveSubsystem extends Subsystem {
 
 	public void turnToTarget(){
 //		tellVisionWhichSide();
-		if(isBlobThere()){
+		if(isContourThere()){
+	    	System.out.println("Turning to target");
 			
 			if(robotIsAligned()){
 				System.out.println("Robot is Aligned");
@@ -327,7 +328,7 @@ public class DriveSubsystem extends Subsystem {
 	
 	public void updateDashboard() {
     	SmartDashboard.putNumber("TargetCenter", getTargetLocation());
-    	SmartDashboard.putNumber("BlobCount", getBlobCount());
+    	SmartDashboard.putNumber("BlobCount", getContourX());
     	
     }
 	
