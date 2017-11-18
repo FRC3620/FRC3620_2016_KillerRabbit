@@ -45,6 +45,8 @@ public class RobotMap {
     public static DigitalInput armSubsystemHomeDigitalInput;
     public static DigitalInput shooterSubsystemHomeDigitalInput;
     
+    public static SpeedController driveSubsystemTurretTalon;
+    
     public static Relay lightSubsystemSpike0;
     public static Relay lightSubsystemSpike1;
 
@@ -91,6 +93,11 @@ public class RobotMap {
         shooterSubsystemShooterCANTalon3 = new CANTalon(3);
         LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon3", shooterSubsystemShooterCANTalon3);
         
+        //----------VISIONBOT---------
+        driveSubsystemTurretTalon = new Talon(9);
+        LiveWindow.addActuator("DriveSubsystem", "Turret Talon", (Talon) driveSubsystemTurretTalon);
+        //----------------------------
+        
         shooterSubsystemShooterPositionTalon = new Talon(5);
         LiveWindow.addActuator("ShooterSubsystem", "ShooterPositionTalon", (Talon) shooterSubsystemShooterPositionTalon);
         
@@ -130,7 +137,7 @@ public class RobotMap {
         lightSubsystemSpike1 = new Relay(1);
         LiveWindow.addActuator("LightSubsystem", "Spike 1", lightSubsystemSpike1);
         
-        liftSubsystemLiftTalon = new Talon(9);
-        LiveWindow.addActuator("LiftSubsystem", "LiftTalon", (Talon) liftSubsystemLiftTalon);
+//        liftSubsystemLiftTalon = new Talon(9);
+//        LiveWindow.addActuator("LiftSubsystem", "LiftTalon", (Talon) liftSubsystemLiftTalon);
 	}
 }
