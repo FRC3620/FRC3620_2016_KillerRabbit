@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class VisionData {
 		double image_height, image_width;
-		Double x, y;  //removed "rt" mystery value
+		Double x, y, difRatioX;  //removed "rt" mystery value
 		long whenRecieved;
 
 		public double getImageWidth() {
@@ -23,10 +23,14 @@ public class VisionData {
 			return y;
 		}
 
+		public Double getRatioX(){
+			return difRatioX;
+		}
+			
 		@Override
 		public String toString() {
 			return "VisionData [height=" + image_height + ", width=" + image_width + ", x="
-					+ x + ", y=" + y + ", count=" + ", whenRecieved=" + whenRecieved + "]";
+					+ x + ", y=" + y + ", RatioX="+ difRatioX + ", count=" + ", whenRecieved=" + whenRecieved + "]";
 		}
 		// + ", rt=" + rt (removed from above)
 			

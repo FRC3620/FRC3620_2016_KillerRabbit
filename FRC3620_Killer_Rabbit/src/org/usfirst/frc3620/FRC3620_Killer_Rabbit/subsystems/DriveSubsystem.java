@@ -145,7 +145,7 @@ public class DriveSubsystem extends Subsystem {
 			return 0;
 		}
 		complainedAboutNoVision = false;
-		return UDPReceiver.visionData.getX();
+		return UDPReceiver.visionData.getRatioX();
 	}
     
 	public double getTargetCenter(){
@@ -173,7 +173,7 @@ public class DriveSubsystem extends Subsystem {
 			return null;
 		}
 		complainedAboutNoVision = false;
-		return UDPReceiver.visionData.getX();
+		return UDPReceiver.visionData.getRatioX();
 	}
 	
 	public double xOffset(){
@@ -200,7 +200,7 @@ public class DriveSubsystem extends Subsystem {
 	*/
 
 	public boolean robotIsAligned(){
-		if (Math.abs(xOffset())<10){
+		if (Math.abs(xOffset())< 0.05){
 			return true;
 		}
 		else{
@@ -308,16 +308,16 @@ public class DriveSubsystem extends Subsystem {
 				//Make robot stop turning here:
 				stopMotors();
 			}
-			else if(xOffset()<0){
+			else if(xOffset()<-0.05){
 				SmartDashboard.putBoolean("Robot Is Aligned", false);
 				//Turn robot/turret one way here:
-				turnTurret(.2);
+				turnTurret(xOffset());
 				stopMotors();
 			}
-			else if(xOffset()>0){
+			else if(xOffset()>0.05){
 				SmartDashboard.putBoolean("Robot Is Aligned", false);
 				//Turn robot/turret the other way here:
-				turnTurret(-.2);
+				turnTurret(xOffset());
 				stopMotors();
 			}
 			
