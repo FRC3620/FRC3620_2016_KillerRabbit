@@ -311,12 +311,14 @@ public class DriveSubsystem extends Subsystem {
 			else if(xOffset()<0){
 				SmartDashboard.putBoolean("Robot Is Aligned", false);
 				//Turn robot/turret one way here:
-				//turnTurret(.2);
+				turnTurret(.2);
+				stopMotors();
 			}
 			else if(xOffset()>0){
 				SmartDashboard.putBoolean("Robot Is Aligned", false);
 				//Turn robot/turret the other way here:
-				//turnTurret(-.2);
+				turnTurret(-.2);
+				stopMotors();
 			}
 			
 		}
