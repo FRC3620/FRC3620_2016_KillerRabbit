@@ -78,7 +78,7 @@ public class EventLogging {
      */
     public static final void writeToDS(String message) {
         if (DriverStation.getInstance().isDSAttached()) {
-        	HAL.setErrorData(message);
+    //    	HAL.setErrorData(message);
         }
     }
 

@@ -9,6 +9,7 @@ package org.usfirst.frc3620.FRC3620_Killer_Rabbit;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
@@ -170,4 +171,34 @@ public class AverageSendableChooser implements Sendable {
   public ITable getTable() {
     return table;
   }
+
+@Override
+public String getName() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public void setName(String name) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public String getSubsystem() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public void setSubsystem(String subsystem) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void initSendable(SendableBuilder builder) {
+	// TODO Auto-generated method stub
+	
+}
 }

@@ -88,10 +88,10 @@ public class RobotMap {
         driveSubsystemRightDriveEncoder.setDistancePerPulse(((2*Math.PI*1.841)/(256))*(42.5/48));
 
         shooterSubsystemShooterCANTalon2 = new CANTalon(2);
-        LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon2", shooterSubsystemShooterCANTalon2);
+   //     LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon2", shooterSubsystemShooterCANTalon2);
         
         shooterSubsystemShooterCANTalon3 = new CANTalon(3);
-        LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon3", shooterSubsystemShooterCANTalon3);
+     //   LiveWindow.addActuator("ShooterSubsystem", "ShooterCANTalon3", shooterSubsystemShooterCANTalon3);
         
         //----------VISIONBOT---------
         driveSubsystemTurretTalon = new Talon(9);
@@ -102,7 +102,7 @@ public class RobotMap {
         LiveWindow.addActuator("ShooterSubsystem", "ShooterPositionTalon", (Talon) shooterSubsystemShooterPositionTalon);
         
         armSubsystemArmCANTalon = new CANTalon(1);
-        LiveWindow.addActuator("ArmSubsystem", "ArmCANTalon", armSubsystemArmCANTalon);
+   //     LiveWindow.addActuator("ArmSubsystem", "ArmCANTalon", armSubsystemArmCANTalon);
         
         intakeSubsystemBallSensorDigitalInput = new DigitalInput(0);
         LiveWindow.addSensor("IntakeSubsystem", "Ball Sensor Digital Input", intakeSubsystemBallSensorDigitalInput);
